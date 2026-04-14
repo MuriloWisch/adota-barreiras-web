@@ -6,24 +6,30 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
 
-  protected readonly base = environment.apiUrl;
+  private readonly base = environment.apiUrl;
 
-  constructor(protected http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  protected get<T>(path: string, params?: Record<string, any>): Observable<T> {
-    return this.http.get<T>(`${this.base}${path}`, { params: this.buildParams(params) });
+  get<T>(endpoint: string, params?: Record<string, any>): Observable<T> {
+    return this.http.get<T>(`${this.base}${endpoint}`, {
+      params: this.buildParams(params),
+    });
   }
 
-  protected post<T>(path: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.base}${path}`, body);
+  post<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.post<T>(`${this.base}${endpoint}`, body);
   }
 
-  protected put<T>(path: string, body: any): Observable<T> {
-    return this.http.put<T>(`${this.base}${path}`, body);
+  put<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.put<T>(`${this.base}${endpoint}`, body);
   }
 
-  protected delete<T>(path: string): Observable<T> {
-    return this.http.delete<T>(`${this.base}${path}`);
+  delete<T>(endpoint: string): Observable<T> {
+    return this.http.delete<T>(`${this.base}${endpoint}`);
+  }
+
+  postFormData<T>(endpoint: string, formData: FormData): Observable<T> {
+    return this.http.post<T>(`${this.base}${endpoint}`, formData);
   }
 
   private buildParams(params?: Record<string, any>): HttpParams {

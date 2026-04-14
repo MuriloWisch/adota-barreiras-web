@@ -1,28 +1,57 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { ApiService } from '../../services/api.service';
 import { User } from '../../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private readonly TOKEN_KEY = 'token';
-  private readonly USER_KEY  = 'user';
+  private readonly TOKEN_KEY = 'adota_token';
+  private readonly USER_KEY  = 'adota_user';
 
-  currentUser = signal<User | null>(this.loadUser());
+  currentUser$ = new BehaviorSubject<User | null>(null);
 
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+  constructor(
+    private api: ApiService,
+    private router: Router,
+  ) {}
+
+  register(data: { name: string; email: string; password: string; phone?: string }): Observable<User> {
+    return this.api.post<User>('/auth/register', data);
   }
 
-  saveSession(token: string, user: User): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-    this.currentUser.set(user);
+  login(data: { email: string; password: string }): Observable<{ token: string; user: User }> {
+    return this.api.post<{ token: string; user: User }>('/auth/login', data).pipe(
+      tap(response => {
+        localStorage.setItem(this.TOKEN_KEY, response.token);
+        localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
+        this.currentUser$.next(response.user);
+      }),
+    );
   }
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
-    this.currentUser.set(null);
+    this.currentUser$.next(null);
+    this.router.navigate(['/login']);
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.api.post<any>('/auth/forgot-password', { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.api.post<any>(`/auth/reset-password?token=${token}`, { newPassword });
+  }
+
+  verifyEmail(token: string): Observable<any> {
+    return this.api.get<any>('/auth/verify-email', { token });
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {
@@ -30,11 +59,13 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.currentUser()?.role === 'ADMIN';
+    return this.currentUser$.getValue()?.role === 'ADMIN';
   }
 
-  private loadUser(): User | null {
+  loadUserFromStorage(): void {
     const raw = localStorage.getItem(this.USER_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (raw) {
+      this.currentUser$.next(JSON.parse(raw));
+    }
   }
 }

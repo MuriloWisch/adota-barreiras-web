@@ -32,28 +32,30 @@ const STATUS_COLOR: Record<string, string> = {
       <map-marker [position]="center" [options]="userMarkerOptions"></map-marker>
 
       <ng-container *ngFor="let animal of animals; let i = index">
-        <map-marker
-          *ngIf="animal.latitude && animal.longitude"
-          [position]="{ lat: animal.latitude, lng: animal.longitude }"
-          [options]="getMarkerOptions(animal)"
-          (mapClick)="openInfo(i)">
-        </map-marker>
+  <map-marker
+    *ngIf="animal.latitude && animal.longitude"
+    [position]="{ lat: animal.latitude, lng: animal.longitude }"
+    [options]="getMarkerOptions(animal)">
 
-        <map-info-window>
-          <div class="info-window">
-            <img
-              *ngIf="animal.images?.[0]"
-              [src]="animal.images[0].imageUrl"
-              class="info-img"
-            />
-            <div class="info-body">
-              <strong>{{ animal.name }}</strong>
-              <span>{{ animal.species }}</span>
-              <button class="info-btn" (click)="onAnimalSelect.emit(animal)">Ver detalhes</button>
-            </div>
-          </div>
-        </map-info-window>
-      </ng-container>
+    <map-info-window>
+      <div class="info-window">
+        <img
+          *ngIf="animal.images?.[0]"
+          [src]="animal.images[0].imageUrl"
+          class="info-img"
+        />
+        <div class="info-body">
+          <strong>{{ animal.name }}</strong>
+          <span>{{ animal.species }}</span>
+          <button class="info-btn" (click)="onAnimalSelect.emit(animal)">
+            Ver detalhes
+          </button>
+        </div>
+      </div>
+    </map-info-window>
+
+  </map-marker>
+</ng-container>
 
     </google-map>
   `,

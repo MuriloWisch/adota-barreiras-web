@@ -24,7 +24,7 @@ const SEX_MAP:     Record<string, string> = { MALE: 'Macho', FEMALE: 'Fêmea' };
 
       <div class="img-wrap">
         <img
-          [src]="animal.images?.[0]?.imageUrl || 'assets/placeholder-animal.jpg'"
+          [src]="animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'"
           [alt]="animal.name"
         />
         <span class="badge" [style.background]="status.color">{{ status.label }}</span>

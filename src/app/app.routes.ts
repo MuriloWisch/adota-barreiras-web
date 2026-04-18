@@ -15,5 +15,7 @@ export const routes: Routes = [
   { path: 'adoptions', canActivate: [authGuard], loadChildren: () => import('./features/adoption/adoption.routes').then(m => m.ADOPTION_ROUTES) },
   { path: 'profile',   canActivate: [authGuard], loadChildren: () => import('./features/profile/profile.routes').then(m => m.PROFILE_ROUTES) },
   { path: 'admin',     canActivate: [authGuard, adminGuard], loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES) },
+  { path: 'my-animals', canActivate: [authGuard], loadComponent: () => import('./features/animal/my-animals/my-animals.component').then(m => m.MyAnimalsComponent) },
+{ path: 'my-requests', canActivate: [authGuard], loadComponent: () => import('./features/adoption/my-request/my-request.component').then(m => m.MyRequestsComponent) },
   { path: '**', redirectTo: 'home' },
 ];

@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -37,7 +37,7 @@ const SEX_MAP:     Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ F�
   selector: 'app-animal-detail',
   standalone: true,
   imports: [
-    CommonModule, RouterLink,
+    CommonModule,
     MatButtonModule, MatIconModule, MatChipsModule,
     MatTooltipModule, MatProgressSpinnerModule,
     MapComponent, ScrollAnimationDirective,
@@ -128,9 +128,9 @@ const SEX_MAP:     Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ F�
             <div class="donor-row">
               <div class="donor-avatar">{{ donorInitial }}</div>
               <div>
-                <p class="donor-name">{{ animal()!.owner?.name }}</p>
+                <p class="donor-name">{{ animal()!.owner.name }}</p>
                 <p class="donor-since">
-                  Membro desde {{ animal()!.owner?.createdAt | date:'MMMM yyyy':'':'pt-BR' }}
+                  Membro desde {{ animal()!.owner.createdAt | date:'MMMM yyyy':'':'pt-BR' }}
                 </p>
               </div>
             </div>

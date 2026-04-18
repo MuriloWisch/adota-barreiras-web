@@ -1,2 +1,15 @@
 import { Routes } from '@angular/router';
-export const CHAT_ROUTES: Routes = [];
+import { authGuard } from '../../core/auth/guards/auth.guard';
+
+export const CHAT_ROUTES: Routes = [
+  {
+    path: '',
+    canActivate: [authGuard],
+    loadComponent: () => import('./chat.component').then(m => m.ChatComponent),
+  },
+  {
+    path: ':chatId',
+    canActivate: [authGuard],
+    loadComponent: () => import('./chat.component').then(m => m.ChatComponent),
+  },
+];

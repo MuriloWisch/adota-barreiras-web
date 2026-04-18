@@ -19,7 +19,6 @@ import { AnimalService } from '../../../core/services/animal.service';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Animal } from '../../../core/models/animal.model';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { ScrollAnimationDirective } from '../../../shared/directives/scroll-animation.directive';
 
 interface ImagePreview {
@@ -41,7 +40,7 @@ const BARREIRAS_LNG = -44.9986;
     MatFormFieldModule, MatInputModule,
     MatIconModule, MatProgressSpinnerModule,
     MatDividerModule, GoogleMapsModule,
-    PageHeaderComponent, LoadingSpinnerComponent, ScrollAnimationDirective,
+    PageHeaderComponent, ScrollAnimationDirective,
   ],
   animations: [
     trigger('fadeSlideUp', [
@@ -249,7 +248,6 @@ const BARREIRAS_LNG = -44.9986;
 
           </div>
 
-          <!-- ══ Footer Actions ══ -->
           <div class="form-footer">
             <button mat-stroked-button type="button" class="btn-cancel" (click)="cancel()">
               Cancelar
@@ -272,7 +270,6 @@ const BARREIRAS_LNG = -44.9986;
       padding: 0 24px 64px;
     }
 
-    /* Skeleton */
     .skeleton-card {
       background: #fff; border-radius: 20px;
       padding: 32px; display: flex; flex-direction: column; gap: 16px;
@@ -289,7 +286,6 @@ const BARREIRAS_LNG = -44.9986;
     .skel-field { height:56px; }
     .skel-field.short { width:50%; }
 
-    /* Card */
     .form-card {
       background: #fff;
       border-radius: 20px;
@@ -297,7 +293,6 @@ const BARREIRAS_LNG = -44.9986;
       overflow: hidden;
     }
 
-    /* Global error */
     .form-error {
       display: flex; align-items: center; gap: 10px;
       background: #fef2f2; color: #dc2626;
@@ -305,7 +300,6 @@ const BARREIRAS_LNG = -44.9986;
       border-bottom: 1px solid #fecaca;
     }
 
-    /* Section */
     .form-section { padding: 32px 32px 24px; }
     .section-title {
       display: flex; align-items: center; gap: 12px;
@@ -320,12 +314,10 @@ const BARREIRAS_LNG = -44.9986;
     }
     .section-divider { margin: 0 !important; }
 
-    /* Fields */
     .field-grid { display: flex; flex-direction: column; gap: 16px; }
     .full-width  { width: 100%; }
     .suffix-text { font-size: 13px; color: #888; padding-right: 4px; }
 
-    /* Toggles */
     .toggle-field { display: flex; flex-direction: column; gap: 6px; }
     .toggle-label { font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.4px; }
     .toggle-group { border-radius: 10px !important; overflow: hidden; }
@@ -333,7 +325,6 @@ const BARREIRAS_LNG = -44.9986;
     ::ng-deep .mat-button-toggle-checked { background: #4CAF50 !important; color: #fff !important; }
     .toggle-error { font-size: 12px; color: #f44336; margin-top: 2px; }
 
-    /* Drop zone */
     .drop-zone {
       border: 2px dashed #d1d5db;
       border-radius: 16px;
@@ -354,7 +345,6 @@ const BARREIRAS_LNG = -44.9986;
     .upload-sub   { font-size: 12px; color: #999; }
     .image-error  { font-size: 13px; color: #ef4444; margin-bottom: 12px; }
 
-    /* Previews */
     .preview-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -382,7 +372,6 @@ const BARREIRAS_LNG = -44.9986;
       padding: 2px 8px; border-radius: 20px;
     }
 
-    /* Location */
     .location-hint {
       display: flex; align-items: center; gap: 8px;
       background: #eff6ff; color: #1d4ed8;
@@ -409,7 +398,6 @@ const BARREIRAS_LNG = -44.9986;
     }
     .geo-btn:hover { background: #f0f4ff !important; }
 
-    /* Footer */
     .form-footer {
       display: flex; justify-content: flex-end; gap: 12px;
       padding: 20px 32px;
@@ -436,7 +424,6 @@ const BARREIRAS_LNG = -44.9986;
       box-shadow: 0 6px 20px rgba(76,175,80,0.35) !important;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       .form-section { padding: 24px 16px; }
       .form-footer  { padding: 16px; }
@@ -559,7 +546,6 @@ export class AnimalFormComponent implements OnInit {
     }
   }
 
-  // ── Map ────────────────────────────────────────────────────────────────────
 
   onMapClick(event: google.maps.MapMouseEvent): void {
     if (!event.latLng) return;
@@ -578,7 +564,6 @@ export class AnimalFormComponent implements OnInit {
     });
   }
 
-  // ── Images ─────────────────────────────────────────────────────────────────
 
   onDragOver(e: DragEvent): void {
     e.preventDefault();
@@ -624,7 +609,6 @@ export class AnimalFormComponent implements OnInit {
     this.imageError = '';
   }
 
-  // ── Submit ─────────────────────────────────────────────────────────────────
 
   submit(): void {
     this.submitted   = true;

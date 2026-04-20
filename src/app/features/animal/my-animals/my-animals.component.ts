@@ -95,7 +95,7 @@ const ADOPTION_STATUS: Record<string, { label: string; color: string }> = {
 
           <div class="card-img-wrap">
             <img
-              [src]="card.animal.images[0]?.imageUrl || 'assets/placeholder-animal.jpg'"
+              [src]="card.animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'"
               [alt]="card.animal.name">
             <div class="status-badge" [style.background]="statusCfg(card.animal).bg" [style.color]="statusCfg(card.animal).color">
               <mat-icon class="badge-icon">{{ statusCfg(card.animal).icon }}</mat-icon>

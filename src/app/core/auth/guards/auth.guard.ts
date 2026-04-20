@@ -6,7 +6,12 @@ export const authGuard: CanActivateFn = () => {
   const auth   = inject(AuthService);
   const router = inject(Router);
 
-  if (!auth.isLoggedIn()) {
+  const token = auth.getToken();
+  const user  = auth.currentUser$.getValue();
+
+  if (!token || !user) {
+    localStorage.removeItem('adota_token');
+    localStorage.removeItem('adota_user');
     router.navigate(['/login']);
     return false;
   }

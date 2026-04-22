@@ -224,7 +224,6 @@ import { Notification } from '../../../core/models/notification.model';
     }
     .logout-item { color: #ef4444 !important; }
 
-    /* Drawer */
     .drawer-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.4);
       z-index: 1100;
@@ -254,6 +253,10 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit(): void {
         this.notifService.notifications$.subscribe(n => (this.notifications = n));
+
+        this.auth.currentUser$.subscribe(user => {
+        if (user?.id) {
+      this.notifService.connectWebSocket(user.id);}});
     }
 
     get isLoggedIn() { return this.auth.isLoggedIn(); }
@@ -279,8 +282,10 @@ export class NavbarComponent implements OnInit {
         if (!target.closest('.notif-wrap')) this.notifOpen = false;
     }
 
-    logout(): void {
-        this.drawerOpen = false;
-        this.auth.logout();
-    }
+   logout(): void {
+  this.drawerOpen   = false;
+  this.notifOpen    = false;
+  this.notifService.disconnect();
+  this.auth.logout();
+}
 }

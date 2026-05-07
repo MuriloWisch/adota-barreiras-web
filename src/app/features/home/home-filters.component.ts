@@ -9,22 +9,24 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
 
 export interface HomeFilters {
   species: string;
-  size: string;
-  sex: string;
-  radius: number;
+  size:    string;
+  sex:     string;
+  radius:  number;
 }
 
 @Component({
   selector: 'app-home-filters',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule,
-    MatButtonToggleModule, MatSliderModule,
-    MatButtonModule, MatIconModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatButtonToggleModule,
+    MatSliderModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   template: `
     <div class="filters-wrap">
-
       <form [formGroup]="form">
 
         <div class="filter-row">
@@ -61,20 +63,28 @@ export interface HomeFilters {
         </div>
 
         <div class="filter-row radius-row">
+
           <div class="filter-group radius-group">
-            <span class="filter-label">Raio: <strong>{{ form.get('radius')?.value }} km</strong></span>
+            <span class="filter-label">
+              Raio: <strong>{{ form.get('radius')?.value }} km</strong>
+            </span>
             <mat-slider min="1" max="50" step="1" class="radius-slider">
               <input matSliderThumb formControlName="radius">
             </mat-slider>
           </div>
 
-          <button mat-button class="clear-btn" type="button" (click)="clear()">
-            <mat-icon>close</mat-icon> Limpar filtros
+          <button
+            mat-button
+            type="button"
+            class="clear-btn"
+            (click)="clear()">
+            <mat-icon>close</mat-icon>
+            Limpar filtros
           </button>
+
         </div>
 
       </form>
-
     </div>
   `,
   styles: [`
@@ -85,6 +95,7 @@ export interface HomeFilters {
       padding: 16px 20px;
       margin-bottom: 20px;
     }
+
     .filter-row {
       display: flex;
       flex-wrap: wrap;
@@ -93,41 +104,81 @@ export interface HomeFilters {
       margin-bottom: 12px;
     }
     .filter-row:last-child { margin-bottom: 0; }
-    .filter-group { display: flex; flex-direction: column; gap: 6px; }
-    .filter-label { font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
     .filter-label strong { color: #4CAF50; }
 
     .toggle-group {
       border-radius: 10px !important;
       overflow: hidden;
     }
+
     ::ng-deep .mat-button-toggle {
       font-size: 12px !important;
       font-family: 'Inter', sans-serif !important;
     }
+
     ::ng-deep .mat-button-toggle-checked {
       background: #4CAF50 !important;
       color: #fff !important;
     }
 
+    ::ng-deep .mat-button-toggle-button {
+      transition: background 0.2s ease !important;
+    }
+
+    /* Radius */
     .radius-row { align-items: center; }
+
     .radius-group { flex: 1; min-width: 200px; }
+
     .radius-slider { width: 100%; }
 
+    ::ng-deep .mat-mdc-slider .mdc-slider__track--active_fill {
+      border-color: #4CAF50 !important;
+    }
+    ::ng-deep .mat-mdc-slider .mdc-slider__thumb-knob {
+      background: #4CAF50 !important;
+      border-color: #4CAF50 !important;
+    }
+
     .clear-btn {
-      color: #999 !important;
+      color: #aaa !important;
       font-size: 13px !important;
+      display: flex;
+      align-items: center;
+      gap: 4px;
       transition: color 0.3s ease !important;
+      padding: 0 12px !important;
     }
     .clear-btn:hover { color: #ef4444 !important; }
+    .clear-btn mat-icon {
+      font-size: 16px !important;
+      width: 16px !important;
+      height: 16px !important;
+    }
 
     @media (max-width: 640px) {
-      .filter-row { flex-direction: column; }
+      .filter-row  { flex-direction: column; }
       .toggle-group { flex-wrap: wrap; }
+      ::ng-deep .mat-button-toggle { font-size: 11px !important; }
     }
   `],
 })
 export class HomeFiltersComponent implements OnInit, OnDestroy {
+
   @Output() filtersChange = new EventEmitter<HomeFilters>();
 
   form: FormGroup;
@@ -146,7 +197,7 @@ export class HomeFiltersComponent implements OnInit, OnDestroy {
     this.form.valueChanges.pipe(
       debounceTime(400),
       takeUntil(this.destroy$),
-    ).subscribe(values => this.filtersChange.emit(values));
+    ).subscribe(values => this.filtersChange.emit(values as HomeFilters));
   }
 
   ngOnDestroy(): void {
@@ -155,6 +206,11 @@ export class HomeFiltersComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    this.form.setValue({ species: '', size: '', sex: '', radius: 10 });
+    this.form.setValue({
+      species: '',
+      size:    '',
+      sex:     '',
+      radius:  10,
+    });
   }
 }

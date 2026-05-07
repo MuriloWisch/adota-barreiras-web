@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, signal, ElementRef, ViewChild, HostListener
+  Component, OnInit, signal, ElementRef, ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,19 +12,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 import { AnimalService } from '../../../core/services/animal.service';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Animal } from '../../../core/models/animal.model';
+import { MapComponent } from '../../../shared/components/map/map.component';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { ScrollAnimationDirective } from '../../../shared/directives/scroll-animation.directive';
 
 interface ImagePreview {
-  url: string;
-  file: File | null;
-  existing: boolean;
+  url:         string;
+  file:        File | null;
+  existing:    boolean;
   existingUrl?: string;
 }
 
@@ -35,12 +36,19 @@ const BARREIRAS_LNG = -44.9986;
   selector: 'app-animal-form',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule,
-    MatButtonModule, MatButtonToggleModule,
-    MatFormFieldModule, MatInputModule,
-    MatIconModule, MatProgressSpinnerModule,
-    MatDividerModule, GoogleMapsModule,
-    PageHeaderComponent, ScrollAnimationDirective,
+    CommonModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MapComponent,
+    PageHeaderComponent,
+    LoadingSpinnerComponent,
+    ScrollAnimationDirective,
   ],
   animations: [
     trigger('fadeSlideUp', [
@@ -55,10 +63,11 @@ const BARREIRAS_LNG = -44.9986;
 
       <app-page-header
         [title]="isEditMode ? 'Editar Animal' : 'Cadastrar Animal'"
-        [subtitle]="isEditMode ? 'Atualize as informações do seu animal' : 'Preencha os dados para cadastrar um animal para adoção'">
+        [subtitle]="isEditMode
+          ? 'Atualize as informações do seu animal'
+          : 'Preencha os dados para cadastrar um animal para adoção'">
       </app-page-header>
 
-      <!-- Skeleton -->
       <div class="skeleton-card" *ngIf="pageLoading">
         <div class="skel skel-title"></div>
         <div class="skel skel-field"></div>
@@ -66,10 +75,8 @@ const BARREIRAS_LNG = -44.9986;
         <div class="skel skel-field short"></div>
       </div>
 
-      <!-- Form Card -->
       <div class="form-card" *ngIf="!pageLoading" @fadeSlideUp>
 
-        <!-- Global error -->
         <div class="form-error" *ngIf="globalError">
           <mat-icon>error_outline</mat-icon>
           <span>{{ globalError }}</span>
@@ -77,7 +84,6 @@ const BARREIRAS_LNG = -44.9986;
 
         <form [formGroup]="form" (ngSubmit)="submit()">
 
-          <!-- ══ SEÇÃO 1: Informações básicas ══ -->
           <div class="form-section" appScrollAnimation>
             <h2 class="section-title">
               <span class="section-num">1</span> Informações básicas
@@ -99,7 +105,8 @@ const BARREIRAS_LNG = -44.9986;
                   <mat-button-toggle value="CAT">🐱 Gato</mat-button-toggle>
                   <mat-button-toggle value="OTHER">🐾 Outro</mat-button-toggle>
                 </mat-button-toggle-group>
-                <span class="toggle-error" *ngIf="form.get('species')?.invalid && form.get('species')?.touched">
+                <span class="toggle-error"
+                  *ngIf="form.get('species')?.invalid && form.get('species')?.touched">
                   Espécie é obrigatória
                 </span>
               </div>
@@ -110,7 +117,8 @@ const BARREIRAS_LNG = -44.9986;
                   <mat-button-toggle value="MALE">♂ Macho</mat-button-toggle>
                   <mat-button-toggle value="FEMALE">♀ Fêmea</mat-button-toggle>
                 </mat-button-toggle-group>
-                <span class="toggle-error" *ngIf="form.get('sex')?.invalid && form.get('sex')?.touched">
+                <span class="toggle-error"
+                  *ngIf="form.get('sex')?.invalid && form.get('sex')?.touched">
                   Sexo é obrigatório
                 </span>
               </div>
@@ -122,7 +130,8 @@ const BARREIRAS_LNG = -44.9986;
                   <mat-button-toggle value="MEDIUM">Médio</mat-button-toggle>
                   <mat-button-toggle value="LARGE">Grande</mat-button-toggle>
                 </mat-button-toggle-group>
-                <span class="toggle-error" *ngIf="form.get('size')?.invalid && form.get('size')?.touched">
+                <span class="toggle-error"
+                  *ngIf="form.get('size')?.invalid && form.get('size')?.touched">
                   Porte é obrigatório
                 </span>
               </div>
@@ -143,7 +152,9 @@ const BARREIRAS_LNG = -44.9986;
                   maxlength="500"
                   placeholder="Conte sobre a personalidade, hábitos e necessidades do animal...">
                 </textarea>
-                <mat-hint align="end">{{ form.get('description')?.value?.length ?? 0 }}/500</mat-hint>
+                <mat-hint align="end">
+                  {{ form.get('description')?.value?.length ?? 0 }}/500
+                </mat-hint>
               </mat-form-field>
 
             </div>
@@ -151,13 +162,11 @@ const BARREIRAS_LNG = -44.9986;
 
           <mat-divider class="section-divider"></mat-divider>
 
-          <!-- ══ SEÇÃO 2: Imagens ══ -->
           <div class="form-section" appScrollAnimation>
             <h2 class="section-title">
               <span class="section-num">2</span> Fotos do animal
             </h2>
 
-            <!-- Drop zone -->
             <div
               class="drop-zone"
               [class.drag-over]="isDragOver"
@@ -180,10 +189,9 @@ const BARREIRAS_LNG = -44.9986;
 
             <p class="image-error" *ngIf="imageError">{{ imageError }}</p>
 
-            <!-- Previews -->
             <div class="preview-grid" *ngIf="previews().length">
               <div class="preview-item" *ngFor="let p of previews(); let i = index">
-                <img [src]="p.url" [alt]="'Foto ' + (i+1)">
+                <img [src]="p.url" [alt]="'Foto ' + (i + 1)">
                 <button class="remove-btn" type="button" (click)="removeImage(i)">
                   <mat-icon>close</mat-icon>
                 </button>
@@ -195,7 +203,6 @@ const BARREIRAS_LNG = -44.9986;
 
           <mat-divider class="section-divider"></mat-divider>
 
-          <!-- ══ SEÇÃO 3: Localização ══ -->
           <div class="form-section" appScrollAnimation>
             <h2 class="section-title">
               <span class="section-num">3</span> Localização
@@ -208,24 +215,21 @@ const BARREIRAS_LNG = -44.9986;
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Endereço</mat-label>
-              <input matInput formControlName="address" placeholder="Ex: Rua das Flores, 123 — Centro">
+              <input matInput formControlName="address"
+                placeholder="Ex: Rua das Flores, 123 — Centro">
               <mat-icon matSuffix>place</mat-icon>
             </mat-form-field>
 
             <div class="map-container">
-              <google-map
-                width="100%"
-                height="300px"
-                [center]="mapCenter()"
+              <app-map
+                [animals]="markerAnimal()"
+                [centerLat]="mapCenterLat()"
+                [centerLng]="mapCenterLng()"
+                [radius]="0"
+                [interactive]="true"
                 [zoom]="mapZoom"
-                [options]="mapOptions"
-                (mapClick)="onMapClick($event)">
-                <map-marker
-                  *ngIf="markerPos()"
-                  [position]="markerPos()!"
-                  [options]="markerOptions">
-                </map-marker>
-              </google-map>
+                (onMapClick)="onMapClick($event)">
+              </app-map>
             </div>
 
             <div class="coord-row">
@@ -237,22 +241,26 @@ const BARREIRAS_LNG = -44.9986;
                 <mat-label>Longitude</mat-label>
                 <input matInput formControlName="longitude" readonly>
               </mat-form-field>
-              <button mat-stroked-button type="button" class="geo-btn" (click)="useMyLocation()">
+              <button mat-stroked-button type="button"
+                class="geo-btn" (click)="useMyLocation()">
                 <mat-icon>my_location</mat-icon> Minha localização
               </button>
             </div>
 
-            <span class="coord-error" *ngIf="form.get('latitude')?.invalid && submitted">
+            <span class="coord-error"
+              *ngIf="form.get('latitude')?.invalid && submitted">
               Localização no mapa é obrigatória
             </span>
 
           </div>
 
           <div class="form-footer">
-            <button mat-stroked-button type="button" class="btn-cancel" (click)="cancel()">
+            <button mat-stroked-button type="button"
+              class="btn-cancel" (click)="cancel()">
               Cancelar
             </button>
-            <button mat-raised-button type="submit" class="btn-save" [disabled]="saving">
+            <button mat-raised-button type="submit"
+              class="btn-save" [disabled]="saving">
               <mat-spinner diameter="18" *ngIf="saving"></mat-spinner>
               <mat-icon *ngIf="!saving">save</mat-icon>
               <span>{{ saving ? 'Salvando...' : 'Salvar' }}</span>
@@ -281,10 +289,13 @@ const BARREIRAS_LNG = -44.9986;
       animation: shimmer 1.4s infinite;
       border-radius: 8px;
     }
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .skel-title { height:28px; width:40%; }
-    .skel-field { height:56px; }
-    .skel-field.short { width:50%; }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skel-title       { height: 28px; width: 40%; }
+    .skel-field       { height: 56px; }
+    .skel-field.short { width: 50%; }
 
     .form-card {
       background: #fff;
@@ -314,33 +325,35 @@ const BARREIRAS_LNG = -44.9986;
     }
     .section-divider { margin: 0 !important; }
 
-    .field-grid { display: flex; flex-direction: column; gap: 16px; }
-    .full-width  { width: 100%; }
-    .suffix-text { font-size: 13px; color: #888; padding-right: 4px; }
+    .field-grid   { display: flex; flex-direction: column; gap: 16px; }
+    .full-width   { width: 100%; }
+    .suffix-text  { font-size: 13px; color: #888; padding-right: 4px; }
 
-    .toggle-field { display: flex; flex-direction: column; gap: 6px; }
-    .toggle-label { font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.4px; }
-    .toggle-group { border-radius: 10px !important; overflow: hidden; }
+    .toggle-field  { display: flex; flex-direction: column; gap: 6px; }
+    .toggle-label  {
+      font-size: 12px; font-weight: 600; color: #666;
+      text-transform: uppercase; letter-spacing: 0.4px;
+    }
+    .toggle-group  { border-radius: 10px !important; overflow: hidden; }
     ::ng-deep .mat-button-toggle { font-size: 13px !important; font-family: 'Inter',sans-serif !important; }
     ::ng-deep .mat-button-toggle-checked { background: #4CAF50 !important; color: #fff !important; }
-    .toggle-error { font-size: 12px; color: #f44336; margin-top: 2px; }
+    .toggle-error  { font-size: 12px; color: #f44336; margin-top: 2px; }
 
     .drop-zone {
       border: 2px dashed #d1d5db;
-      border-radius: 16px;
-      padding: 40px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: #fafafa;
+      border-radius: 16px; padding: 40px 24px;
+      text-align: center; cursor: pointer;
+      transition: all 0.3s ease; background: #fafafa;
       margin-bottom: 16px;
     }
     .drop-zone:hover, .drop-zone.drag-over {
-      border-color: #4CAF50;
-      background: #f0fdf4;
+      border-color: #4CAF50; background: #f0fdf4;
     }
     .drop-zone.has-error { border-color: #ef4444; background: #fef2f2; }
-    .upload-icon { font-size: 48px !important; width: 48px !important; height: 48px !important; color: #4CAF50; }
+    .upload-icon {
+      font-size: 48px !important; width: 48px !important;
+      height: 48px !important; color: #4CAF50;
+    }
     .upload-title { font-size: 15px; font-weight: 600; color: #1E3A5F; margin: 10px 0 4px; }
     .upload-sub   { font-size: 12px; color: #999; }
     .image-error  { font-size: 13px; color: #ef4444; margin-bottom: 12px; }
@@ -360,8 +373,7 @@ const BARREIRAS_LNG = -44.9986;
       background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
       width: 26px; height: 26px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      color: #fff; transition: background 0.2s ease;
-      padding: 0;
+      color: #fff; transition: background 0.2s ease; padding: 0;
     }
     .remove-btn mat-icon { font-size: 16px; width: 16px; height: 16px; }
     .remove-btn:hover { background: rgba(239,68,68,0.85); }
@@ -379,16 +391,20 @@ const BARREIRAS_LNG = -44.9986;
       font-size: 13px; margin-bottom: 16px;
     }
     .location-hint mat-icon { font-size: 18px; }
+
     .map-container {
+      height: 300px;
       border-radius: 14px; overflow: hidden;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       margin-bottom: 16px;
     }
+
     .coord-row {
       display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start;
     }
     .coord-row mat-form-field { flex: 1; min-width: 140px; }
     .coord-error { font-size: 12px; color: #ef4444; margin-top: 4px; display: block; }
+
     .geo-btn {
       border-color: #1E3A5F !important; color: #1E3A5F !important;
       border-radius: 10px !important; height: 56px;
@@ -436,7 +452,7 @@ export class AnimalFormComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  form!: FormGroup;
+  form!:       FormGroup;
   isEditMode   = false;
   pageLoading  = false;
   saving       = false;
@@ -445,24 +461,14 @@ export class AnimalFormComponent implements OnInit {
   globalError  = '';
   imageError   = '';
 
-  previews     = signal<ImagePreview[]>([]);
-  markerPos    = signal<google.maps.LatLngLiteral | null>(null);
-  mapCenter    = signal<google.maps.LatLngLiteral>({ lat: BARREIRAS_LAT, lng: BARREIRAS_LNG });
-  mapZoom      = 13;
+
+  previews      = signal<ImagePreview[]>([]);
+  markerAnimal  = signal<Animal[]>([]);
+  mapCenterLat  = signal(BARREIRAS_LAT);
+  mapCenterLng  = signal(BARREIRAS_LNG);
+  mapZoom       = 13;
 
   private editAnimalId?: number;
-
-  mapOptions: google.maps.MapOptions = {
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: false,
-    clickableIcons: false,
-  };
-
-  markerOptions: google.maps.MarkerOptions = {
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-  };
 
   constructor(
     private fb: FormBuilder,
@@ -531,39 +537,51 @@ export class AnimalFormComponent implements OnInit {
     });
 
     if (animal.latitude && animal.longitude) {
-      const pos = { lat: animal.latitude, lng: animal.longitude };
-      this.markerPos.set(pos);
-      this.mapCenter.set(pos);
+      this.mapCenterLat.set(animal.latitude);
+      this.mapCenterLng.set(animal.longitude);
+      this.markerAnimal.set([{ ...animal }]);
     }
 
     if (animal.images?.length) {
       this.previews.set(animal.images.map(img => ({
-        url: img.imageUrl,
-        file: null,
-        existing: true,
+        url:         img.imageUrl,
+        file:        null,
+        existing:    true,
         existingUrl: img.imageUrl,
       })));
     }
   }
 
 
-  onMapClick(event: google.maps.MapMouseEvent): void {
-    if (!event.latLng) return;
-    const pos = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-    this.markerPos.set(pos);
+
+  onMapClick(pos: { lat: number; lng: number }): void {
     this.form.patchValue({ latitude: pos.lat, longitude: pos.lng });
+    this.mapCenterLat.set(pos.lat);
+    this.mapCenterLng.set(pos.lng);
+    this.markerAnimal.set([{
+      id: 0, name: 'Local selecionado',
+      latitude: pos.lat, longitude: pos.lng,
+      status: 'AVAILABLE', images: [],
+    } as any]);
   }
 
   useMyLocation(): void {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(pos => {
-      const p = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      this.markerPos.set(p);
-      this.mapCenter.set(p);
-      this.form.patchValue({ latitude: p.lat, longitude: p.lng });
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      this.form.patchValue({ latitude: lat, longitude: lng });
+      this.mapCenterLat.set(lat);
+      this.mapCenterLng.set(lng);
+      this.markerAnimal.set([{
+        id: 0, name: 'Minha localização',
+        latitude: lat, longitude: lng,
+        status: 'AVAILABLE', images: [],
+      } as any]);
     });
   }
 
+  
 
   onDragOver(e: DragEvent): void {
     e.preventDefault();
@@ -595,7 +613,7 @@ export class AnimalFormComponent implements OnInit {
     }
 
     const newPreviews: ImagePreview[] = files.map(file => ({
-      url: URL.createObjectURL(file),
+      url:      URL.createObjectURL(file),
       file,
       existing: false,
     }));
@@ -604,10 +622,10 @@ export class AnimalFormComponent implements OnInit {
   }
 
   removeImage(index: number): void {
-    const updated = this.previews().filter((_, i) => i !== index);
-    this.previews.set(updated);
+    this.previews.set(this.previews().filter((_, i) => i !== index));
     this.imageError = '';
   }
+
 
 
   submit(): void {
@@ -659,15 +677,17 @@ export class AnimalFormComponent implements OnInit {
     const fd = new FormData();
     const v  = this.form.value;
 
-    fd.append('name',        v.name);
-    fd.append('species',     v.species);
-    fd.append('sex',         v.sex);
-    fd.append('size',        v.size);
-    fd.append('latitude',    String(v.latitude));
-    fd.append('longitude',   String(v.longitude));
-    if (v.age        != null) fd.append('age',         String(v.age));
-    if (v.description)        fd.append('description', v.description);
-    if (v.address)            fd.append('address',     v.address);
+    fd.append('name',    v.name);
+    fd.append('species', v.species);
+    fd.append('sex',     v.sex);
+    fd.append('size',    v.size);
+    fd.append('latitude',  String(v.latitude));
+    fd.append('longitude', String(v.longitude));
+
+    if (v.age         != null) fd.append('age',         String(v.age));
+    if (v.description)         fd.append('description', v.description);
+    if (v.address)             fd.append('address',     v.address);
+
     files.forEach(f => fd.append('images', f, f.name));
 
     return fd;

@@ -23,15 +23,15 @@ const BARREIRAS_LAT = -12.1539;
 const BARREIRAS_LNG = -44.9986;
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  AVAILABLE:  { label: 'Disponível',   color: '#fff',    bg: '#4CAF50' },
-  EM_ANALISE: { label: 'Em análise',   color: '#fff',    bg: '#FF9800' },
-  IN_PROCESS: { label: 'Em processo',  color: '#fff',    bg: '#2196F3' },
-  ADOPTED:    { label: 'Adotado',      color: '#fff',    bg: '#9E9E9E' },
+  AVAILABLE: { label: 'Disponível', color: '#fff', bg: '#4CAF50' },
+  EM_ANALISE: { label: 'Em análise', color: '#fff', bg: '#FF9800' },
+  IN_PROCESS: { label: 'Em processo', color: '#fff', bg: '#2196F3' },
+  ADOPTED: { label: 'Adotado', color: '#fff', bg: '#9E9E9E' },
 };
 
 const SPECIES_MAP: Record<string, string> = { DOG: '🐶 Cão', CAT: '🐱 Gato', OTHER: '🐾 Outro' };
-const SIZE_MAP:    Record<string, string> = { SMALL: '📏 Pequeno', MEDIUM: '📏 Médio', LARGE: '📏 Grande' };
-const SEX_MAP:     Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ Fêmea' };
+const SIZE_MAP: Record<string, string> = { SMALL: '📏 Pequeno', MEDIUM: '📏 Médio', LARGE: '📏 Grande' };
+const SEX_MAP: Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ Fêmea' };
 
 @Component({
   selector: 'app-animal-detail',
@@ -187,13 +187,15 @@ const SEX_MAP:     Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ F�
           <div class="map-card">
             <h3 class="section-title">Localização aproximada</h3>
             <div class="map-wrap">
-              <app-map
-                [animals]="[animal()!]"
-                [centerLat]="mapLat"
-                [centerLng]="mapLng"
-                [radius]="0.5">
-              </app-map>
-            </div>
+  <app-map
+    [animals]="[animal()!]"
+    [centerLat]="mapLat"
+    [centerLng]="mapLng"
+    [radius]="0"
+    [interactive]="false"
+    [zoom]="14">
+  </app-map>
+</div>
             <div class="address-row" *ngIf="animal()!.address">
               <mat-icon class="addr-icon">place</mat-icon>
               <span>{{ animal()!.address }}</span>
@@ -353,13 +355,13 @@ const SEX_MAP:     Record<string, string> = { MALE: '♂ Macho', FEMALE: '♀ F�
 })
 export class AnimalDetailComponent implements OnInit {
 
-  animal     = signal<Animal | null>(null);
+  animal = signal<Animal | null>(null);
   activeIndex = signal(0);
   pageLoading = true;
   adoptLoading = false;
-  adoptDone    = false;
-  chatLoading  = false;
-  actionError  = '';
+  adoptDone = false;
+  chatLoading = false;
+  actionError = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -370,12 +372,12 @@ export class AnimalDetailComponent implements OnInit {
     private auth: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.animalService.getById(id).subscribe({
-      next: a  => { this.animal.set(a); this.pageLoading = false; },
+      next: a => { this.animal.set(a); this.pageLoading = false; },
       error: () => {
         this.snackBar.open('Animal não encontrado.', 'Fechar', { duration: 3000 });
         this.router.navigate(['/home']);
@@ -395,11 +397,11 @@ export class AnimalDetailComponent implements OnInit {
     return list[this.activeIndex()] ?? list[0];
   });
 
-  get statusConfig()  { return STATUS_CONFIG[this.animal()?.status ?? 'EM_ANALISE']; }
-  get speciesLabel()  { return SPECIES_MAP[this.animal()?.species ?? ''] ?? ''; }
-  get sizeLabel()     { return SIZE_MAP[this.animal()?.size ?? ''] ?? ''; }
-  get sexLabel()      { return SEX_MAP[this.animal()?.sex ?? ''] ?? ''; }
-  get donorInitial()  { return (this.animal()?.owner?.name ?? 'U').charAt(0).toUpperCase(); }
+  get statusConfig() { return STATUS_CONFIG[this.animal()?.status ?? 'EM_ANALISE']; }
+  get speciesLabel() { return SPECIES_MAP[this.animal()?.species ?? ''] ?? ''; }
+  get sizeLabel() { return SIZE_MAP[this.animal()?.size ?? ''] ?? ''; }
+  get sexLabel() { return SEX_MAP[this.animal()?.sex ?? ''] ?? ''; }
+  get donorInitial() { return (this.animal()?.owner?.name ?? 'U').charAt(0).toUpperCase(); }
 
   get isOwner(): boolean {
     const me = this.auth.currentUser$.getValue();
@@ -408,13 +410,13 @@ export class AnimalDetailComponent implements OnInit {
 
   get isAvailable(): boolean { return this.animal()?.status === 'AVAILABLE'; }
 
-  get mapLat(): number { return this.animal()?.latitude  ?? BARREIRAS_LAT; }
+  get mapLat(): number { return this.animal()?.latitude ?? BARREIRAS_LAT; }
   get mapLng(): number { return this.animal()?.longitude ?? BARREIRAS_LNG; }
 
   get statusInfoMessage(): string {
     const s = this.animal()?.status;
     if (s === 'IN_PROCESS') return 'Este animal já está em processo de adoção.';
-    if (s === 'ADOPTED')    return 'Este animal já foi adotado. 🎉';
+    if (s === 'ADOPTED') return 'Este animal já foi adotado. 🎉';
     return 'Este animal não está disponível no momento.';
   }
 
@@ -424,12 +426,12 @@ export class AnimalDetailComponent implements OnInit {
 
   requestAdoption(): void {
     this.adoptLoading = true;
-    this.actionError  = '';
+    this.actionError = '';
 
     this.adoptionService.request(this.animal()!.id).subscribe({
       next: () => { this.adoptDone = true; this.adoptLoading = false; },
       error: (err) => {
-        this.actionError  = err?.error?.message ?? 'Erro ao enviar solicitação.';
+        this.actionError = err?.error?.message ?? 'Erro ao enviar solicitação.';
         this.adoptLoading = false;
       },
     });
@@ -455,8 +457,8 @@ export class AnimalDetailComponent implements OnInit {
   deleteAnimal(): void {
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title:        'Excluir animal',
-        message:      `Tem certeza que deseja excluir "${this.animal()!.name}"? Esta ação não pode ser desfeita.`,
+        title: 'Excluir animal',
+        message: `Tem certeza que deseja excluir "${this.animal()!.name}"? Esta ação não pode ser desfeita.`,
         confirmLabel: 'Excluir',
       },
     });

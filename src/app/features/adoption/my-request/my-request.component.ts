@@ -54,7 +54,6 @@ interface RequestCard {
 
         <mat-tab-group animationDuration="200ms" class="tabs">
 
-          <!-- PENDENTES -->
           <mat-tab>
             <ng-template mat-tab-label>
               <span>Pendentes</span>
@@ -70,7 +69,6 @@ interface RequestCard {
             </div>
           </mat-tab>
 
-          <!-- ACEITAS -->
           <mat-tab>
             <ng-template mat-tab-label>
               <span>Aceitas</span>
@@ -86,7 +84,6 @@ interface RequestCard {
             </div>
           </mat-tab>
 
-          <!-- REJEITADAS -->
           <mat-tab>
             <ng-template mat-tab-label>
               <span>Rejeitadas</span>
@@ -107,18 +104,15 @@ interface RequestCard {
       </div>
     </div>
 
-    <!-- ══ Card Template ══ -->
     <ng-template #reqCard let-card="card">
       <div class="card-inner">
 
-        <!-- Thumbnail -->
         <div class="thumb-wrap">
           <img
             [src]="card.req.animal?.images?.[0]?.imageUrl || 'assets/placeholder-animal.jpg'"
             [alt]="card.req.animal?.name">
         </div>
 
-        <!-- Info -->
         <div class="card-info">
           <h3>{{ card.req.animal?.name }}</h3>
           <div class="info-tags">
@@ -128,29 +122,24 @@ interface RequestCard {
           <p class="donor-name">🐾 Doador: <strong>{{ card.req.animal?.owner?.name }}</strong></p>
           <p class="req-date">Enviado em {{ card.req.createdAt | date:'dd/MM/yyyy' }}</p>
 
-          <!-- PENDING -->
           <div class="status-msg pending-msg" *ngIf="card.req.status === 'PENDING'">
             <mat-icon>schedule</mat-icon>
             Aguardando resposta do doador
           </div>
 
-          <!-- ACCEPTED -->
           <div class="status-msg accepted-msg" *ngIf="card.req.status === 'ACCEPTED'">
             <mat-icon>check_circle</mat-icon>
             Parabéns! Sua solicitação foi aceita! 🎉
           </div>
 
-          <!-- REJECTED -->
           <div class="status-msg rejected-msg" *ngIf="card.req.status === 'REJECTED'">
             <mat-icon>cancel</mat-icon>
             Solicitação não aprovada
           </div>
         </div>
 
-        <!-- Actions -->
         <div class="card-actions">
 
-          <!-- PENDING actions -->
           <ng-container *ngIf="card.req.status === 'PENDING'">
             <button mat-stroked-button class="btn-view" [routerLink]="['/animals', card.req.animal?.id]">
               <mat-icon>visibility</mat-icon> Ver Animal
@@ -164,7 +153,6 @@ interface RequestCard {
             </button>
           </ng-container>
 
-          <!-- ACCEPTED actions -->
           <ng-container *ngIf="card.req.status === 'ACCEPTED'">
             <button mat-raised-button class="btn-chat"
               [disabled]="card.loadingChat"
@@ -178,7 +166,6 @@ interface RequestCard {
             </button>
           </ng-container>
 
-          <!-- REJECTED actions -->
           <ng-container *ngIf="card.req.status === 'REJECTED'">
             <button mat-stroked-button class="btn-view" [routerLink]="['/animals', card.req.animal?.id]">
               <mat-icon>visibility</mat-icon> Ver Animal
@@ -192,7 +179,6 @@ interface RequestCard {
   styles: [`
     .page-wrap { max-width: 900px; margin: 32px auto; padding: 0 24px 64px; }
 
-    /* Tabs */
     .tabs { margin-top: 8px; }
     ::ng-deep .mat-mdc-tab-body-wrapper { margin-top: 4px; }
     .tab-badge {
@@ -206,7 +192,6 @@ interface RequestCard {
 
     .tab-content { display: flex; flex-direction: column; gap: 14px; padding: 16px 0; }
 
-    /* Empty */
     .empty-tab {
       display: flex; flex-direction: column; align-items: center;
       padding: 48px 24px; gap: 10px; color: #aaa; text-align: center;
@@ -214,7 +199,6 @@ interface RequestCard {
     .empty-tab span { font-size: 40px; }
     .empty-tab p    { font-size: 14px; }
 
-    /* Card */
     .req-card {
       background: #fff; border-radius: 16px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -228,14 +212,12 @@ interface RequestCard {
       flex-wrap: wrap;
     }
 
-    /* Thumbnail */
     .thumb-wrap {
       width: 90px; height: 90px; border-radius: 12px;
       overflow: hidden; flex-shrink: 0;
     }
     .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Info */
     .card-info { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
     h3 { font-size: 16px; font-weight: 700; color: #1E3A5F; }
     .info-tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -244,7 +226,6 @@ interface RequestCard {
     .donor-name strong { color: #1E3A5F; }
     .req-date { font-size: 11px; color: #aaa; }
 
-    /* Status msgs */
     .status-msg {
       display: flex; align-items: center; gap: 6px;
       font-size: 12px; font-weight: 600;
@@ -255,7 +236,6 @@ interface RequestCard {
     .accepted-msg { background: #dcfce7; color: #166534; }
     .rejected-msg { background: #f3f4f6; color: #6b7280; }
 
-    /* Actions */
     .card-actions {
       display: flex; flex-direction: column; gap: 8px;
       justify-content: center; min-width: 150px;

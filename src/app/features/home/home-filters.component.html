@@ -1,0 +1,60 @@
+<div class="filters-wrap">
+  <form [formGroup]="form">
+
+    <div class="filter-row">
+
+      <div class="filter-group">
+        <span class="filter-label">Espécie</span>
+        <mat-button-toggle-group formControlName="species" class="toggle-group">
+          <mat-button-toggle value="">Todos</mat-button-toggle>
+          <mat-button-toggle value="DOG">🐶 Cão</mat-button-toggle>
+          <mat-button-toggle value="CAT">🐱 Gato</mat-button-toggle>
+          <mat-button-toggle value="OTHER">🐾 Outro</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Porte</span>
+        <mat-button-toggle-group formControlName="size" class="toggle-group">
+          <mat-button-toggle value="">Todos</mat-button-toggle>
+          <mat-button-toggle value="SMALL">Pequeno</mat-button-toggle>
+          <mat-button-toggle value="MEDIUM">Médio</mat-button-toggle>
+          <mat-button-toggle value="LARGE">Grande</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Sexo</span>
+        <mat-button-toggle-group formControlName="sex" class="toggle-group">
+          <mat-button-toggle value="">Todos</mat-button-toggle>
+          <mat-button-toggle value="MALE">Macho</mat-button-toggle>
+          <mat-button-toggle value="FEMALE">Fêmea</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+    </div>
+
+    <div class="filter-row radius-row">
+
+      <div class="filter-group radius-group">
+        <span class="filter-label">
+          Raio: <strong>{{ form.get('radius')?.value }} km</strong>
+        </span>
+        <mat-slider min="1" max="50" step="1" class="radius-slider">
+          <input matSliderThumb formControlName="radius">
+        </mat-slider>
+      </div>
+
+      <button
+        mat-button
+        type="button"
+        class="clear-btn"
+        (click)="clear()">
+        <mat-icon>close</mat-icon>
+        Limpar filtros
+      </button>
+
+    </div>
+
+  </form>
+</div>

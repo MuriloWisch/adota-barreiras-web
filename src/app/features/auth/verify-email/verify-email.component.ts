@@ -18,42 +18,8 @@ import { AuthService } from '../../../core/auth/services/auth.service';
       ]),
     ]),
   ],
-  template: `
-    <div class="auth-bg">
-      <div class="auth-card" @fadeSlideUp>
-
-        <div *ngIf="loading" class="state-box">
-          <mat-spinner diameter="56"></mat-spinner>
-          <p>Verificando seu e-mail...</p>
-        </div>
-
-        <div *ngIf="!loading && success" class="state-box">
-          <span class="icon">✅</span>
-          <h2>E-mail verificado!</h2>
-          <p>Sua conta está ativa. Faça login para continuar.</p>
-          <a mat-raised-button class="btn-primary" routerLink="/login">Ir para login</a>
-        </div>
-
-        <div *ngIf="!loading && !success" class="state-box">
-          <span class="icon">❌</span>
-          <h2>Token inválido</h2>
-          <p>{{ errorMsg }}</p>
-          <a mat-raised-button class="btn-primary" routerLink="/login">Voltar ao login</a>
-        </div>
-
-      </div>
-    </div>
-  `,
-  styles: [`
-    .auth-bg { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#f0fdf4,#e8f4fd); padding:16px; }
-    .auth-card { background:#fff; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.10); padding:56px 40px; width:100%; max-width:420px; }
-    .state-box { display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; }
-    .icon { font-size:56px; }
-    h2 { color:#1E3A5F; font-size:22px; font-weight:700; }
-    p { color:#888; font-size:14px; }
-    .btn-primary { background:#4CAF50!important; color:#fff!important; border-radius:12px!important; padding:0 32px; height:44px; font-weight:600; transition:all 0.3s ease; margin-top:8px; }
-    .btn-primary:hover { background:#43A047!important; box-shadow:0 6px 20px rgba(76,175,80,0.35)!important; }
-  `],
+  templateUrl: './verify-email.component.html',
+  styleUrl: './verify-email.component.scss',
 })
 export class VerifyEmailComponent implements OnInit {
   loading = true;

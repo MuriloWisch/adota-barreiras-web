@@ -45,16 +45,8 @@ let mapIdCounter = 0;
   selector: 'app-map',
   standalone: true,
   imports: [CommonModule],
-  template: `<div [id]="mapId" class="map-container"></div>`,
-  styles: [`
-    .map-container {
-      width: 100%;
-      height: 100%;
-      min-height: 200px;
-      border-radius: inherit;
-      z-index: 0;
-    }
-  `],
+  templateUrl: './map.component.html',
+  styleUrl: './map.component.scss',
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 

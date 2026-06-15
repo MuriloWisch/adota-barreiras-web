@@ -1,0 +1,149 @@
+<div class="skeleton-wrap" *ngIf="pageLoading">
+  <div class="skel skel-gallery"></div>
+  <div class="detail-layout">
+    <div class="skel-left">
+      <div class="skel skel-title"></div>
+      <div class="skel skel-chips"></div>
+      <div class="skel skel-desc"></div>
+      <div class="skel skel-desc short"></div>
+    </div>
+    <div class="skel skel-map"></div>
+  </div>
+</div>
+
+<div class="page-wrap" *ngIf="!pageLoading && animal()">
+
+  <div class="gallery-section" @fadeSlideUp>
+
+    <div class="main-img-wrap">
+      <img
+        [src]="activeImage()"
+        [alt]="animal()!.name"
+        class="main-img"
+        [@imgSwap]="activeImage()"
+      />
+      <span
+        class="status-badge"
+        [style.background]="statusConfig.bg"
+        [style.color]="statusConfig.color">
+        {{ statusConfig.label }}
+      </span>
+    </div>
+
+    <div class="thumbnails" *ngIf="images().length > 1">
+      <div
+        class="thumb"
+        *ngFor="let img of images(); let i = index"
+        [class.active]="activeIndex() === i"
+        (click)="setImage(i)">
+        <img [src]="img" [alt]="'Foto ' + (i + 1)">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="detail-layout">
+
+    <div class="detail-left">
+
+      <div appScrollAnimation>
+        <h1 class="animal-name">{{ animal()!.name }}</h1>
+
+        <div class="chips-row">
+          <span class="chip">{{ speciesLabel }}</span>
+          <span class="chip">{{ sizeLabel }}</span>
+          <span class="chip">{{ sexLabel }}</span>
+          <span class="chip" *ngIf="animal()!.age != null">
+            🎂 {{ animal()!.age }} ano{{ animal()!.age !== 1 ? 's' : '' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="section" appScrollAnimation *ngIf="animal()!.description">
+        <h3 class="section-title">Sobre</h3>
+        <p class="description">{{ animal()!.description }}</p>
+      </div>
+
+      <div class="section donor-card" appScrollAnimation>
+        <h3 class="section-title">Sobre o doador</h3>
+        <div class="donor-row">
+          <div class="donor-avatar">{{ donorInitial }}</div>
+          <div>
+            <p class="donor-name">{{ animal()!.owner.name }}</p>
+            <p class="donor-since">
+              Membro desde {{ animal()!.owner.createdAt | date:'MMMM yyyy':'':'pt-BR' }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section actions" appScrollAnimation>
+
+        <ng-container *ngIf="isAvailable && !isOwner">
+          <button
+            mat-raised-button
+            class="btn-adopt"
+            [disabled]="adoptLoading || adoptDone"
+            (click)="requestAdoption()">
+            <mat-spinner diameter="18" *ngIf="adoptLoading"></mat-spinner>
+            <mat-icon *ngIf="!adoptLoading && !adoptDone">favorite</mat-icon>
+            <span>{{ adoptDone ? '✅ Solicitação Enviada' : 'Quero Adotar' }}</span>
+          </button>
+
+          <button
+            mat-stroked-button
+            class="btn-chat"
+            [disabled]="chatLoading"
+            (click)="startChat()">
+            <mat-spinner diameter="18" *ngIf="chatLoading"></mat-spinner>
+            <mat-icon *ngIf="!chatLoading">chat</mat-icon>
+            <span>Falar com Doador</span>
+          </button>
+
+          <p class="action-error" *ngIf="actionError">{{ actionError }}</p>
+        </ng-container>
+
+        <ng-container *ngIf="isAvailable && isOwner">
+          <button mat-stroked-button class="btn-edit" (click)="editAnimal()">
+            <mat-icon>edit</mat-icon> Editar Animal
+          </button>
+          <button mat-stroked-button class="btn-delete" (click)="deleteAnimal()">
+            <mat-icon>delete</mat-icon> Excluir Animal
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="!isAvailable">
+          <div class="status-info-badge">
+            <mat-icon>info</mat-icon>
+            <span>{{ statusInfoMessage }}</span>
+          </div>
+        </ng-container>
+
+      </div>
+
+    </div>
+
+    <div class="detail-right" appScrollAnimation>
+
+      <div class="map-card">
+        <h3 class="section-title">Localização aproximada</h3>
+        <div class="map-wrap">
+          <app-map
+            [animals]="[animal()!]"
+            [centerLat]="mapLat"
+            [centerLng]="mapLng"
+            [radius]="0"
+            [interactive]="false"
+            [zoom]="14">
+          </app-map>
+        </div>
+        <div class="address-row" *ngIf="animal()!.address">
+          <mat-icon class="addr-icon">place</mat-icon>
+          <span>{{ animal()!.address }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

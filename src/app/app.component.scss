@@ -1,0 +1,10 @@
+main { min-height: calc(100vh - 64px); }
+
+.global-loader {
+  position: fixed; top: 64px; left: 0; right: 0;
+  z-index: 999; height: 3px;
+}
+
+::ng-deep .global-loader .mdc-linear-progress__bar-inner {
+  border-color: #4CAF50 !important;
+}

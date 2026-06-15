@@ -1,0 +1,24 @@
+<div class="auth-bg">
+  <div class="auth-card" @fadeSlideUp>
+
+    <div *ngIf="loading" class="state-box">
+      <mat-spinner diameter="56"></mat-spinner>
+      <p>Verificando seu e-mail...</p>
+    </div>
+
+    <div *ngIf="!loading && success" class="state-box">
+      <span class="icon">✅</span>
+      <h2>E-mail verificado!</h2>
+      <p>Sua conta está ativa. Faça login para continuar.</p>
+      <a mat-raised-button class="btn-primary" routerLink="/login">Ir para login</a>
+    </div>
+
+    <div *ngIf="!loading && !success" class="state-box">
+      <span class="icon">❌</span>
+      <h2>Token inválido</h2>
+      <p>{{ errorMsg }}</p>
+      <a mat-raised-button class="btn-primary" routerLink="/login">Voltar ao login</a>
+    </div>
+
+  </div>
+</div>

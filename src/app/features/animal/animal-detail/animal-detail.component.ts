@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { trigger, transition, style, animate } from '@angular/animations';
-
 import { AnimalService } from '../../../core/services/animal.service';
 import { AdoptionService } from '../../../core/services/adoption.service';
 import { ChatService } from '../../../core/services/chat.service';

@@ -1,44 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #4CAF50;
+  --color-primary-dark: #43A047;
+  --color-primary-light: #E8F5E9;
+  --color-petrol: #1E3A5F;
+  --color-background: #F7F8FA;
+  --color-surface: #FFFFFF;
+  --color-border: #E8ECF0;
+  --color-muted: #64748B;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --shadow-soft: 0 2px 12px rgba(30, 58, 95, 0.06);
+  --shadow-card: 0 4px 20px rgba(30, 58, 95, 0.08);
+  --shadow-card-hover: 0 12px 36px rgba(30, 58, 95, 0.14);
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: #fafafa;
-  color: #1E3A5F;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--color-background);
+  color: var(--color-petrol);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #4CAF50; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #43A047; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+@layer components {
+  .ds-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6;
+  }
+
+  .ds-card {
+    @apply rounded-2xl bg-surface shadow-soft border border-border-light;
+  }
+
+  .ds-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium
+           text-petrol-muted bg-background border border-border
+           transition-all duration-200 cursor-pointer select-none
+           hover:border-primary/40 hover:bg-primary-soft;
+  }
+
+  .ds-chip-active {
+    @apply bg-primary text-white border-primary shadow-sm;
+  }
+
+  .ds-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-2.5
+           text-sm font-semibold text-white bg-primary
+           transition-all duration-200
+           hover:bg-primary-dark hover:shadow-card hover:scale-[1.02]
+           active:scale-[0.98];
+  }
+
+  .ds-btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2
+           text-sm font-medium text-muted
+           transition-colors duration-200
+           hover:text-petrol hover:bg-background;
+  }
+}
 
 .animate-in {
-  animation: fadeSlideUp 0.4s ease forwards;
-}
-.toast-success .mdc-snackbar__surface {
-  background: #166534 !important;
-}
-.toast-error .mdc-snackbar__surface {
-  background: #dc2626 !important;
-}
-.toast-info .mdc-snackbar__surface {
-  background: #1e3a8a !important;
-}
-.mdc-snackbar__label {
-  color: #fff !important;
+  animation: fadeSlideUp 0.45s ease forwards;
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+.toast-success .mdc-snackbar__surface { background: #166534 !important; }
+.toast-error .mdc-snackbar__surface   { background: #dc2626 !important; }
+.toast-info .mdc-snackbar__surface    { background: #1e3a8a !important; }
+.mdc-snackbar__label { color: #fff !important; }
+
 .mat-mdc-form-field { font-family: 'Inter', sans-serif !important; }
 
-a { text-decoration: none; }
+a { text-decoration: none; color: inherit; }

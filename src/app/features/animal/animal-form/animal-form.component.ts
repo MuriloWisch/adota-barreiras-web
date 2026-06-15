@@ -47,7 +47,6 @@ const BARREIRAS_LNG = -44.9986;
     MatDividerModule,
     MapComponent,
     PageHeaderComponent,
-    LoadingSpinnerComponent,
     ScrollAnimationDirective,
   ],
   animations: [

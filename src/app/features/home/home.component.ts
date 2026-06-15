@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -19,7 +17,7 @@ const BARREIRAS_LNG = -44.9986;
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, MatTabsModule, MatIconModule,
+    CommonModule,
     HomeFiltersComponent, HomeListComponent, MapComponent,
   ],
   animations: [
@@ -41,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userLng       = signal(BARREIRAS_LNG);
   selectedId    = signal<number | undefined>(undefined);
   currentRadius = signal(10);
+  mobileTab     = signal<'list' | 'map'>('list');
 
   private page     = 0;
   private hasMore  = true;

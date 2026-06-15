@@ -1,59 +1,60 @@
 <div class="filters-wrap">
   <form [formGroup]="form">
 
-    <div class="filter-row">
-
-      <div class="filter-group">
-        <span class="filter-label">Espécie</span>
-        <mat-button-toggle-group formControlName="species" class="toggle-group">
-          <mat-button-toggle value="">Todos</mat-button-toggle>
-          <mat-button-toggle value="DOG">🐶 Cão</mat-button-toggle>
-          <mat-button-toggle value="CAT">🐱 Gato</mat-button-toggle>
-          <mat-button-toggle value="OTHER">🐾 Outro</mat-button-toggle>
-        </mat-button-toggle-group>
+    <div class="filters-header">
+      <div class="filters-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+        </svg>
+        <span>Filtrar busca</span>
       </div>
-
-      <div class="filter-group">
-        <span class="filter-label">Porte</span>
-        <mat-button-toggle-group formControlName="size" class="toggle-group">
-          <mat-button-toggle value="">Todos</mat-button-toggle>
-          <mat-button-toggle value="SMALL">Pequeno</mat-button-toggle>
-          <mat-button-toggle value="MEDIUM">Médio</mat-button-toggle>
-          <mat-button-toggle value="LARGE">Grande</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-
-      <div class="filter-group">
-        <span class="filter-label">Sexo</span>
-        <mat-button-toggle-group formControlName="sex" class="toggle-group">
-          <mat-button-toggle value="">Todos</mat-button-toggle>
-          <mat-button-toggle value="MALE">Macho</mat-button-toggle>
-          <mat-button-toggle value="FEMALE">Fêmea</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-
-    </div>
-
-    <div class="filter-row radius-row">
-
-      <div class="filter-group radius-group">
-        <span class="filter-label">
-          Raio: <strong>{{ form.get('radius')?.value }} km</strong>
-        </span>
-        <mat-slider min="1" max="50" step="1" class="radius-slider">
-          <input matSliderThumb formControlName="radius">
-        </mat-slider>
-      </div>
-
       <button
-        mat-button
         type="button"
         class="clear-btn"
+        [class.clear-btn--visible]="hasActiveFilters"
         (click)="clear()">
         <mat-icon>close</mat-icon>
-        Limpar filtros
+        Limpar
       </button>
+    </div>
 
+    <div class="filter-section">
+      <span class="filter-label">Espécie</span>
+      <div class="chip-row">
+        <button type="button" class="chip" [class.chip--active]="isActive('species', '')" (click)="setFilter('species', '')">Todos</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('species', 'DOG')" (click)="setFilter('species', 'DOG')">🐶 Cães</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('species', 'CAT')" (click)="setFilter('species', 'CAT')">🐱 Gatos</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('species', 'OTHER')" (click)="setFilter('species', 'OTHER')">🐾 Outros</button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <span class="filter-label">Porte</span>
+      <div class="chip-row">
+        <button type="button" class="chip" [class.chip--active]="isActive('size', '')" (click)="setFilter('size', '')">Todos</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('size', 'SMALL')" (click)="setFilter('size', 'SMALL')">Pequeno</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('size', 'MEDIUM')" (click)="setFilter('size', 'MEDIUM')">Médio</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('size', 'LARGE')" (click)="setFilter('size', 'LARGE')">Grande</button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <span class="filter-label">Sexo</span>
+      <div class="chip-row">
+        <button type="button" class="chip" [class.chip--active]="isActive('sex', '')" (click)="setFilter('sex', '')">Todos</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('sex', 'MALE')" (click)="setFilter('sex', 'MALE')">Macho</button>
+        <button type="button" class="chip" [class.chip--active]="isActive('sex', 'FEMALE')" (click)="setFilter('sex', 'FEMALE')">Fêmea</button>
+      </div>
+    </div>
+
+    <div class="filter-section radius-section">
+      <div class="radius-header">
+        <span class="filter-label">Distância máxima</span>
+        <span class="radius-value">{{ form.get('radius')?.value }} km</span>
+      </div>
+      <mat-slider min="1" max="50" step="1" class="radius-slider">
+        <input matSliderThumb formControlName="radius">
+      </mat-slider>
     </div>
 
   </form>

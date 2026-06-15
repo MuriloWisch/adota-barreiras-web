@@ -1,9 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 
@@ -14,15 +12,15 @@ export interface HomeFilters {
   radius:  number;
 }
 
+type FilterField = 'species' | 'size' | 'sex';
+
 @Component({
   selector: 'app-home-filters',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatButtonToggleModule,
     MatSliderModule,
-    MatButtonModule,
     MatIconModule,
   ],
   templateUrl: './home-filters.component.html',
@@ -54,6 +52,19 @@ export class HomeFiltersComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  setFilter(field: FilterField, value: string): void {
+    this.form.patchValue({ [field]: value });
+  }
+
+  isActive(field: FilterField, value: string): boolean {
+    return this.form.get(field)?.value === value;
+  }
+
+  get hasActiveFilters(): boolean {
+    const v = this.form.value;
+    return !!(v.species || v.size || v.sex || v.radius !== 10);
   }
 
   clear(): void {

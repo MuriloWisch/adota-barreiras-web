@@ -1,16 +1,29 @@
-<div class="home-wrap">
+<div class="home">
 
-  <div class="desktop-layout">
+  <!-- Desktop -->
+  <div class="home-desktop">
 
-    <div class="left-col">
-      <div class="hero" @heroAnim>
-        <h1>Encontre seu novo<br><span class="highlight">melhor amigo</span> em Barreiras</h1>
-        <p *ngIf="animals().length > 0">
-          🐾 <strong>{{ animals().length }}+</strong> animais disponíveis perto de você
+    <aside class="home-panel home-panel--list">
+      <header class="hero" @heroAnim>
+        <span class="hero-badge">Barreiras, BA</span>
+        <h1>
+          Encontre seu novo
+          <span class="hero-highlight">melhor amigo</span>
+        </h1>
+        <p class="hero-sub" *ngIf="animals().length > 0">
+          <strong>{{ animals().length }}+</strong> animais disponíveis perto de você
         </p>
-      </div>
+        <p class="hero-sub hero-sub--muted" *ngIf="!animals().length && !loading()">
+          Explore pets disponíveis para adoção na região
+        </p>
+      </header>
 
       <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
+
+      <div class="list-header" *ngIf="animals().length">
+        <span class="list-count">{{ animals().length }} resultado{{ animals().length !== 1 ? 's' : '' }}</span>
+        <span class="list-radius">Raio de {{ currentRadius() }} km</span>
+      </div>
 
       <div class="list-scroll">
         <app-home-list
@@ -21,9 +34,79 @@
           (loadNextPage)="loadMore()">
         </app-home-list>
       </div>
+    </aside>
+
+    <section class="home-panel home-panel--map">
+      <div class="map-frame">
+        <div class="map-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 21s-7-4.5-7-11a7 7 0 1 1 14 0c0 6.5-7 11-7 11z"/>
+            <circle cx="12" cy="10" r="2.5"/>
+          </svg>
+          Mapa interativo
+        </div>
+        <app-map
+          [animals]="animals()"
+          [centerLat]="userLat()"
+          [centerLng]="userLng()"
+          [radius]="currentRadius()"
+          (onAnimalSelect)="onAnimalSelect($event)">
+        </app-map>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Mobile -->
+  <div class="home-mobile">
+
+    <header class="hero hero--mobile" @heroAnim>
+      <span class="hero-badge">Barreiras, BA</span>
+      <h1>
+        Encontre seu
+        <span class="hero-highlight">melhor amigo</span>
+      </h1>
+    </header>
+
+    <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
+
+    <div class="mobile-tabs">
+      <button
+        type="button"
+        class="mobile-tab"
+        [class.mobile-tab--active]="mobileTab() === 'list'"
+        (click)="mobileTab.set('list')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Lista
+        <span class="tab-count" *ngIf="animals().length">{{ animals().length }}</span>
+      </button>
+      <button
+        type="button"
+        class="mobile-tab"
+        [class.mobile-tab--active]="mobileTab() === 'map'"
+        (click)="mobileTab.set('map')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 21s-7-4.5-7-11a7 7 0 1 1 14 0c0 6.5-7 11-7 11z"/>
+          <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+        Mapa
+      </button>
     </div>
 
-    <div class="right-col">
+    <div class="mobile-content" *ngIf="mobileTab() === 'list'">
+      <app-home-list
+        [animals]="animals()"
+        [loading]="loading()"
+        [selectedId]="selectedId()"
+        (onSelect)="onAnimalSelect($event)"
+        (loadNextPage)="loadMore()">
+      </app-home-list>
+    </div>
+
+    <div class="mobile-content mobile-map" *ngIf="mobileTab() === 'map'">
       <app-map
         [animals]="animals()"
         [centerLat]="userLat()"
@@ -32,40 +115,6 @@
         (onAnimalSelect)="onAnimalSelect($event)">
       </app-map>
     </div>
-
-  </div>
-
-  <div class="mobile-layout">
-
-    <div class="hero hero-mobile" @heroAnim>
-      <h1>Encontre seu novo <span class="highlight">melhor amigo</span></h1>
-    </div>
-
-    <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
-
-    <mat-tab-group animationDuration="200ms">
-      <mat-tab label="Lista">
-        <app-home-list
-          [animals]="animals()"
-          [loading]="loading()"
-          [selectedId]="selectedId()"
-          (onSelect)="onAnimalSelect($event)"
-          (loadNextPage)="loadMore()">
-        </app-home-list>
-      </mat-tab>
-
-      <mat-tab label="Mapa">
-        <div class="mobile-map">
-          <app-map
-            [animals]="animals()"
-            [centerLat]="userLat()"
-            [centerLng]="userLng()"
-            [radius]="currentRadius()"
-            (onAnimalSelect)="onAnimalSelect($event)">
-          </app-map>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
 
   </div>
 </div>

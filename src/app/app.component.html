@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<app-navbar></app-navbar>
+
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="loading.loading$ | async"
+  class="global-loader">
+</mat-progress-bar>
+
+<main [style.padding-top]="'64px'">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer *ngIf="auth.isLoggedIn()"></app-footer>

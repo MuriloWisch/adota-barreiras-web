@@ -1,0 +1,108 @@
+<div class="section-wrap">
+
+  <app-page-header
+    title="Usuários da Plataforma"
+    subtitle="Gerencie os usuários cadastrados">
+  </app-page-header>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Buscar por nome ou email</mat-label>
+    <input matInput [formControl]="searchCtrl">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="skeleton-table" *ngIf="loading()">
+    <div class="skel skel-row" *ngFor="let s of skeletons"></div>
+  </div>
+
+  <div class="table-wrap" *ngIf="!loading()">
+    <table mat-table [dataSource]="filtered()" class="mat-elevation-z0">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Usuário</th>
+        <td mat-cell *matCellDef="let u">
+          <div class="user-cell">
+            <div class="avatar">{{ u.name?.charAt(0)?.toUpperCase() }}</div>
+            <div>
+              <p class="user-name">{{ u.name }}</p>
+              <p class="user-phone">{{ u.phone || '—' }}</p>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>E-mail</th>
+        <td mat-cell *matCellDef="let u" class="cell-text">{{ u.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let u">
+          <span class="role-badge" [class.admin]="u.role === 'ADMIN'">{{ u.role }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let u">
+          <span class="status-badge" [class.blocked]="u.blocked">
+            <mat-icon>{{ u.blocked ? 'block' : 'check_circle' }}</mat-icon>
+            {{ u.blocked ? 'Bloqueado' : 'Ativo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="since">
+        <th mat-header-cell *matHeaderCellDef>Membro desde</th>
+        <td mat-cell *matCellDef="let u" class="cell-text">{{ u.createdAt | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let u; let i = index">
+          <div class="actions-cell">
+
+            <button mat-stroked-button class="btn-block"
+              *ngIf="!u.blocked"
+              [disabled]="rowLoading[u.id] === 'block'"
+              (click)="blockUser(u, i)">
+              <mat-spinner diameter="12" *ngIf="rowLoading[u.id] === 'block'"></mat-spinner>
+              <mat-icon *ngIf="rowLoading[u.id] !== 'block'">block</mat-icon>
+              Bloquear
+            </button>
+
+            <button mat-stroked-button class="btn-unblock"
+              *ngIf="u.blocked"
+              [disabled]="rowLoading[u.id] === 'unblock'"
+              (click)="unblockUser(u, i)">
+              <mat-spinner diameter="12" *ngIf="rowLoading[u.id] === 'unblock'"></mat-spinner>
+              <mat-icon *ngIf="rowLoading[u.id] !== 'unblock'">lock_open</mat-icon>
+              Desbloquear
+            </button>
+
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"
+        [class.blocked-row]="row.blocked"></tr>
+
+    </table>
+
+    <div class="empty-table" *ngIf="!filtered().length">
+      <mat-icon>people_outline</mat-icon>
+      <p>Nenhum usuário encontrado</p>
+    </div>
+
+    <mat-paginator
+      [length]="totalElements()"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPage($event)">
+    </mat-paginator>
+
+  </div>
+</div>

@@ -1,0 +1,28 @@
+Prioridade,Componente,Caminho,Template Inline,Styles Inline,Linhas Aproximadas,Tamanho,Localização
+CRÍTICA,AnimalFormComponent,src/app/features/animal/animal-form/animal-form.component.ts,Sim,Sim,451+,Muito Grande,features
+CRÍTICA,AnimalDetailComponent,src/app/features/animal/animal-detail/animal-detail.component.ts,Sim,Sim,355+,Grande,features
+CRÍTICA,MyRequestsComponent,src/app/features/adoption/my-request/my-request.component.ts,Sim,Sim,271+,Grande,features
+CRÍTICA,UserManagementComponent,src/app/features/admin/components/user-management.component.ts,Sim,Sim,230+,Grande,features
+CRÍTICA,SuspectAnimalsComponent,src/app/features/admin/components/suspect-animals.component.ts,Sim,Sim,201+,Grande,features
+CRÍTICA,AnimalDetailDialogComponent,src/app/features/admin/components/suspect-animals.component.ts,Sim,Sim,70+,Grande,features
+ALTA,AdminComponent,src/app/features/admin/admin.components.ts,Sim,Sim,174+,Médio,features
+ALTA,HomeFiltersComponent,src/app/features/home/home-filters.component.ts,Sim,Sim,180+,Médio,features
+ALTA,NavbarComponent,src/app/shared/components/navbar/navbar.component.ts,Sim,Sim,243+,Médio,shared
+ALTA,ProfileComponent,src/app/features/profile/profile.component.ts,Sim,Sim,240+,Médio,features
+ALTA,ChatWindowComponent,src/app/features/chat/chat-window.component.ts,Sim,Sim,232+,Médio,features
+ALTA,HomeComponent,src/app/features/home/home.component.ts,Sim,Sim,141+,Médio,features
+MÉDIA,LoginComponent,src/app/features/auth/login/login.component.ts,Sim,Sim,143+,Médio,features
+MÉDIA,RegisterComponent,src/app/features/auth/register/register.component.ts,Sim,Sim,132+,Médio,features
+MÉDIA,ChatComponent,src/app/features/chat/chat.component.ts,Sim,Sim,128+,Médio,features
+MÉDIA,HomeListComponent,src/app/features/home/home-list.component.ts,Sim,Sim,139+,Médio,features
+MÉDIA,AnimalCardComponent,src/app/shared/components/animal-card/animal-card.component.ts,Sim,Sim,109+,Médio,shared
+MÉDIA,ChatListComponent,src/app/features/chat/chat-list.component.ts,Sim,Sim,108+,Médio,features
+MÉDIA,ForgotPasswordComponent,src/app/features/auth/forgot-password/forgot-password.component.ts,Sim,Sim,87+,Médio,features
+MÉDIA,ResetPasswordComponent,src/app/features/auth/reset-password/reset-password.component.ts,Sim,Sim,85+,Médio,features
+MÉDIA,FooterComponent,src/app/shared/components/footer/footer.component.ts,Sim,Sim,57+,Médio,shared
+BAIXA,VerifyEmailComponent,src/app/features/auth/verify-email/verify-email.component.ts,Sim,Sim,58+,Pequeno,features
+BAIXA,MapComponent,src/app/shared/components/map/map.component.ts,Sim,Não,59+,Pequeno,shared
+BAIXA,LoadingSpinnerComponent,src/app/shared/components/loading-spinner/loading-spinner.component.ts,Sim,Sim,27+,Pequeno,shared
+BAIXA,ConfirmDialogComponent,src/app/shared/components/confirm-dialog/confirm-dialog.component.ts,Sim,Sim,42+,Pequeno,shared
+BAIXA,PageHeaderComponent,src/app/shared/components/page-header/page-header.component.ts,Sim,Sim,30+,Pequeno,shared
+BAIXA,AppComponent,src/app/app.component.ts,Sim,Sim,42,Pequeno,root

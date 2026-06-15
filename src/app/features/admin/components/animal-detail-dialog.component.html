@@ -1,0 +1,31 @@
+<div class="dialog-wrap">
+  <h2 mat-dialog-title>{{ animal.name }}</h2>
+  <mat-dialog-content>
+    <div class="gallery">
+      <img [src]="activeImg()" [alt]="animal.name" class="main-img">
+      <div class="thumbs" *ngIf="animal.images.length > 1">
+        <img
+          *ngFor="let img of animal.images; let i = index"
+          [src]="img.imageUrl" class="thumb"
+          [class.active]="activeIdx === i"
+          (click)="activeIdx = i">
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-row"><strong>Espécie:</strong> {{ animal.species }}</div>
+      <div class="info-row"><strong>Porte:</strong> {{ animal.size }}</div>
+      <div class="info-row"><strong>Sexo:</strong> {{ animal.sex }}</div>
+      <div class="info-row"><strong>Idade:</strong> {{ animal.age }} anos</div>
+      <div class="info-row"><strong>Endereço:</strong> {{ animal.address }}</div>
+      <div class="info-row"><strong>Doador:</strong> {{ animal.owner.name }}</div>
+      <div class="info-row full"><strong>Descrição:</strong> {{ animal.description }}</div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fechar</button>
+    <button mat-raised-button class="btn-approve" (click)="close('approve')">✅ Aprovar</button>
+    <button mat-stroked-button class="btn-remove" (click)="close('remove')">🗑 Remover</button>
+  </mat-dialog-actions>
+</div>

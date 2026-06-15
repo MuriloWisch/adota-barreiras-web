@@ -1,0 +1,44 @@
+<div class="list-wrap">
+
+  <!-- Skeleton -->
+  <div class="grid" *ngIf="loading && !animals.length">
+    <div class="skeleton-card" *ngFor="let s of skeletons">
+      <div class="skel skel-img"></div>
+      <div class="skel-body">
+        <div class="skel skel-title"></div>
+        <div class="skel skel-tag"></div>
+        <div class="skel skel-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista -->
+  <div class="grid" [@listAnim]="animals.length" *ngIf="!loading || animals.length">
+    <div
+      *ngFor="let animal of animals; let i = index"
+      appScrollAnimation
+      [style.animation-delay]="(i % 6) * 60 + 'ms'">
+      <app-animal-card
+        [animal]="animal"
+        [class.highlighted]="selectedId === animal.id"
+        (onSelect)="onSelect.emit(animal)">
+      </app-animal-card>
+    </div>
+  </div>
+
+  <!-- Empty -->
+  <div class="empty" *ngIf="!loading && !animals.length">
+    <span>🔍</span>
+    <p>Nenhum animal encontrado neste raio</p>
+    <small>Tente aumentar o raio de busca ou mudar os filtros</small>
+  </div>
+
+  <!-- Loading more -->
+  <div class="load-more-spinner" *ngIf="loading && animals.length">
+    <div class="spinner-ring"></div>
+  </div>
+
+  <!-- Sentinel para scroll infinito -->
+  <div #sentinel class="sentinel"></div>
+
+</div>

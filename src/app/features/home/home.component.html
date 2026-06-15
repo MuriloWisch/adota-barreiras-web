@@ -1,0 +1,71 @@
+<div class="home-wrap">
+
+  <div class="desktop-layout">
+
+    <div class="left-col">
+      <div class="hero" @heroAnim>
+        <h1>Encontre seu novo<br><span class="highlight">melhor amigo</span> em Barreiras</h1>
+        <p *ngIf="animals().length > 0">
+          🐾 <strong>{{ animals().length }}+</strong> animais disponíveis perto de você
+        </p>
+      </div>
+
+      <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
+
+      <div class="list-scroll">
+        <app-home-list
+          [animals]="animals()"
+          [loading]="loading()"
+          [selectedId]="selectedId()"
+          (onSelect)="onAnimalSelect($event)"
+          (loadNextPage)="loadMore()">
+        </app-home-list>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <app-map
+        [animals]="animals()"
+        [centerLat]="userLat()"
+        [centerLng]="userLng()"
+        [radius]="currentRadius()"
+        (onAnimalSelect)="onAnimalSelect($event)">
+      </app-map>
+    </div>
+
+  </div>
+
+  <div class="mobile-layout">
+
+    <div class="hero hero-mobile" @heroAnim>
+      <h1>Encontre seu novo <span class="highlight">melhor amigo</span></h1>
+    </div>
+
+    <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
+
+    <mat-tab-group animationDuration="200ms">
+      <mat-tab label="Lista">
+        <app-home-list
+          [animals]="animals()"
+          [loading]="loading()"
+          [selectedId]="selectedId()"
+          (onSelect)="onAnimalSelect($event)"
+          (loadNextPage)="loadMore()">
+        </app-home-list>
+      </mat-tab>
+
+      <mat-tab label="Mapa">
+        <div class="mobile-map">
+          <app-map
+            [animals]="animals()"
+            [centerLat]="userLat()"
+            [centerLng]="userLng()"
+            [radius]="currentRadius()"
+            (onAnimalSelect)="onAnimalSelect($event)">
+          </app-map>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+</div>

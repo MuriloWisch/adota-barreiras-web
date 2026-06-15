@@ -1,0 +1,211 @@
+<div class="page-wrap">
+
+  <app-page-header
+    [title]="isEditMode ? 'Editar Animal' : 'Cadastrar Animal'"
+    [subtitle]="isEditMode
+      ? 'Atualize as informações do seu animal'
+      : 'Preencha os dados para cadastrar um animal para adoção'">
+  </app-page-header>
+
+  <div class="skeleton-card" *ngIf="pageLoading">
+    <div class="skel skel-title"></div>
+    <div class="skel skel-field"></div>
+    <div class="skel skel-field"></div>
+    <div class="skel skel-field short"></div>
+  </div>
+
+  <div class="form-card" *ngIf="!pageLoading" @fadeSlideUp>
+
+    <div class="form-error" *ngIf="globalError">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ globalError }}</span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-section" appScrollAnimation>
+        <h2 class="section-title">
+          <span class="section-num">1</span> Informações básicas
+        </h2>
+
+        <div class="field-grid">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome do animal</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Rex, Mimi...">
+            <mat-icon matSuffix>pets</mat-icon>
+            <mat-error>Nome é obrigatório</mat-error>
+          </mat-form-field>
+
+          <div class="toggle-field">
+            <span class="toggle-label">Espécie *</span>
+            <mat-button-toggle-group formControlName="species" class="toggle-group">
+              <mat-button-toggle value="DOG">🐶 Cachorro</mat-button-toggle>
+              <mat-button-toggle value="CAT">🐱 Gato</mat-button-toggle>
+              <mat-button-toggle value="OTHER">🐾 Outro</mat-button-toggle>
+            </mat-button-toggle-group>
+            <span class="toggle-error"
+              *ngIf="form.get('species')?.invalid && form.get('species')?.touched">
+              Espécie é obrigatória
+            </span>
+          </div>
+
+          <div class="toggle-field">
+            <span class="toggle-label">Sexo *</span>
+            <mat-button-toggle-group formControlName="sex" class="toggle-group">
+              <mat-button-toggle value="MALE">♂ Macho</mat-button-toggle>
+              <mat-button-toggle value="FEMALE">♀ Fêmea</mat-button-toggle>
+            </mat-button-toggle-group>
+            <span class="toggle-error"
+              *ngIf="form.get('sex')?.invalid && form.get('sex')?.touched">
+              Sexo é obrigatório
+            </span>
+          </div>
+
+          <div class="toggle-field">
+            <span class="toggle-label">Porte *</span>
+            <mat-button-toggle-group formControlName="size" class="toggle-group">
+              <mat-button-toggle value="SMALL">Pequeno</mat-button-toggle>
+              <mat-button-toggle value="MEDIUM">Médio</mat-button-toggle>
+              <mat-button-toggle value="LARGE">Grande</mat-button-toggle>
+            </mat-button-toggle-group>
+            <span class="toggle-error"
+              *ngIf="form.get('size')?.invalid && form.get('size')?.touched">
+              Porte é obrigatório
+            </span>
+          </div>
+
+          <mat-form-field appearance="outline" style="max-width:180px">
+            <mat-label>Idade</mat-label>
+            <input matInput formControlName="age" type="number" min="0" max="30">
+            <span matSuffix class="suffix-text">anos</span>
+            <mat-error>Idade inválida</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="4"
+              maxlength="500"
+              placeholder="Conte sobre a personalidade, hábitos e necessidades do animal...">
+            </textarea>
+            <mat-hint align="end">
+              {{ form.get('description')?.value?.length ?? 0 }}/500
+            </mat-hint>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <mat-divider class="section-divider"></mat-divider>
+
+      <div class="form-section" appScrollAnimation>
+        <h2 class="section-title">
+          <span class="section-num">2</span> Fotos do animal
+        </h2>
+
+        <div
+          class="drop-zone"
+          [class.drag-over]="isDragOver"
+          [class.has-error]="imageError"
+          (dragover)="onDragOver($event)"
+          (dragleave)="isDragOver = false"
+          (drop)="onDrop($event)"
+          (click)="fileInput.click()">
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            (change)="onFileSelect($event)">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <p class="upload-title">Arraste as fotos aqui ou clique para selecionar</p>
+          <p class="upload-sub">Mínimo 1, máximo 5 imagens • JPG, PNG, WEBP</p>
+        </div>
+
+        <p class="image-error" *ngIf="imageError">{{ imageError }}</p>
+
+        <div class="preview-grid" *ngIf="previews().length">
+          <div class="preview-item" *ngFor="let p of previews(); let i = index">
+            <img [src]="p.url" [alt]="'Foto ' + (i + 1)">
+            <button class="remove-btn" type="button" (click)="removeImage(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <span class="existing-badge" *ngIf="p.existing">Atual</span>
+          </div>
+        </div>
+
+      </div>
+
+      <mat-divider class="section-divider"></mat-divider>
+
+      <div class="form-section" appScrollAnimation>
+        <h2 class="section-title">
+          <span class="section-num">3</span> Localização
+        </h2>
+
+        <div class="location-hint">
+          <mat-icon>touch_app</mat-icon>
+          <span>Clique no mapa para definir a localização exata do animal</span>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Endereço</mat-label>
+          <input matInput formControlName="address"
+            placeholder="Ex: Rua das Flores, 123 — Centro">
+          <mat-icon matSuffix>place</mat-icon>
+        </mat-form-field>
+
+        <div class="map-container">
+          <app-map
+            [animals]="markerAnimal()"
+            [centerLat]="mapCenterLat()"
+            [centerLng]="mapCenterLng()"
+            [radius]="0"
+            [interactive]="true"
+            [zoom]="mapZoom"
+            (onMapClick)="onMapClick($event)">
+          </app-map>
+        </div>
+
+        <div class="coord-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Latitude</mat-label>
+            <input matInput formControlName="latitude" readonly>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Longitude</mat-label>
+            <input matInput formControlName="longitude" readonly>
+          </mat-form-field>
+          <button mat-stroked-button type="button"
+            class="geo-btn" (click)="useMyLocation()">
+            <mat-icon>my_location</mat-icon> Minha localização
+          </button>
+        </div>
+
+        <span class="coord-error"
+          *ngIf="form.get('latitude')?.invalid && submitted">
+          Localização no mapa é obrigatória
+        </span>
+
+      </div>
+
+      <div class="form-footer">
+        <button mat-stroked-button type="button"
+          class="btn-cancel" (click)="cancel()">
+          Cancelar
+        </button>
+        <button mat-raised-button type="submit"
+          class="btn-save" [disabled]="saving">
+          <mat-spinner diameter="18" *ngIf="saving"></mat-spinner>
+          <mat-icon *ngIf="!saving">save</mat-icon>
+          <span>{{ saving ? 'Salvando...' : 'Salvar' }}</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

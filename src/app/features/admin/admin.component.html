@@ -1,0 +1,60 @@
+<div class="admin-wrap">
+
+  <!-- ══ SIDEBAR desktop ══ -->
+  <aside class="sidebar desktop-only">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </aside>
+
+  <!-- ══ MOBILE top bar ══ -->
+  <div class="mobile-topbar mobile-only">
+    <button mat-icon-button (click)="drawerOpen = true">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="mobile-title">Painel Admin</span>
+  </div>
+
+  <!-- ══ DRAWER mobile ══ -->
+  <div class="drawer-overlay" *ngIf="drawerOpen" (click)="drawerOpen = false"></div>
+  <aside class="drawer mobile-only" *ngIf="drawerOpen" @drawerAnim>
+    <div class="drawer-header">
+      <span>⚙️ Admin</span>
+      <button mat-icon-button (click)="drawerOpen = false"><mat-icon>close</mat-icon></button>
+    </div>
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </aside>
+
+  <!-- ══ CONTENT ══ -->
+  <main class="admin-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
+
+<!-- Sidebar template -->
+<ng-template #sidebarContent>
+  <div class="sidebar-brand">
+    <span class="brand-icon">⚙️</span>
+    <span class="brand-text">Painel Admin</span>
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <a class="nav-item"
+      routerLink="/admin/suspects"
+      routerLinkActive="active"
+      (click)="drawerOpen = false">
+      <mat-icon>schedule</mat-icon>
+      <span>Animais Suspeitos</span>
+      <span class="nav-badge" *ngIf="suspectCount() > 0">{{ suspectCount() }}</span>
+    </a>
+
+    <a class="nav-item"
+      routerLink="/admin/users"
+      routerLinkActive="active"
+      (click)="drawerOpen = false">
+      <mat-icon>people</mat-icon>
+      <span>Gerenciar Usuários</span>
+    </a>
+
+  </nav>
+</ng-template>

@@ -2,22 +2,28 @@
   <div class="auth-card" @fadeSlideUp>
 
     <div *ngIf="loading" class="state-box">
-      <mat-spinner diameter="56"></mat-spinner>
-      <p>Verificando seu e-mail...</p>
+      <div class="spinner-container">
+        <mat-spinner diameter="44"></mat-spinner>
+      </div>
+      <p class="loading-text">Verificando suas credenciais...</p>
     </div>
 
     <div *ngIf="!loading && success" class="state-box">
-      <span class="icon">✅</span>
+      <div class="icon-wrap success-icon">
+        <mat-icon>check_circle_outline</mat-icon>
+      </div>
       <h2>E-mail verificado!</h2>
-      <p>Sua conta está ativa. Faça login para continuar.</p>
-      <a mat-raised-button class="btn-primary" routerLink="/login">Ir para login</a>
+      <p>Sua conta foi ativada com sucesso no sistema. Você já pode acessar a plataforma.</p>
+      <a mat-flat-button class="btn-redirect" routerLink="/login">Ir para o login</a>
     </div>
 
     <div *ngIf="!loading && !success" class="state-box">
-      <span class="icon">❌</span>
-      <h2>Token inválido</h2>
-      <p>{{ errorMsg }}</p>
-      <a mat-raised-button class="btn-primary" routerLink="/login">Voltar ao login</a>
+      <div class="icon-wrap error-icon">
+        <mat-icon>highlight_off</mat-icon>
+      </div>
+      <h2>Falha na verificação</h2>
+      <p>{{ errorMsg || 'O link de ativação é inválido ou já expirou.' }}</p>
+      <a mat-flat-button class="btn-redirect" routerLink="/login">Voltar ao login</a>
     </div>
 
   </div>

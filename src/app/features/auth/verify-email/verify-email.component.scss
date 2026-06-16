@@ -1,8 +1,110 @@
-.auth-bg { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#f0fdf4,#e8f4fd); padding:16px; }
-.auth-card { background:#fff; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.10); padding:56px 40px; width:100%; max-width:420px; }
-.state-box { display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; }
-.icon { font-size:56px; }
-h2 { color:#1E3A5F; font-size:22px; font-weight:700; }
-p { color:#888; font-size:14px; }
-.btn-primary { background:#4CAF50!important; color:#fff!important; border-radius:12px!important; padding:0 32px; height:44px; font-weight:600; transition:all 0.3s ease; margin-top:8px; }
-.btn-primary:hover { background:#43A047!important; box-shadow:0 6px 20px rgba(76,175,80,0.35)!important; }
+$slate-900: #0f172a;
+$slate-700: #475569;
+$slate-500: #64748b;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50:  #f8fafc;
+
+.auth-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $slate-50;
+  padding: 24px;
+}
+
+.auth-card {
+  background: #ffffff;
+  border: 1px solid $slate-200;
+  border-radius: 12px; 
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 10px 40px rgba(15, 23, 42, 0.04);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .success-icon {
+    color: #10b981;
+    background-color: #ecfdf5;
+    border: 1px solid #d1fae5;
+  }
+
+  .error-icon {
+    color: #ef4444;
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+  }
+
+  .spinner-container {
+    padding: 12px;
+    margin-bottom: 16px;
+    
+    ::ng-deep .mat-mdc-progress-spinner {
+      --mdc-protected-button-container-color: #{$slate-900};
+    }
+  }
+
+  h2 {
+    color: $slate-900;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: $slate-500;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+    max-width: 280px;
+  }
+
+  .loading-text {
+    color: $slate-700;
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+}
+
+.btn-redirect {
+  width: 100%;
+  background-color: $slate-900 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  height: 40px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s ease-in-out !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $slate-700 !important;
+  }
+}

@@ -1,26 +1,20 @@
-<div class="page-wrap">
-
-  <app-page-header
-    title="Minhas Solicitações"
-    subtitle="Acompanhe o status das suas solicitações de adoção">
-  </app-page-header>
-
+<div class="fade-in">
   <app-loading-spinner *ngIf="pageLoading()"></app-loading-spinner>
 
   <div *ngIf="!pageLoading()">
-
-    <mat-tab-group animationDuration="200ms" class="tabs">
+    <mat-tab-group animationDuration="150ms" class="premium-tabs-vessel">
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <span>Pendentes</span>
-          <span class="tab-badge pending" *ngIf="pending().length">{{ pending().length }}</span>
+          <span class="tab-text-label">Pendentes</span>
+          <span class="premium-tab-counter pending-count" *ngIf="pending().length">{{ pending().length }}</span>
         </ng-template>
-        <div class="tab-content">
-          <div class="empty-tab" *ngIf="!pending().length">
-            <span>⏳</span><p>Nenhuma solicitação pendente.</p>
+        <div class="tab-content-panel">
+          <div class="empty-state-vessel" *ngIf="!pending().length">
+            <mat-icon>hourglass_empty</mat-icon>
+            <p>Nenhuma solicitação pendente no momento.</p>
           </div>
-          <div class="req-card" *ngFor="let card of pending()" @fadeIn>
+          <div class="request-premium-card" *ngFor="let card of pending()" @fadeIn>
             <ng-container *ngTemplateOutlet="reqCard; context: { card: card }"></ng-container>
           </div>
         </div>
@@ -28,14 +22,15 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <span>Aceitas</span>
-          <span class="tab-badge accepted" *ngIf="accepted().length">{{ accepted().length }}</span>
+          <span class="tab-text-label">Aceitas</span>
+          <span class="premium-tab-counter accepted-count" *ngIf="accepted().length">{{ accepted().length }}</span>
         </ng-template>
-        <div class="tab-content">
-          <div class="empty-tab" *ngIf="!accepted().length">
-            <span>💚</span><p>Nenhuma solicitação aceita ainda.</p>
+        <div class="tab-content-panel">
+          <div class="empty-state-vessel" *ngIf="!accepted().length">
+            <mat-icon>favorite_border</mat-icon>
+            <p>Nenhuma solicitação aceita até o momento.</p>
           </div>
-          <div class="req-card" *ngFor="let card of accepted()" @fadeIn>
+          <div class="request-premium-card" *ngFor="let card of accepted()" @fadeIn>
             <ng-container *ngTemplateOutlet="reqCard; context: { card: card }"></ng-container>
           </div>
         </div>
@@ -43,92 +38,94 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <span>Rejeitadas</span>
-          <span class="tab-badge rejected" *ngIf="rejected().length">{{ rejected().length }}</span>
+          <span class="tab-text-label">Rejeitadas</span>
+          <span class="premium-tab-counter rejected-count" *ngIf="rejected().length">{{ rejected().length }}</span>
         </ng-template>
-        <div class="tab-content">
-          <div class="empty-tab" *ngIf="!rejected().length">
-            <span>🚫</span><p>Nenhuma solicitação rejeitada.</p>
+        <div class="tab-content-panel">
+          <div class="empty-state-vessel" *ngIf="!rejected().length">
+            <mat-icon>block</mat-icon>
+            <p>Nenhuma solicitação rejeitada para exibição.</p>
           </div>
-          <div class="req-card" *ngFor="let card of rejected()" @fadeIn>
+          <div class="request-premium-card" *ngFor="let card of rejected()" @fadeIn>
             <ng-container *ngTemplateOutlet="reqCard; context: { card: card }"></ng-container>
           </div>
         </div>
       </mat-tab>
 
     </mat-tab-group>
-
   </div>
 </div>
 
 <ng-template #reqCard let-card="card">
-  <div class="card-inner">
+  <div class="card-inner-vessel">
 
-    <div class="thumb-wrap">
-      <img
-        [src]="card.req.animal?.images?.[0]?.imageUrl || 'assets/placeholder-animal.jpg'"
-        [alt]="card.req.animal?.name">
+    <div class="pet-thumbnail-wrapper">
+      <img [src]="card.req.animal?.images?.[0]?.imageUrl || 'assets/placeholder-animal.jpg'" [alt]="card.req.animal?.name">
     </div>
 
-    <div class="card-info">
-      <h3>{{ card.req.animal?.name }}</h3>
-      <div class="info-tags">
-        <span class="tag">{{ card.req.animal?.species }}</span>
-        <span class="tag">{{ card.req.animal?.size }}</span>
+    <div class="card-metadata-info">
+      <div class="title-row-meta">
+        <h3>{{ card.req.animal?.name }}</h3>
+        <div class="pills-container">
+          <span class="metadata-pill">{{ card.req.animal?.species }}</span>
+          <span class="metadata-pill">{{ card.req.animal?.size }}</span>
+        </div>
       </div>
-      <p class="donor-name">🐾 Doador: <strong>{{ card.req.animal?.owner?.name }}</strong></p>
-      <p class="req-date">Enviado em {{ card.req.createdAt | date:'dd/MM/yyyy' }}</p>
+      
+      <span class="owner-association-text">
+        Doador: <strong>{{ card.req.animal?.owner?.name }}</strong>
+      </span>
+      <span class="timestamp-submission-text">
+        Enviado em {{ card.req.createdAt | date:'dd/MM/yyyy' }}
+      </span>
 
-      <div class="status-msg pending-msg" *ngIf="card.req.status === 'PENDING'">
-        <mat-icon>schedule</mat-icon>
-        Aguardando resposta do doador
+      <div class="micro-badge-status status-pending" *ngIf="card.req.status === 'PENDING'">
+        <span class="status-indicator-dot"></span>
+        <span>Aguardando resposta do doador</span>
       </div>
 
-      <div class="status-msg accepted-msg" *ngIf="card.req.status === 'ACCEPTED'">
-        <mat-icon>check_circle</mat-icon>
-        Parabéns! Sua solicitação foi aceita! 🎉
+      <div class="micro-badge-status status-accepted" *ngIf="card.req.status === 'ACCEPTED'">
+        <span class="status-indicator-dot"></span>
+        <span>Solicitação aceita!</span>
       </div>
 
-      <div class="status-msg rejected-msg" *ngIf="card.req.status === 'REJECTED'">
-        <mat-icon>cancel</mat-icon>
-        Solicitação não aprovada
+      <div class="micro-badge-status status-rejected" *ngIf="card.req.status === 'REJECTED'">
+        <span class="status-indicator-dot"></span>
+        <span>Não aprovada</span>
       </div>
     </div>
 
-    <div class="card-actions">
-
+    <div class="card-interactive-actions">
       <ng-container *ngIf="card.req.status === 'PENDING'">
-        <button mat-stroked-button class="btn-view" [routerLink]="['/animals', card.req.animal?.id]">
-          <mat-icon>visibility</mat-icon> Ver Animal
+        <button class="action-trigger-btn primary-outline" [routerLink]="['/animals', card.req.animal?.id]">
+          <mat-icon>visibility</mat-icon>
+          <span>Ver Detalhes</span>
         </button>
-        <button mat-stroked-button class="btn-cancel-req"
-          [disabled]="card.loadingCancel"
-          (click)="cancelRequest(card)">
+        <button class="action-trigger-btn danger-text" [disabled]="card.loadingCancel" (click)="cancelRequest(card)">
           <mat-spinner diameter="14" *ngIf="card.loadingCancel"></mat-spinner>
           <mat-icon *ngIf="!card.loadingCancel">close</mat-icon>
-          Cancelar
+          <span>Cancelar</span>
         </button>
       </ng-container>
 
       <ng-container *ngIf="card.req.status === 'ACCEPTED'">
-        <button mat-raised-button class="btn-chat"
-          [disabled]="card.loadingChat"
-          (click)="openChat(card)">
+        <button class="action-trigger-btn success-solid" [disabled]="card.loadingChat" (click)="openChat(card)">
           <mat-spinner diameter="14" *ngIf="card.loadingChat"></mat-spinner>
-          <mat-icon *ngIf="!card.loadingChat">chat</mat-icon>
+          <mat-icon *ngIf="!card.loadingChat">chat_bubble_outline</mat-icon>
           <span>Falar com Doador</span>
         </button>
-        <button mat-stroked-button class="btn-view" [routerLink]="['/animals', card.req.animal?.id]">
-          Ver Animal
+        <button class="action-trigger-btn primary-outline" [routerLink]="['/animals', card.req.animal?.id]">
+          <span>Ver Detalhes</span>
         </button>
       </ng-container>
 
       <ng-container *ngIf="card.req.status === 'REJECTED'">
-        <button mat-stroked-button class="btn-view" [routerLink]="['/animals', card.req.animal?.id]">
-          <mat-icon>visibility</mat-icon> Ver Animal
+        <button class="action-trigger-btn primary-outline" [routerLink]="['/animals', card.req.animal?.id]">
+          <mat-icon>visibility</mat-icon>
+          <span>Ver Detalhes</span>
         </button>
       </ng-container>
-
     </div>
+
   </div>
 </ng-template>

@@ -7,7 +7,10 @@ export const ADMIN_ROUTES: Routes = [
     canActivate: [adminGuard],
     loadComponent: () => import('./admin.components').then(m => m.AdminComponent),
     children: [
-      { path: '', redirectTo: 'suspects', pathMatch: 'full' },
+      { 
+        path: '', 
+        loadComponent: () => import('./components/suspect-animals.component').then(m => m.SuspectAnimalsComponent) 
+      },
       
       {
         path: 'suspects',

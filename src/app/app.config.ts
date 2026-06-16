@@ -3,13 +3,10 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNativeDateAdapter } from '@angular/material/core';
+
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/auth/interceptors/jwt.interceptors';
 import { AuthService } from './core/auth/services/auth.service';
-
-function initAuth(auth: AuthService): () => void {
-  return () => auth.loadUserFromStorage();
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideNativeDateAdapter(),
     {
       provide: APP_INITIALIZER,
-      useFactory: initAuth,
+      useFactory: (auth: AuthService) => () => auth.loadUserFromStorage(),
       deps: [AuthService],
       multi: true,
     },

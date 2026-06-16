@@ -24,6 +24,7 @@ export class AuthService {
   login(data: { email: string; password: string }): Observable<{ token: string; user: User }> {
     return this.api.post<{ token: string; user: User }>('/auth/login', data).pipe(
       tap(response => {
+        // Salvar com as chaves corretas
         localStorage.setItem(this.TOKEN_KEY, response.token);
         localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
         this.currentUser$.next(response.user);
@@ -51,6 +52,7 @@ export class AuthService {
   }
 
   getToken(): string | null {
+    // Lê com a mesma chave usada no login
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
@@ -63,9 +65,20 @@ export class AuthService {
   }
 
   loadUserFromStorage(): void {
-    const raw = localStorage.getItem(this.USER_KEY);
-    if (raw) {
-      this.currentUser$.next(JSON.parse(raw));
+    const raw   = localStorage.getItem(this.USER_KEY);
+    const token = localStorage.getItem(this.TOKEN_KEY);
+
+    if (raw && token) {
+      try {
+        const user = JSON.parse(raw) as User;
+        this.currentUser$.next(user);
+      } catch {
+        localStorage.removeItem(this.USER_KEY);
+        localStorage.removeItem(this.TOKEN_KEY);
+        this.currentUser$.next(null);
+      }
+    } else {
+      this.currentUser$.next(null);
     }
   }
 }

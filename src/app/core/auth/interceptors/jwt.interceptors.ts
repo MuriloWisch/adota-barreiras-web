@@ -1,20 +1,26 @@
-import { HttpInterceptorFn, HttpErrorResponse, HttpRequest, HttpHandlerFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError, finalize } from 'rxjs';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { ToastService } from '../../../shared/services/toast.service';
 
-const PUBLIC_PATHS = ['/auth/register', '/auth/login', '/auth/forgot-password',
-                      '/auth/reset-password', '/auth/verify-email'];
+const PUBLIC_PATHS = [
+  '/auth/register',
+  '/auth/login',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/auth/verify-email',
+];
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const router  = inject(Router);
   const loading = inject(LoadingService);
   const toast   = inject(ToastService);
-  const token   = localStorage.getItem('adota_token');
 
-  const isPublic = PUBLIC_PATHS.some(p => req.url.includes(p));
+  // Chave correta — mesma do AuthService
+  const token     = localStorage.getItem('adota_token');
+  const isPublic  = PUBLIC_PATHS.some(p => req.url.includes(p));
 
   const authReq = token && !isPublic
     ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })

@@ -1,19 +1,12 @@
-import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = () => {
-  const auth   = inject(AuthService);
   const router = inject(Router);
+  const token  = localStorage.getItem('adota_token');
 
-  const token = auth.getToken();
-  const user  = auth.currentUser$.getValue();
-
-  if (!token || !user) {
-    localStorage.removeItem('adota_token');
-    localStorage.removeItem('adota_user');
-    router.navigate(['/login']);
-    return false;
+  if (!token) {
+    return router.createUrlTree(['/login']);
   }
 
   return true;

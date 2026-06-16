@@ -1,46 +1,297 @@
-.admin-content { padding: 24px; max-width: 1200px; margin: 0 auto; }
+$text-dark: #0f172a;
+$text-light: #64748b;
+$border-soft: rgba(15, 23, 42, 0.06);
+$radius-card: 14px;
+$primary-blue: #2563eb;
 
+.page-container {
+  max-width: 100%;
+}
+
+/* ═════════ HEADER DESIGN ═════════ */
+.dashboard-header {
+  margin-bottom: 32px;
+  
+  .header-titles {
+    .context-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      color: $primary-blue;
+      background: rgba(37, 99, 235, 0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: $text-dark;
+      letter-spacing: -0.03em;
+      margin: 0 0 6px 0;
+    }
+    p {
+      font-size: 14px;
+      color: $text-light;
+      margin: 0;
+    }
+  }
+}
+
+/* ═════════ PREMIUM CARD ARCHITECTURE ═════════ */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
-.animal-card {
-  background: white;
-  border-radius: 16px;
+.animal-card-premium {
+  background: #ffffff;
+  border-radius: $radius-card;
+  border: 1px solid $border-soft;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: transform 0.2s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.12);
+
+    .card-image-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .quick-action-overlay {
+      opacity: 1;
+    }
+  }
 }
 
-.card-image { position: relative; height: 180px; }
-.card-image img { width: 100%; height: 100%; object-fit: cover; }
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10; // Proporção horizontal de cinema, idêntica ao Airbnb
+  overflow: hidden;
+  background: #f1f5f9;
 
-.badge-suspect {
-  position: absolute; top: 12px; right: 12px;
-  background: #fef2f2; color: #ef4444;
-  padding: 4px 12px; border-radius: 20px;
-  font-size: 12px; font-weight: 600;
-  border: 1px solid #fecaca;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
-.card-body { padding: 16px; }
-.card-body h3 { margin: 0 0 8px; color: #1e293b; font-size: 18px; }
-.card-body p { 
-  display: flex; align-items: center; gap: 4px;
-  color: #64748b; font-size: 13px; margin: 0;
+/* Badge Pílula Discreta */
+.status-indicator-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 4px 10px 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: #f59e0b; // Amber warning dot
+    border-radius: 50%;
+    display: inline-block;
+  }
 }
-.card-body mat-icon { font-size: 16px; width: 16px; height: 16px; }
 
-.card-footer { margin-top: 16px; }
-.card-footer button { width: 100%; border-radius: 10px; }
+/* Painel de Ações Rápidas (Efeito Hover Glassmorphism) */
+.quick-action-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
 
-.empty-state {
-  text-align: center; padding: 60px; color: #94a3b8;
+  .action-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      transform: scale(1.12);
+    }
+
+    &.approve {
+      background: #ffffff;
+      color: #10b981; // Emerald green
+      &:hover { background: #e6fcf5; }
+    }
+
+    &.reject {
+      background: #ffffff;
+      color: #ef4444; // Ruby red
+      &:hover { background: #fef2f2; }
+    }
+  }
 }
-.empty-state mat-icon { font-size: 64px; width: 64px; height: 64px; margin-bottom: 16px; }
 
-.fade-in { animation: fadeIn 0.5s ease-in; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Corpo Interno do Card */
+.card-body-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+    color: $text-light;
+
+    .geo-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+    .geo-text {
+      font-size: 12px;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .animal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Botão de Inspeção Tipo Link de Ação */
+.card-action-vessel {
+  margin-top: auto;
+  border-top: 1px solid $border-soft;
+  padding-top: 12px;
+
+  .inspect-main-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: $text-dark;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      color: $primary-blue;
+      
+      mat-icon {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+/* ═════════ EMPTY STATE NOTION STYLE ═════════ */
+.empty-state-vessel {
+  text-align: center;
+  padding: 80px 24px;
+  background: #ffffff;
+  border-radius: $radius-card;
+  border: 1px solid $border-soft;
+
+  .icon-circle {
+    width: 56px;
+    height: 56px;
+    background: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0 0 4px 0;
+  }
+  p {
+    font-size: 13px;
+    color: $text-light;
+    margin: 0;
+  }
+}
+
+.paginator-wrapper {
+  background: #ffffff;
+  border-radius: $radius-card;
+  border: 1px solid $border-soft;
+  overflow: hidden;
+  
+  ::ng-deep .mat-mdc-paginator {
+    background: transparent;
+  }
+}
+
+.fade-in {
+  animation: cubicFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cubicFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

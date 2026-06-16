@@ -1,43 +1,72 @@
-<app-page-header 
-  title="Animais sob Suspeita" 
-  subtitle="Analise denúncias e anúncios marcados como suspeitos pelo sistema.">
-</app-page-header>
+<div class="page-container fade-in">
+  
+  <header class="dashboard-header">
+    <div class="header-titles">
+      <span class="context-tag">Moderação Avançada</span>
+      <h1>Animais sob Suspeita</h1>
+      <p>Analise anúncios sinalizados pela comunidade ou triados automaticamente pelo sistema.</p>
+    </div>
+  </header>
 
-<div class="admin-content">
   <app-loading-spinner *ngIf="loading()"></app-loading-spinner>
 
-  <div *ngIf="!loading()" class="fade-in">
-    <div class="empty-state" *ngIf="animals().length === 0">
-      <mat-icon>verified_user</mat-icon>
-      <p>Tudo limpo! Não há animais pendentes de revisão.</p>
+  <div *ngIf="!loading()">
+    
+    <div class="empty-state-vessel" *ngIf="animals().length === 0">
+      <div class="icon-circle">
+        <mat-icon>verified_user</mat-icon>
+      </div>
+      <h3>Tudo revisado e limpo</h3>
+      <p>Nenhum anúncio pendente na fila de triagem neste momento.</p>
     </div>
 
-    <div class="cards-grid">
-      <div class="animal-card" *ngFor="let animal of animals(); let i = index" [@cardLeave]>
-        <div class="card-image">
-          <img [src]="animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'" [alt]="animal.name">
-          <div class="badge-suspect">Pendente</div>
-        </div>
+    <div class="cards-grid" *ngIf="animals().length > 0">
+      <div class="animal-card-premium" *ngFor="let animal of animals(); let i = index" [@cardLeave]>
         
-        <div class="card-body">
-          <h3>{{ animal.name }}</h3>
-          <p><mat-icon>location_on</mat-icon> {{ animal.address }}</p>
+        <div class="card-image-wrapper">
+          <img [src]="animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'" [alt]="animal.name" loading="lazy">
+          <div class="status-indicator-badge">
+            <span class="pulse-dot"></span>
+            Revisão Pendente
+          </div>
           
-          <div class="card-footer">
-            <button mat-flat-button color="primary" (click)="openDetail(animal, i)">
-              <mat-icon>visibility</mat-icon> Revisar
+          <div class="quick-action-overlay">
+            <button class="action-btn approve" (click)="approve(animal, i)" title="Aprovar Anúncio">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button class="action-btn reject" (click)="remove(animal, i)" title="Remover Anúncio">
+              <mat-icon>delete_sweep</mat-icon>
             </button>
           </div>
         </div>
+        
+        <div class="card-body-content">
+          <div class="card-meta">
+            <mat-icon class="geo-icon">location_on</mat-icon>
+            <span class="geo-text">{{ animal.address }}</span>
+          </div>
+          <h3 class="animal-title">{{ animal.name }}</h3>
+          
+          <div class="card-action-vessel">
+            <button class="inspect-main-btn" (click)="openDetail(animal, i)">
+              <span>Revisar Detalhes</span>
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <mat-paginator 
-      [length]="totalElements()"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex()"
-      (page)="onPage($event)"
-      aria-label="Selecionar página">
-    </mat-paginator>
+    <div class="paginator-wrapper" *ngIf="animals().length > 0">
+      <mat-paginator 
+        [length]="totalElements()"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex()"
+        (page)="onPage($event)"
+        aria-label="Mudar página">
+      </mat-paginator>
+    </div>
+
   </div>
 </div>

@@ -1,60 +1,73 @@
 <div class="admin-wrap">
 
-  <!-- ══ SIDEBAR desktop ══ -->
   <aside class="sidebar desktop-only">
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
   </aside>
 
-  <!-- ══ MOBILE top bar ══ -->
   <div class="mobile-topbar mobile-only">
-    <button mat-icon-button (click)="drawerOpen = true">
+    <button class="menu-toggle-btn" (click)="drawerOpen = true" aria-label="Abrir menu">
       <mat-icon>menu</mat-icon>
     </button>
-    <span class="mobile-title">Painel Admin</span>
+    <span class="mobile-title">Painel de Controle</span>
   </div>
 
-  <!-- ══ DRAWER mobile ══ -->
   <div class="drawer-overlay" *ngIf="drawerOpen" (click)="drawerOpen = false"></div>
   <aside class="drawer mobile-only" *ngIf="drawerOpen" @drawerAnim>
     <div class="drawer-header">
-      <span>⚙️ Admin</span>
-      <button mat-icon-button (click)="drawerOpen = false"><mat-icon>close</mat-icon></button>
+      <div class="brand-wrapper">
+        <mat-icon class="brand-icon-geo">shield</mat-icon>
+        <span class="brand-text">Admin</span>
+      </div>
+      <button class="close-drawer-btn" (click)="drawerOpen = false">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
   </aside>
 
-  <!-- ══ CONTENT ══ -->
   <main class="admin-content">
-    <router-outlet></router-outlet>
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
   </main>
 
 </div>
 
-<!-- Sidebar template -->
 <ng-template #sidebarContent>
   <div class="sidebar-brand">
-    <span class="brand-icon">⚙️</span>
-    <span class="brand-text">Painel Admin</span>
+    <div class="brand-logo-bg">
+      <mat-icon class="brand-icon-geo">admin_panel_settings</mat-icon>
+    </div>
+    <div class="brand-info">
+      <span class="brand-text">Adota Barreiras</span>
+      <span class="brand-sub">Console de Gestão</span>
+    </div>
   </div>
 
   <nav class="sidebar-nav">
+    <span class="nav-section-title">Moderação</span>
 
     <a class="nav-item"
-      routerLink="/admin/suspects"
-      routerLinkActive="active"
-      (click)="drawerOpen = false">
-      <mat-icon>schedule</mat-icon>
-      <span>Animais Suspeitos</span>
+       routerLink="/admin/suspects"
+       routerLinkActive="active"
+       (click)="drawerOpen = false">
+      <mat-icon class="nav-icon">gpp_maybe</mat-icon>
+      <span class="nav-label">Animais Suspeitos</span>
       <span class="nav-badge" *ngIf="suspectCount() > 0">{{ suspectCount() }}</span>
     </a>
 
-    <a class="nav-item"
-      routerLink="/admin/users"
-      routerLinkActive="active"
-      (click)="drawerOpen = false">
-      <mat-icon>people</mat-icon>
-      <span>Gerenciar Usuários</span>
-    </a>
+    <span class="nav-section-title">Segurança</span>
 
+    <a class="nav-item"
+       routerLink="/admin/users"
+       routerLinkActive="active"
+       (click)="drawerOpen = false">
+      <mat-icon class="nav-icon">manage_accounts</mat-icon>
+      <span class="nav-label">Gerenciar Usuários</span>
+    </a>
   </nav>
+
+  <div class="sidebar-footer">
+    <span class="version-tag">v2.0.0-stable</span>
+  </div>
 </ng-template>

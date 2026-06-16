@@ -2,43 +2,52 @@
   <div class="auth-card" @fadeSlideUp>
 
     <div class="auth-logo">
-      <span class="paw">🐾</span>
+      <div class="logo-icon-wrap">
+        <mat-icon>pets</mat-icon>
+      </div>
       <h1>Adota Barreiras</h1>
       <p>Encontre seu novo melhor amigo</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="email" type="email" autocomplete="email">
-        <mat-icon matSuffix>email</mat-icon>
-        <mat-error *ngIf="form.get('email')?.hasError('required')">E-mail obrigatório</mat-error>
-        <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
-      </mat-form-field>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="email" placeholder="exemplo@email.com">
+          <mat-icon matSuffix>mail_outline</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">O e-mail é obrigatório</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Insira um endereço de e-mail válido</mat-error>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Senha</mat-label>
-        <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" autocomplete="current-password">
-        <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword">
-          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('password')?.hasError('required')">Senha obrigatória</mat-error>
-      </mat-form-field>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="••••••••">
+          <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword" class="btn-toggle-visibility">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">A senha é obrigatória</mat-error>
+        </mat-form-field>
+      </div>
 
-      <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+      <div class="error-msg" *ngIf="errorMsg">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMsg }}</span>
+      </div>
 
-      <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="loading">
-        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      <button mat-flat-button class="btn-submit" type="submit" [disabled]="loading">
+        <mat-spinner diameter="18" *ngIf="loading"></mat-spinner>
         <span *ngIf="!loading">Entrar</span>
       </button>
 
     </form>
 
     <div class="auth-links">
-      <a routerLink="/forgot-password">Esqueci minha senha</a>
-      <a routerLink="/register">Não tem conta? <strong>Cadastre-se</strong></a>
+      <a routerLink="/forgot-password" class="link-secondary">Esqueci minha senha</a>
+      <a routerLink="/register" class="link-primary">Não tem conta? <span>Cadastre-se</span></a>
     </div>
 
   </div>
-</div>
+</div>  

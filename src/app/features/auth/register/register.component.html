@@ -2,74 +2,95 @@
   <div class="auth-card" @fadeSlideUp>
 
     <div class="auth-logo">
-      <span class="paw">🐾</span>
+      <div class="logo-icon-wrap">
+        <mat-icon>person_add_alt</mat-icon>
+      </div>
       <h1>Crie sua conta</h1>
-      <p>Adote ou coloque para adoção</p>
+      <p>Gerencie seus anúncios ou encontre seu novo amigo.</p>
     </div>
 
     <div class="success-box" *ngIf="success">
-      <span>✅</span>
-      <p>Cadastro realizado! Verifique seu e-mail para ativar a conta.</p>
+      <div class="success-icon-wrap">
+        <mat-icon>check_circle_outline</mat-icon>
+      </div>
+      <p>Cadastro realizado com sucesso. Verifique seu e-mail para ativar sua conta.</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!success">
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Nome completo</mat-label>
-        <input matInput formControlName="name">
-        <mat-icon matSuffix>person</mat-icon>
-        <mat-error>Nome obrigatório</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="email" type="email">
-        <mat-icon matSuffix>email</mat-icon>
-        <mat-error *ngIf="form.get('email')?.hasError('required')">E-mail obrigatório</mat-error>
-        <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Telefone</mat-label>
-        <input matInput formControlName="phone" type="tel">
-        <mat-icon matSuffix>phone</mat-icon>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Senha</mat-label>
-        <input matInput formControlName="password" [type]="showPwd ? 'text' : 'password'" (input)="calcStrength()">
-        <button mat-icon-button matSuffix type="button" (click)="showPwd = !showPwd">
-          <mat-icon>{{ showPwd ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('password')?.hasError('required')">Senha obrigatória</mat-error>
-        <mat-error *ngIf="form.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
-      </mat-form-field>
-
-      <div class="strength-bar" *ngIf="form.get('password')?.value">
-        <div class="bar" [class]="strengthClass"></div>
-        <span>{{ strengthLabel }}</span>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome completo</mat-label>
+          <input matInput formControlName="name" placeholder="Ex: João Silva">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-error>O nome completo é obrigatório</mat-error>
+        </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Confirmar senha</mat-label>
-        <input matInput formControlName="confirmPassword" [type]="showPwd2 ? 'text' : 'password'">
-        <button mat-icon-button matSuffix type="button" (click)="showPwd2 = !showPwd2">
-          <mat-icon>{{ showPwd2 ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('confirmPassword')?.hasError('mismatch')">Senhas não conferem</mat-error>
-      </mat-form-field>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="exemplo@email.com">
+          <mat-icon matSuffix>mail_outline</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">O e-mail é obrigatório</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Insira um endereço de e-mail válido</mat-error>
+        </mat-form-field>
+      </div>
 
-      <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Telefone</mat-label>
+          <input matInput formControlName="phone" type="tel" placeholder="(00) 00000-0000">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </div>
 
-      <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="loading">
-        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-        <span *ngIf="!loading">Cadastrar</span>
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" [type]="showPwd ? 'text' : 'password'" (input)="calcStrength()" placeholder="••••••••">
+          <button mat-icon-button matSuffix type="button" (click)="showPwd = !showPwd" class="btn-toggle-visibility">
+            <mat-icon>{{ showPwd ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">A senha é obrigatória</mat-error>
+          <mat-error *ngIf="form.get('password')?.hasError('minlength')">A senha deve ter no mínimo 6 caracteres</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="strength-container" *ngIf="form.get('password')?.value">
+        <div class="strength-bars">
+          <div class="bar-segment" [class.active-fraca]="strengthClass === 'fraca' || strengthClass === 'media' || strengthClass === 'forte'"></div>
+          <div class="bar-segment" [class.active-media]="strengthClass === 'media' || strengthClass === 'forte'"></div>
+          <div class="bar-segment" [class.active-forte]="strengthClass === 'forte'"></div>
+        </div>
+        <span class="strength-label">Força da senha: <strong [className]="strengthClass">{{ strengthLabel }}</strong></span>
+      </div>
+
+      <div class="form-group full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Confirmar senha</mat-label>
+          <input matInput formControlName="confirmPassword" [type]="showPwd2 ? 'text' : 'password'" placeholder="••••••••">
+          <button mat-icon-button matSuffix type="button" (click)="showPwd2 = !showPwd2" class="btn-toggle-visibility">
+            <mat-icon>{{ showPwd2 ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('confirmPassword')?.hasError('mismatch')">As senhas não coincidem</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="error-msg" *ngIf="errorMsg">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMsg }}</span>
+      </div>
+
+      <button mat-flat-button class="btn-submit" type="submit" [disabled]="loading">
+        <mat-spinner diameter="18" *ngIf="loading"></mat-spinner>
+        <span *ngIf="!loading">Criar conta</span>
       </button>
 
     </form>
 
     <div class="auth-links">
-      <a routerLink="/login">Já tem conta? <strong>Entrar</strong></a>
+      <a routerLink="/login" class="link-primary">Já tem conta? <span>Entrar</span></a>
     </div>
 
   </div>

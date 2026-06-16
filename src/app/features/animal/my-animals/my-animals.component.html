@@ -5,7 +5,7 @@
       title="Meus Animais"
       subtitle="Gerencie os animais que você cadastrou">
     </app-page-header>
-    <button mat-raised-button class="btn-add" routerLink="/animals/new">
+    <button mat-flat-button class="btn-primary" routerLink="/animals/new">
       <mat-icon>add</mat-icon> Cadastrar Animal
     </button>
   </div>
@@ -13,10 +13,12 @@
   <app-loading-spinner *ngIf="pageLoading()"></app-loading-spinner>
 
   <div class="empty-state" *ngIf="!pageLoading() && !cards().length">
-    <span class="empty-icon">🐾</span>
+    <div class="empty-icon-wrap">
+      <mat-icon>pets</mat-icon>
+    </div>
     <h3>Nenhum animal cadastrado</h3>
-    <p>Você ainda não cadastrou nenhum animal para adoção.</p>
-    <button mat-raised-button class="btn-add" routerLink="/animals/new">
+    <p>Você ainda não possui registros de animais para adoção neste painel.</p>
+    <button mat-flat-button class="btn-primary" routerLink="/animals/new">
       <mat-icon>add</mat-icon> Cadastrar meu primeiro animal
     </button>
   </div>
@@ -29,10 +31,12 @@
         <img
           [src]="card.animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'"
           [alt]="card.animal.name">
+        
         <div class="status-badge" [style.background]="statusCfg(card.animal).bg" [style.color]="statusCfg(card.animal).color">
           <mat-icon class="badge-icon">{{ statusCfg(card.animal).icon }}</mat-icon>
           {{ statusCfg(card.animal).label }}
         </div>
+        
         <div class="pending-badge" *ngIf="pendingCount(card) > 0">
           {{ pendingCount(card) }}
         </div>
@@ -48,17 +52,17 @@
       </div>
 
       <div class="card-footer">
-        <button mat-stroked-button class="btn-edit" [routerLink]="['/animals', card.animal.id, 'edit']">
+        <button mat-stroked-button class="btn-secondary" [routerLink]="['/animals', card.animal.id, 'edit']">
           <mat-icon>edit</mat-icon> Editar
         </button>
 
-        <button mat-stroked-button class="btn-requests" (click)="toggleRequests(card, i)">
+        <button mat-stroked-button class="btn-secondary btn-flex" (click)="toggleRequests(card, i)">
           <mat-icon>list_alt</mat-icon>
-          Solicitações
+          <span>Solicitações</span>
           <span class="req-count" *ngIf="card.requests.length">{{ card.requests.length }}</span>
         </button>
 
-        <button mat-stroked-button class="btn-delete" [disabled]="card.loadingDelete" (click)="deleteAnimal(card, i)">
+        <button mat-stroked-button class="btn-danger-icon" [disabled]="card.loadingDelete" (click)="deleteAnimal(card, i)">
           <mat-spinner diameter="14" *ngIf="card.loadingDelete"></mat-spinner>
           <mat-icon *ngIf="!card.loadingDelete">delete</mat-icon>
         </button>
@@ -67,11 +71,11 @@
       <div class="requests-panel" *ngIf="card.showRequests" @expand>
 
         <div class="requests-loading" *ngIf="card.loadingRequests">
-          <mat-spinner diameter="24"></mat-spinner>
+          <mat-spinner diameter="20"></mat-spinner>
         </div>
 
         <div class="no-requests" *ngIf="!card.loadingRequests && !card.requests.length">
-          Nenhuma solicitação ainda.
+          Nenhuma solicitação pendente para este animal.
         </div>
 
         <div class="request-item" *ngFor="let req of card.requests">
@@ -87,13 +91,13 @@
           </div>
 
           <div class="req-actions" *ngIf="req.status === 'PENDING'">
-            <button mat-raised-button class="btn-accept"
+            <button mat-flat-button class="btn-action-success"
               [disabled]="card.actionLoading[req.id]"
               (click)="acceptRequest(card, req)">
               <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'accept'"></mat-spinner>
               <span *ngIf="card.actionLoading[req.id] !== 'accept'">Aceitar</span>
             </button>
-            <button mat-stroked-button class="btn-reject"
+            <button mat-stroked-button class="btn-action-danger"
               [disabled]="!!card.actionLoading[req.id]"
               (click)="rejectRequest(card, req)">
               <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'reject'"></mat-spinner>
@@ -102,11 +106,11 @@
           </div>
 
           <div class="req-actions" *ngIf="req.status === 'ACCEPTED'">
-            <button mat-raised-button class="btn-confirm"
+            <button mat-flat-button class="btn-action-primary"
               [disabled]="card.actionLoading[req.id] === 'confirm'"
               (click)="confirmAdoption(card, req)">
               <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'confirm'"></mat-spinner>
-              <span *ngIf="card.actionLoading[req.id] !== 'confirm'">✅ Confirmar Adoção</span>
+              <span *ngIf="card.actionLoading[req.id] !== 'confirm'">Confirmar Adoção</span>
             </button>
           </div>
 

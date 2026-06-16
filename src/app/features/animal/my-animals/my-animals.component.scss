@@ -1,137 +1,372 @@
-.page-wrap { max-width: 1100px; margin: 32px auto; padding: 0 24px 64px; }
+// Variáveis do Design System Premium (Slate Neutral)
+$slate-900: #0f172a;
+$slate-700: #475569;
+$slate-500: #64748b;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-50:  #f8fafc;
+
+.page-wrap {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px 84px;
+}
 
 .header-row {
-  display: flex; justify-content: space-between;
-  align-items: flex-start; margin-bottom: 28px; gap: 16px; flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
-.btn-add {
-  background: #4CAF50 !important; color: #fff !important;
-  border-radius: 12px !important; font-weight: 600 !important;
-  display: flex; align-items: center; gap: 6px;
-  transition: all 0.3s ease !important;
-}
-.btn-add:hover { background: #43A047 !important; box-shadow: 0 4px 14px rgba(76,175,80,0.35) !important; }
 
+// Botões Primários Estilo Figma/Tailwind UI
+.btn-primary {
+  background-color: $slate-900 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  height: 38px !important;
+  padding: 0 16px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease-in-out !important;
+
+  &:hover {
+    background-color: $slate-700 !important;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// Botões Secundários Minimalistas
+.btn-secondary {
+  border-color: $slate-200 !important;
+  color: $slate-700 !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  height: 36px !important;
+  transition: all 0.2s ease-in-out !important;
+
+  &:hover {
+    background-color: $slate-50 !important;
+    border-color: $slate-300 !important;
+    color: $slate-900 !important;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn-flex {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+// Ícone de Remoção Minimalista
+.btn-danger-icon {
+  border-color: $slate-200 !important;
+  color: $slate-500 !important;
+  border-radius: 6px !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out !important;
+
+  &:hover:not([disabled]) {
+    background-color: #fef2f2 !important;
+    border-color: #fca5a5 !important;
+    color: #ef4444 !important;
+  }
+}
+
+// Estado Vazio Estruturado
 .empty-state {
-  display: flex; flex-direction: column; align-items: center;
-  padding: 80px 24px; gap: 12px; text-align: center;
-}
-.empty-icon { font-size: 64px; }
-h3 { font-size: 20px; font-weight: 700; color: #1E3A5F; }
-.empty-state p { font-size: 14px; color: #888; }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 96px 24px;
+  gap: 16px;
+  text-align: center;
+  background-color: $slate-50;
+  border: 1px dashed $slate-200;
+  border-radius: 12px;
 
+  .empty-icon-wrap {
+    color: $slate-500;
+    background: #ffffff;
+    border: 1px solid $slate-200;
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $slate-900;
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: $slate-700;
+    max-width: 360px;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+  }
+}
+
+// Grid de Cards Neutro
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
-@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 600px)  { .grid { grid-template-columns: 1fr; } }
+
+@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .grid { grid-template-columns: 1fr; } }
 
 .animal-card {
-  background: #fff; border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  background: #ffffff;
+  border: 1px solid $slate-200;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex; flex-direction: column;
-}
-.animal-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-.card-img-wrap { position: relative; aspect-ratio: 4/3; overflow: hidden; }
-.card-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+  &:hover {
+    border-color: $slate-300;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  }
+}
+
+.card-img-wrap {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background-color: $slate-50;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
 
 .status-badge {
-  position: absolute; top: 10px; left: 10px;
-  font-size: 11px; font-weight: 700; padding: 3px 10px;
-  border-radius: 20px; display: flex; align-items: center; gap: 4px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  .badge-icon {
+    font-size: 13px !important;
+    width: 13px !important;
+    height: 13px !important;
+  }
 }
-.badge-icon { font-size: 12px !important; width: 12px !important; height: 12px !important; }
 
 .pending-badge {
-  position: absolute; top: 10px; right: 10px;
-  background: #ef4444; color: #fff;
-  font-size: 11px; font-weight: 700;
-  width: 22px; height: 22px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card-body { padding: 14px 16px; flex: 1; }
-.card-body h3 { font-size: 16px; font-weight: 700; color: #1E3A5F; margin-bottom: 8px; }
-.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag { background:#f0fdf4; color:#2e7d32; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+.card-body {
+  padding: 16px;
+  flex: 1;
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: $slate-900;
+    margin: 0 0 12px 0;
+  }
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: $slate-50;
+  color: $slate-700;
+  border: 1px solid $slate-200;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
 
 .card-footer {
-  display: flex; gap: 6px; padding: 12px 14px;
-  border-top: 1px solid #f0f0f0;
-  flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid $slate-200;
+  background: #ffffff;
+  align-items: center;
 }
-.btn-edit {
-  border-color: #1E3A5F !important; color: #1E3A5F !important;
-  border-radius: 8px !important; font-size: 12px !important; height: 34px;
-  display: flex; align-items: center; gap: 4px;
-  transition: all 0.3s ease !important;
-}
-.btn-edit:hover { background: #f0f4ff !important; }
-.btn-requests {
-  flex: 1; border-color: #9ca3af !important; color: #555 !important;
-  border-radius: 8px !important; font-size: 12px !important; height: 34px;
-  display: flex; align-items: center; gap: 4px; position: relative;
-}
-.req-count {
-  background: #ef4444; color: #fff; border-radius: 10px;
-  font-size: 10px; padding: 1px 6px; font-weight: 700;
-}
-.btn-delete {
-  border-color: #fca5a5 !important; color: #ef4444 !important;
-  border-radius: 8px !important; width: 34px; height: 34px;
-  min-width: 34px !important; display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s ease !important;
-}
-.btn-delete:hover:not([disabled]) { background: #fef2f2 !important; }
 
-.requests-panel {
-  border-top: 1px solid #f0f0f0;
-  background: #fafafa;
-  overflow: hidden;
+.req-count {
+  background: $slate-900;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 10px;
+  padding: 2px 6px;
+  font-weight: 600;
+  line-height: 1;
 }
+
+// Painel de Solicitações Alinhado
+.requests-panel {
+  border-top: 1px solid $slate-200;
+  background: $slate-50;
+}
+
 .requests-loading, .no-requests {
-  display: flex; justify-content: center; align-items: center;
-  padding: 20px; font-size: 13px; color: #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  font-size: 13px;
+  color: $slate-500;
 }
 
 .request-item {
-  padding: 12px 14px;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex; flex-direction: column; gap: 10px;
-}
-.request-item:last-child { border-bottom: none; }
+  padding: 16px;
+  border-bottom: 1px solid $slate-200;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-.req-info { display: flex; align-items: center; gap: 10px; }
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.req-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .req-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: #1E3A5F; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: $slate-200;
+  color: $slate-900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
 }
-.req-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.req-name { font-size: 13px; font-weight: 600; color: #1E3A5F; }
-.req-date { font-size: 11px; color: #aaa; }
-.req-status { font-size: 11px; font-weight: 700; }
 
-.req-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn-accept {
-  background: #4CAF50 !important; color: #fff !important;
-  border-radius: 8px !important; font-size: 12px !important; height: 32px;
-  display: flex; align-items: center; gap: 6px;
+.req-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
-.btn-reject {
-  border-color: #ef4444 !important; color: #ef4444 !important;
-  border-radius: 8px !important; font-size: 12px !important; height: 32px;
-  display: flex; align-items: center; gap: 6px;
+
+.req-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: $slate-900;
 }
-.btn-reject:hover:not([disabled]) { background: #fef2f2 !important; }
-.btn-confirm {
-  background: #1E3A5F !important; color: #fff !important;
-  border-radius: 8px !important; font-size: 12px !important; height: 32px;
-  display: flex; align-items: center; gap: 6px;
+
+.req-date {
+  font-size: 11px;
+  color: $slate-500;
+}
+
+.req-status {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+// Layout de Botões Premium Baseado nas Diretrizes (Flex Fills/100% Width)
+.req-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+
+  button {
+    flex: 1; // Itens ocupam 100% da largura dividida igualmente
+    height: 32px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+  }
+}
+
+// Customizações de Cores Corporativas para as Ações das Requisições
+.btn-action-success {
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+  &:hover:not([disabled]) { background-color: #059669 !important; }
+}
+
+.btn-action-danger {
+  border-color: #fca5a5 !important;
+  color: #ef4444 !important;
+  &:hover:not([disabled]) { background-color: #fef2f2 !important; }
+}
+
+.btn-action-primary {
+  background-color: $slate-900 !important;
+  color: #ffffff !important;
+  &:hover:not([disabled]) { background-color: $slate-700 !important; }
 }

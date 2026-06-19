@@ -1,6 +1,5 @@
 <div class="list-wrap">
 
-  <!-- Skeleton -->
   <div class="grid" *ngIf="loading && !animals.length">
     <div class="skeleton-card" *ngFor="let s of skeletons">
       <div class="skel skel-img"></div>
@@ -8,14 +7,13 @@
         <div class="skel skel-title"></div>
         <div class="skel-tags">
           <div class="skel skel-tag"></div>
-          <div class="skel skel-tag"></div>
+          <div class="skel-tag"></div>
         </div>
         <div class="skel skel-btn"></div>
       </div>
     </div>
   </div>
 
-  <!-- Lista -->
   <div class="grid" [@listAnim]="animals.length" *ngIf="!loading || animals.length">
     <div
       *ngFor="let animal of animals; let i = index"
@@ -29,24 +27,18 @@
     </div>
   </div>
 
-  <!-- Empty -->
-  <div class="empty" *ngIf="!loading && !animals.length">
-    <div class="empty-icon">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="M21 21l-4.35-4.35"/>
-        <path d="M8 11h6"/>
-      </svg>
+  <div class="empty-state" *ngIf="!loading && !animals.length">
+    <div class="empty-icon-wrap">
+      <mat-icon>search_off</mat-icon>
     </div>
     <h3>Nenhum animal por aqui</h3>
     <p>Não encontramos pets disponíveis neste raio de busca.</p>
     <small>Tente aumentar a distância ou ajustar os filtros acima.</small>
   </div>
 
-  <!-- Loading more -->
   <div class="load-more" *ngIf="loading && animals.length">
-    <div class="spinner-ring"></div>
-    <span>Carregando mais...</span>
+    <mat-spinner diameter="28"></mat-spinner>
+    <span>Carregando mais animais...</span>
   </div>
 
   <div #sentinel class="sentinel"></div>

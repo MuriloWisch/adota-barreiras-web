@@ -5,11 +5,14 @@ import { trigger, transition, style, animate, stagger, query } from '@angular/an
 import { AnimalCardComponent } from '../../shared/components/animal-card/animal-card.component';
 import { ScrollAnimationDirective } from '../../shared/directives/scroll-animation.directive';
 import { Animal } from '../../core/models/animal.model';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home-list',
   standalone: true,
-  imports: [CommonModule, AnimalCardComponent, ScrollAnimationDirective],
+  imports: [CommonModule, AnimalCardComponent, ScrollAnimationDirective,MatProgressSpinnerModule,MatIconModule
+],
   animations: [
     trigger('listAnim', [
       transition('* => *', [

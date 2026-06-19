@@ -9,6 +9,7 @@ import { Animal } from '../../core/models/animal.model';
 import { HomeFiltersComponent, HomeFilters } from './home-filters.component';
 import { HomeListComponent } from './home-list.component';
 import { MapComponent } from '../../shared/components/map/map.component';
+import { MatIconModule } from '@angular/material/icon';
 
 const BARREIRAS_LAT = -12.1539;
 const BARREIRAS_LNG = -44.9986;
@@ -18,7 +19,7 @@ const BARREIRAS_LNG = -44.9986;
   standalone: true,
   imports: [
     CommonModule,
-    HomeFiltersComponent, HomeListComponent, MapComponent,
+    HomeFiltersComponent, HomeListComponent, MapComponent,MatIconModule
   ],
   animations: [
     trigger('heroAnim', [

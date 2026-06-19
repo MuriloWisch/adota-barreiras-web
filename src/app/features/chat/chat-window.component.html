@@ -1,8 +1,10 @@
 <div class="empty-state" *ngIf="!chat">
   <div class="empty-inner">
-    <span class="empty-icon">💬</span>
+    <div class="empty-icon-wrap">
+      <mat-icon>chat_bubble_outline</mat-icon>
+    </div>
     <h3>Suas conversas</h3>
-    <p>Selecione uma conversa para começar</p>
+    <p>Selecione uma conversa ao lado para começar.</p>
   </div>
 </div>
 
@@ -12,23 +14,27 @@
     <div class="avatar">{{ otherUser?.name?.charAt(0)?.toUpperCase() }}</div>
     <div class="header-info">
       <span class="other-name">{{ otherUser?.name }}</span>
-      <span class="animal-sub">🐾 {{ chat.animal.name }}</span>
+      <span class="animal-sub">
+        <mat-icon>pets</mat-icon>
+        {{ chat.animal.name }}
+      </span>
     </div>
     <a mat-stroked-button class="see-animal-btn" [routerLink]="['/animals', chat.animal.id]">
-      <mat-icon>visibility</mat-icon> Ver Animal
+      <mat-icon>visibility</mat-icon>
+      <span>Ver Animal</span>
     </a>
   </div>
 
   <div class="messages-area" #messagesArea (scroll)="onScroll()">
 
     <div class="load-prev" *ngIf="loadingMore">
-      <mat-spinner diameter="24"></mat-spinner>
+      <mat-spinner diameter="20"></mat-spinner>
     </div>
 
     <ng-container *ngIf="loading && !messages.length">
-      <div class="skel-msg right"  *ngFor="let s of skeletons.slice(0,2)"></div>
-      <div class="skel-msg left"   *ngFor="let s of skeletons.slice(0,3)"></div>
-      <div class="skel-msg right"  *ngFor="let s of skeletons.slice(0,1)"></div>
+      <div class="skel-msg right" *ngFor="let s of skeletons.slice(0,2)"></div>
+      <div class="skel-msg left" *ngFor="let s of skeletons.slice(0,3)"></div>
+      <div class="skel-msg right" *ngFor="let s of skeletons.slice(0,1)"></div>
     </ng-container>
 
     <ng-container *ngFor="let group of groups()">
@@ -57,7 +63,7 @@
       [disabled]="sending"
       (keydown.enter)="send()">
     <button class="send-btn" [disabled]="!inputText.trim() || sending" (click)="send()">
-      <mat-spinner diameter="18" *ngIf="sending"></mat-spinner>
+      <mat-spinner diameter="16" *ngIf="sending"></mat-spinner>
       <mat-icon *ngIf="!sending">send</mat-icon>
     </button>
   </div>

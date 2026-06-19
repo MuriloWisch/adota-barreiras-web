@@ -38,10 +38,10 @@
 
     <div class="mobile-window" *ngIf="mobileShowWindow" @slideIn>
       <div class="mobile-back-bar">
-        <button mat-icon-button (click)="mobileShowWindow = false">
+        <button mat-icon-button (click)="mobileShowWindow = false" class="btn-back">
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <span>Voltar</span>
+        <span>Voltar para conversas</span>
       </div>
       <app-chat-window
         [chat]="selectedChat() ?? undefined"
@@ -56,4 +56,4 @@
 
   </div>
 
-</div>
+</div>  

@@ -1,36 +1,81 @@
+$slate-900: #0f172a;
+$slate-700: #475569;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50:  #f8fafc;
+
 .chat-page {
   height: calc(100vh - 64px);
   overflow: hidden;
-  background: #fff;
+  background-color: #ffffff;
 }
 
 .desktop-layout {
   display: flex;
   height: 100%;
 }
+
 .left-panel {
-  width: 35%;
-  border-right: 1px solid #f0f0f0;
+  width: 32%;
+  max-width: 400px;
+  min-width: 320px;
+  border-right: 1px solid $slate-200;
   overflow: hidden;
 }
+
 .right-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: $slate-50;
 }
 
-.mobile-layout   { display: none; height: 100%; flex-direction: column; }
-.mobile-list     { flex: 1; overflow: hidden; }
-.mobile-window   { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.mobile-layout {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+}
+
+.mobile-list {
+  flex: 1;
+  overflow: hidden;
+}
+
+.mobile-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: $slate-50;
+}
+
 .mobile-back-bar {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 12px; border-bottom: 1px solid #f0f0f0;
-  font-size: 14px; font-weight: 600; color: #1E3A5F;
-  background: #fff; flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px;
+  border-bottom: 1px solid $slate-200;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: $slate-900;
+  background-color: #ffffff;
+  flex-shrink: 0;
+
+  .btn-back {
+    color: $slate-700;
+    transform: scale(0.9);
+    margin-left: -8px;
+  }
 }
 
 @media (max-width: 768px) {
-  .desktop-layout { display: none; }
-  .mobile-layout  { display: flex; }
+  .desktop-layout {
+    display: none;
+  }
+  .mobile-layout {
+    display: flex;
+  }
 }

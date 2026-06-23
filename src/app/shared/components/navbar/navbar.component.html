@@ -2,7 +2,7 @@
   <div class="nav-inner">
 
     <a routerLink="/home" class="logo">
-      <span class="logo-paw">🐾</span>
+      <mat-icon class="logo-icon">pets</mat-icon>
       <span class="logo-text">Adota Barreiras</span>
     </a>
 
@@ -68,7 +68,7 @@
 
 <div class="drawer" *ngIf="drawerOpen" @drawerAnim>
   <div class="drawer-header">
-    <span class="logo-paw">🐾</span>
+    <mat-icon class="logo-icon">pets</mat-icon>
     <span class="logo-text">Adota Barreiras</span>
     <button mat-icon-button (click)="drawerOpen = false" class="drawer-close">
       <mat-icon>close</mat-icon>
@@ -84,14 +84,28 @@
     </ng-container>
 
     <ng-container *ngIf="isLoggedIn">
-      <a mat-list-item routerLink="/home" (click)="drawerOpen = false">🏠 Início</a>
-      <a mat-list-item routerLink="/animals/my" (click)="drawerOpen = false">🐾 Meus Animais</a>
-      <a mat-list-item routerLink="/my-requests" (click)="drawerOpen = false">📋 Solicitações</a>
-      <a mat-list-item routerLink="/chat" (click)="drawerOpen = false">💬 Chat</a>
-      <a mat-list-item routerLink="/admin/suspects" (click)="drawerOpen = false" *ngIf="isAdmin">⚙️ Admin</a>
-      <a mat-list-item routerLink="/profile" (click)="drawerOpen = false">👤 Perfil</a>
+      <a mat-list-item routerLink="/home" (click)="drawerOpen = false">
+        <mat-icon class="drawer-icon">home</mat-icon> Início
+      </a>
+      <a mat-list-item routerLink="/animals/my" (click)="drawerOpen = false">
+        <mat-icon class="drawer-icon">pets</mat-icon> Meus Animais
+      </a>
+      <a mat-list-item routerLink="/my-requests" (click)="drawerOpen = false">
+        <mat-icon class="drawer-icon">assignment</mat-icon> Solicitações
+      </a>
+      <a mat-list-item routerLink="/chat" (click)="drawerOpen = false">
+        <mat-icon class="drawer-icon">chat</mat-icon> Chat
+      </a>
+      <a mat-list-item routerLink="/admin/suspects" (click)="drawerOpen = false" *ngIf="isAdmin">
+        <mat-icon class="drawer-icon">admin_panel_settings</mat-icon> Admin
+      </a>
+      <a mat-list-item routerLink="/profile" (click)="drawerOpen = false">
+        <mat-icon class="drawer-icon">person</mat-icon> Perfil
+      </a>
       <mat-divider></mat-divider>
-      <a mat-list-item (click)="logout()" class="logout-item">🚪 Sair</a>
+      <a mat-list-item (click)="logout()" class="logout-item">
+        <mat-icon class="drawer-icon">logout</mat-icon> Sair
+      </a>
     </ng-container>
   </mat-nav-list>
 </div>

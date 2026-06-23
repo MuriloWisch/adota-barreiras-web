@@ -1,3 +1,7 @@
-<div [class]="overlay ? 'overlay' : 'inline-spinner'">
-  <mat-spinner [diameter]="diameter" color="primary"></mat-spinner>
+<div class="spinner-wrapper" 
+     [class.spinner-wrapper--overlay]="overlay" 
+     [class.spinner-wrapper--inline]="!overlay">
+     
+  <mat-spinner [diameter]="diameter || 40" color="primary"></mat-spinner>
+  
 </div>

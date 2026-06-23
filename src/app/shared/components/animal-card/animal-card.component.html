@@ -1,16 +1,18 @@
-<div class="card" (click)="onSelect.emit(animal)" [class.card--selected]="selected">
+<div class="animal-card" (click)="onSelect.emit(animal)" [class.animal-card--selected]="selected">
 
-  <div class="img-wrap">
+  <div class="card-media">
     <img
       [src]="imageUrl"
       [alt]="animal.name"
+      class="card-image"
       loading="lazy"
       (error)="onImageError($event)"
     />
-    <div class="img-overlay"></div>
-    <span class="badge" [style.background]="status.color">{{ status.label }}</span>
-    <span class="dist-chip" *ngIf="distance">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <div class="media-overlay"></div>
+    <span class="status-badge" [style.background-color]="status.color">{{ status.label }}</span>
+    
+    <span class="distance-chip" *ngIf="distance">
+      <svg class="icon-pin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M12 21s-7-4.5-7-11a7 7 0 1 1 14 0c0 6.5-7 11-7 11z"/>
         <circle cx="12" cy="10" r="2.5"/>
       </svg>
@@ -18,21 +20,21 @@
     </span>
   </div>
 
-  <div class="body">
-    <div class="body-header">
-      <h3>{{ animal.name }}</h3>
+  <div class="card-body">
+    <div class="card-header">
+      <h3 class="animal-name">{{ animal.name }}</h3>
       <span class="species-icon">{{ speciesIcon }}</span>
     </div>
 
-    <div class="tags">
-      <span class="tag">{{ sizeLabel }}</span>
-      <span class="tag">{{ sexLabel }}</span>
-      <span class="tag" *ngIf="animal.age != null">{{ ageLabel }}</span>
+    <div class="card-tags">
+      <span class="info-tag">{{ sizeLabel }}</span>
+      <span class="info-tag">{{ sexLabel }}</span>
+      <span class="info-tag" *ngIf="animal.age != null">{{ ageLabel }}</span>
     </div>
 
     <button class="btn-detail" type="button" (click)="$event.stopPropagation(); onSelect.emit(animal)">
-      Ver detalhes
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <span>Ver detalhes</span>
+      <svg class="icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M5 12h14M13 6l6 6-6 6"/>
       </svg>
     </button>

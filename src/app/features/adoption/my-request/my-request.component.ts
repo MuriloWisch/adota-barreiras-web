@@ -30,7 +30,7 @@ interface RequestCard {
     CommonModule, RouterLink,
     MatButtonModule, MatIconModule, MatTabsModule,
     MatProgressSpinnerModule, MatBadgeModule,
-    PageHeaderComponent, LoadingSpinnerComponent,
+    LoadingSpinnerComponent,
   ],
   animations: [
     trigger('fadeIn', [

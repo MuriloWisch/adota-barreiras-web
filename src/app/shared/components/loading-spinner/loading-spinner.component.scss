@@ -1,10 +1,36 @@
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(255,255,255,0.75);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999;
+$slate-900: #0f172a;
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease;
+
+  /* ── MODO INLINE (Dentro de cards ou seções) ── */
+  &--inline {
+    padding: 40px 0;
+  }
+
+  &--overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000; 
+    
+    background-color: rgba(255, 255, 255, 0.7); 
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    
+    animation: spinnerFadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 }
-.inline-spinner {
-  display: flex; justify-content: center;
-  padding: 32px 0;
+
+@keyframes spinnerFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

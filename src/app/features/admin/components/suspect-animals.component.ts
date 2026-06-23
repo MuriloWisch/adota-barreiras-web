@@ -48,7 +48,6 @@ export class AnimalDetailDialogComponent {
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
-    PageHeaderComponent,
     LoadingSpinnerComponent,
   ],
   animations: [

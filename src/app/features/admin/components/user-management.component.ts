@@ -26,8 +26,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
     CommonModule, ReactiveFormsModule,
     MatTableModule, MatPaginatorModule, MatSortModule,
     MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatIconModule, MatProgressSpinnerModule,
-    PageHeaderComponent,
+    MatButtonModule, MatIconModule, MatProgressSpinnerModule
   ],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss'],

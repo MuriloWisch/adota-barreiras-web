@@ -1,9 +1,71 @@
-.dialog-wrap { padding: 8px; }
-h2 { color: #1E3A5F; font-weight: 700; }
-p  { color: #555; font-size: 14px; margin-top: 8px; }
-.btn-confirm {
-  background: #ef4444 !important;
-  color: #fff !important;
-  border-radius: 8px !important;
+$slate-900: #0f172a;
+$slate-600: #475569;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+
+// Tons de aviso/destrutivos refinados (saem do vermelho puro)
+$red-600: #dc2626;
+$red-700: #b91c1c;
+
+.app-dialog-container {
+  padding: 4px;
 }
-mat-dialog-actions { gap: 8px; margin-top: 8px; }
+
+/* Título do Modal */
+.dialog-title {
+  color: $slate-900;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px 0 !important;
+  padding: 0 !important;
+}
+
+
+.dialog-content {
+  padding: 0 !important;
+  margin: 0 0 24px 0 !important;
+  overflow: hidden;
+
+  .dialog-message {
+    color: $slate-600;
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.dialog-actions {
+  gap: 10px;
+  padding: 0 !important;
+  min-height: auto !important;
+
+  button {
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 8px !important;
+    padding: 0 16px !important;
+    height: 38px !important;
+    line-height: 38px !important;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .btn-cancel {
+    color: $slate-600 !important;
+    background-color: transparent !important;
+
+    &:hover {
+      background-color: $slate-100 !important;
+    }
+  }
+
+
+  .btn-confirm {
+    background-color: $red-600 !important;
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: $red-700 !important;
+    }
+  }
+}

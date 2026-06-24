@@ -72,55 +72,53 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   selectChat(chat: Chat): void {
-    if (this.selectedChat()?.id === chat.id) return;
+  if (!chat || this.selectedChat()?.id === chat.id) return;
 
-    this.chatService.disconnect();
-    this.selectedChat.set(chat);
-    this.messages.set([]);
-    this.page    = 0;
-    this.hasMore = true;
+  this.chatService.disconnect();
+  this.selectedChat.set(chat);
+  this.messages.set([]);
+  this.page    = 0;
+  this.hasMore = true;
 
-    this.loadMessages(true);
-    this.connectWs(chat.id);
-  }
+  this.loadMessages(true);
+  this.connectWs(chat.id);
+}
 
-  private loadMessages(reset = false): void {
-    if (!this.selectedChat()) return;
+private loadMessages(reset = false): void {
+  const chat = this.selectedChat();
+  if (!chat) return;
 
-    if (reset) {
-      this.messagesLoading.set(true);
-    } else {
-      this.loadingMore.set(true);
-    }
+  if (reset) this.messagesLoading.set(true);
+  else       this.loadingMore.set(true);
 
-    this.chatService.getMessages(this.selectedChat()!.id, this.page).subscribe({
-      next: resp => {
-        const sorted = [...resp.content].reverse();
-        if (reset) {
-          this.messages.set(sorted);
-        } else {
-          this.messages.update(prev => [...sorted, ...prev]);
-        }
-        this.hasMore = this.page < resp.totalPages - 1;
-        this.page++;
-        this.messagesLoading.set(false);
-        this.loadingMore.set(false);
-      },
-      error: () => {
-        this.messagesLoading.set(false);
-        this.loadingMore.set(false);
-      },
-    });
-  }
+  this.chatService.getMessages(chat.id, this.page).subscribe({
+    next: resp => {
+      const sorted = [...(resp.content ?? [])].reverse();
+      if (reset) this.messages.set(sorted);
+      else       this.messages.update(prev => [...sorted, ...prev]);
 
-  private connectWs(chatId: number): void {
+      this.hasMore = this.page < resp.totalPages - 1;
+      this.page++;
+      this.messagesLoading.set(false);
+      this.loadingMore.set(false);
+    },
+    error: () => {
+      this.messagesLoading.set(false);
+      this.loadingMore.set(false);
+    },
+  });
+}
+
+private connectWs(chatId: number): void {
+  try {
     this.chatService.connectWebSocket(chatId, (msg: Message) => {
-      const alreadyExists = this.messages().some(m => m.id === msg.id);
-      if (!alreadyExists) {
-        this.messages.update(prev => [...prev, msg]);
-      }
+      const exists = this.messages().some(m => m.id === msg.id);
+      if (!exists) this.messages.update(prev => [...prev, msg]);
     });
+  } catch (e) {
+    console.error('[Chat] Falha ao conectar WebSocket:', e);
   }
+}
 
   sendMessage(content: string): void {
     const chat = this.selectedChat();

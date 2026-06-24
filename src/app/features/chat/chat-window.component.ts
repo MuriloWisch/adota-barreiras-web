@@ -55,22 +55,22 @@ export class ChatWindowComponent implements OnChanges, AfterViewChecked {
   groups = signal<MessageGroup[]>([]);
 
   get otherUser(): User | undefined {
-    if (!this.chat) return undefined;
-    return this.chat.userOne?.id === this.currentUserId
-      ? this.chat.userTwo
-      : this.chat.userOne;
-  }
+  if (!this.chat) return undefined;
+  return this.chat.userOne?.id === this.currentUserId
+    ? this.chat.userTwo
+    : this.chat.userOne;
+}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['messages']) {
-      this.buildGroups();
-      this.shouldScroll = true;
-    }
-    if (changes['chat']) {
-      this.inputText  = '';
-      this.shouldScroll = true;
-    }
+  if (changes['messages']) {
+    this.buildGroups();
+    this.shouldScroll = true;
   }
+  if (changes['chat']) {
+    this.inputText    = '';
+    this.shouldScroll = true;
+  }
+}
 
   ngAfterViewChecked(): void {
     if (this.shouldScroll) {
@@ -99,18 +99,20 @@ export class ChatWindowComponent implements OnChanges, AfterViewChecked {
   }
 
   private buildGroups(): void {
-    const map = new Map<string, Message[]>();
+  const map = new Map<string, Message[]>();
+  const msgs = this.messages ?? [];
 
-    for (const msg of this.messages) {
-      const label = this.dateLabel(msg.timestamp);
-      if (!map.has(label)) map.set(label, []);
-      map.get(label)!.push(msg);
-    }
-
-    this.groups.set(
-      Array.from(map.entries()).map(([dateLabel, messages]) => ({ dateLabel, messages }))
-    );
+  for (const msg of msgs) {
+    if (!msg?.timestamp) continue;
+    const label = this.dateLabel(msg.timestamp);
+    if (!map.has(label)) map.set(label, []);
+    map.get(label)!.push(msg);
   }
+
+  this.groups.set(
+    Array.from(map.entries()).map(([dateLabel, messages]) => ({ dateLabel, messages }))
+  );
+}
 
   private dateLabel(ts: string): string {
     const d     = new Date(ts);

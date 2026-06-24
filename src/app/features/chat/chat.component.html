@@ -13,14 +13,15 @@
 
     <div class="right-panel">
       <app-chat-window
-        [chat]="selectedChat() ?? undefined"
-        [messages]="messages()"
-        [loading]="messagesLoading()"
-        [loadingMore]="loadingMore()"
-        [currentUserId]="me?.id"
-        (onSend)="sendMessage($event)"
-        (loadPrevPage)="loadPrevPage()">
-      </app-chat-window>
+  *ngIf="selectedChat() as chat"
+  [chat]="chat"
+  [messages]="messages()"
+  [loading]="messagesLoading()"
+  [loadingMore]="loadingMore()"
+  [currentUserId]="me?.id"
+  (onSend)="sendMessage($event)"
+  (loadPrevPage)="loadPrevPage()">
+</app-chat-window>
     </div>
 
   </div>

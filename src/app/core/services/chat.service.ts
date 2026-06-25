@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 export class ChatService {
 
   private stompClient: Client | null = null;
+  private pendingChatId: number | null = null;
 
   constructor(private api: ApiService) {}
 
@@ -28,33 +29,54 @@ export class ChatService {
   }
 
   connectWebSocket(chatId: number, onMessage: (msg: Message) => void): void {
+    this.disconnect();
+    this.pendingChatId = chatId;
+
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(environment.wsUrl),
+      reconnectDelay: 5000,
       onConnect: () => {
+        console.log('[Chat] STOMP conectado. Subscrevendo /topic/chat/' + chatId);
+
         this.stompClient?.subscribe(`/topic/chat/${chatId}`, (frame: IMessage) => {
+          console.log('[Chat] Mensagem recebida via WS:', frame.body);
           const message: Message = JSON.parse(frame.body);
           onMessage(message);
         });
       },
-      reconnectDelay: 5000,
+      onStompError: (frame) => {
+        console.error('[Chat] Erro STOMP:', frame.headers, frame.body);
+      },
+      onWebSocketError: (event) => {
+        console.error('[Chat] Erro WebSocket:', event);
+      },
+      onDisconnect: () => {
+        console.log('[Chat] STOMP desconectado.');
+      },
     });
 
     this.stompClient.activate();
   }
 
   sendWebSocketMessage(chatId: number, content: string): void {
-    if (this.stompClient?.connected) {
-      this.stompClient.publish({
-        destination: `/app/chat/${chatId}/send`,
-        body: JSON.stringify({ content }),
-      });
+    if (!this.stompClient?.connected) {
+      console.warn('[Chat] STOMP ainda não conectado — mensagem não enviada:', content);
+      return;
     }
+
+    const destination = `/app/chat/${chatId}/send`;
+    const body = JSON.stringify({ content });
+
+    console.log('[Chat] Enviando:', destination, body);
+
+    this.stompClient.publish({ destination, body });
   }
 
   disconnect(): void {
     if (this.stompClient?.active) {
       this.stompClient.deactivate();
-      this.stompClient = null;
     }
+    this.stompClient = null;
+    this.pendingChatId = null;
   }
 }

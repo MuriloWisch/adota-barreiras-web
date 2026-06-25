@@ -24,7 +24,9 @@
       <div class="animal-card-premium" *ngFor="let animal of animals(); let i = index" [@cardLeave]>
         
         <div class="card-image-wrapper">
-          <img [src]="animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'" [alt]="animal.name" loading="lazy">
+          <img #img [src]="animal.images[0].imageUrl || 'assets/placeholder-animal.jpg'" [alt]="animal.name" loading="lazy" 
+              (error)="img.src = 'assets/placeholder-animal.jpg'">
+>
           <div class="status-indicator-badge">
             <span class="pulse-dot"></span>
             Revisão Pendente

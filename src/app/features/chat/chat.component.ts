@@ -30,23 +30,23 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  chats          = signal<Chat[]>([]);
-  selectedChat   = signal<Chat | null>(null);
-  messages       = signal<Message[]>([]);
+  chats = signal<Chat[]>([]);
+  selectedChat = signal<Chat | null>(null);
+  messages = signal<Message[]>([]);
   messagesLoading = signal(false);
-  loadingMore    = signal(false);
+  loadingMore = signal(false);
 
   mobileShowWindow = false;
 
-  private page     = 0;
-  private hasMore  = true;
-  me: User | null  = null;
+  private page = 0;
+  private hasMore = true;
+  me: User | null = null;
 
   constructor(
     private chatService: ChatService,
     private auth: AuthService,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.me = this.auth.currentUser$.getValue();
@@ -72,65 +72,65 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   selectChat(chat: Chat): void {
-  if (!chat || this.selectedChat()?.id === chat.id) return;
+    if (!chat || this.selectedChat()?.id === chat.id) return;
 
-  this.chatService.disconnect();
-  this.selectedChat.set(chat);
-  this.messages.set([]);
-  this.page    = 0;
-  this.hasMore = true;
+    this.chatService.disconnect();
+    this.selectedChat.set(chat);
+    this.messages.set([]);
+    this.page = 0;
+    this.hasMore = true;
 
-  this.loadMessages(true);
-  this.connectWs(chat.id);
-}
-
-private loadMessages(reset = false): void {
-  const chat = this.selectedChat();
-  if (!chat) return;
-
-  if (reset) this.messagesLoading.set(true);
-  else       this.loadingMore.set(true);
-
-  this.chatService.getMessages(chat.id, this.page).subscribe({
-    next: resp => {
-      const sorted = [...(resp.content ?? [])].reverse();
-      if (reset) this.messages.set(sorted);
-      else       this.messages.update(prev => [...sorted, ...prev]);
-
-      this.hasMore = this.page < resp.totalPages - 1;
-      this.page++;
-      this.messagesLoading.set(false);
-      this.loadingMore.set(false);
-    },
-    error: () => {
-      this.messagesLoading.set(false);
-      this.loadingMore.set(false);
-    },
-  });
-}
-
-private connectWs(chatId: number): void {
-  try {
-    this.chatService.connectWebSocket(chatId, (msg: Message) => {
-      const exists = this.messages().some(m => m.id === msg.id);
-      if (!exists) this.messages.update(prev => [...prev, msg]);
-    });
-  } catch (e) {
-    console.error('[Chat] Falha ao conectar WebSocket:', e);
+    this.loadMessages(true);
+    this.connectWs(chat.id);
   }
-}
+
+  private loadMessages(reset = false): void {
+    const chat = this.selectedChat();
+    if (!chat) return;
+
+    if (reset) this.messagesLoading.set(true);
+    else this.loadingMore.set(true);
+
+    this.chatService.getMessages(chat.id, this.page).subscribe({
+      next: resp => {
+        const sorted = [...(resp.content ?? [])].reverse();
+        if (reset) this.messages.set(sorted);
+        else this.messages.update(prev => [...sorted, ...prev]);
+
+        this.hasMore = this.page < resp.totalPages - 1;
+        this.page++;
+        this.messagesLoading.set(false);
+        this.loadingMore.set(false);
+      },
+      error: () => {
+        this.messagesLoading.set(false);
+        this.loadingMore.set(false);
+      },
+    });
+  }
+
+  private connectWs(chatId: number): void {
+    try {
+      this.chatService.connectWebSocket(chatId, (msg: Message) => {
+        const exists = this.messages().some(m => m.id === msg.id);
+        if (!exists) this.messages.update(prev => [...prev, msg]);
+      });
+    } catch (e) {
+      console.error('[Chat] Falha ao conectar WebSocket:', e);
+    }
+  }
 
   sendMessage(content: string): void {
     const chat = this.selectedChat();
-    const me   = this.me;
+    const me = this.me;
     if (!chat || !me) return;
 
     const optimistic: Message = {
-      id:        Date.now(),
+      id: Date.now(),
       content,
       timestamp: new Date().toISOString(),
-      sender:    me as any,
-      chatId:    chat.id,
+      sender: me as any,
+      chatId: chat.id,
     };
     this.messages.update(prev => [...prev, optimistic]);
 

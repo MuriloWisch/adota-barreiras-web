@@ -172,15 +172,10 @@ $slate-50:  #f8fafc;
 
 .card-img-wrap {
   position: relative;
-  aspect-ratio: 16 / 11;
+  height: 180px;
+  width: 100%;
   overflow: hidden;
-  background-color: $slate-50;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background: #f3f4f6;
 }
 
 .status-badge {

@@ -80,6 +80,11 @@ export class NavbarComponent implements OnInit {
         this.notifOpen = !this.notifOpen;
     }
 
+    closeMenus(): void {
+        this.drawerOpen = false;
+        this.notifOpen = false;
+    }
+
     @HostListener('document:click', ['$event'])
     onDocClick(e: MouseEvent): void {
         const target = e.target as HTMLElement;

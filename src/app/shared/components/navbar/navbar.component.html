@@ -1,7 +1,7 @@
 <nav class="navbar" [class.scrolled]="scrolled">
   <div class="nav-inner">
 
-    <a routerLink="/home" class="logo">
+    <a routerLink="/home" class="logo" (click)="closeMenus()">
       <mat-icon class="logo-icon">pets</mat-icon>
       <span class="logo-text">Adota Barreiras</span>
     </a>
@@ -9,16 +9,16 @@
     <div class="nav-links desktop-only">
 
       <ng-container *ngIf="!isLoggedIn">
-        <a routerLink="/login" mat-button class="nav-btn">Entrar</a>
-        <a routerLink="/register" mat-raised-button class="btn-register">Cadastrar</a>
+        <a routerLink="/login" mat-button class="nav-btn" (click)="closeMenus()">Entrar</a>
+        <a routerLink="/register" mat-raised-button class="btn-register" (click)="closeMenus()">Cadastrar</a>
       </ng-container>
 
       <ng-container *ngIf="isLoggedIn">
-        <a routerLink="/home" mat-button routerLinkActive="active-link">Início</a>
-        <a routerLink="/animals/my" mat-button routerLinkActive="active-link">Meus Animais</a>
-        <a routerLink="/my-requests" mat-button routerLinkActive="active-link">Solicitações</a>
-        <a routerLink="/chat" mat-button routerLinkActive="active-link">Chat</a>
-        <a routerLink="/admin/suspects" mat-button routerLinkActive="active-link" *ngIf="isAdmin">Admin</a>
+        <a routerLink="/home" mat-button routerLinkActive="active-link" (click)="closeMenus()">Início</a>
+        <a routerLink="/animals/my" mat-button routerLinkActive="active-link" (click)="closeMenus()">Meus Animais</a>
+        <a routerLink="/my-requests" mat-button routerLinkActive="active-link" (click)="closeMenus()">Solicitações</a>
+        <a routerLink="/chat" mat-button routerLinkActive="active-link" (click)="closeMenus()">Chat</a>
+        <a routerLink="/admin/suspects" mat-button routerLinkActive="active-link" (click)="closeMenus()" *ngIf="isAdmin">Admin</a>
 
         <div class="notif-wrap">
           <button mat-icon-button (click)="toggleNotif()" class="notif-btn">
@@ -45,7 +45,7 @@
         </button>
 
         <mat-menu #userMenu="matMenu" class="user-menu">
-          <button mat-menu-item routerLink="/profile">
+          <button mat-menu-item routerLink="/profile" (click)="closeMenus()">
             <mat-icon>person</mat-icon> Perfil
           </button>
           <mat-divider></mat-divider>

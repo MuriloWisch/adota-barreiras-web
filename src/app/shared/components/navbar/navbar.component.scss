@@ -16,10 +16,12 @@ $red-600: #dc2626;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 20000;
   background-color: #ffffff;
   border-bottom: 1px solid transparent;
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  isolation: isolate;
+  pointer-events: auto;
 }
 
 .navbar.scrolled {
@@ -59,6 +61,35 @@ $red-600: #dc2626;
   display: flex;
   align-items: center;
   gap: 6px;
+
+  a,
+  button {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.nav-links a[mat-button] {
+  border-radius: 8px !important;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 999px;
+    background: $emerald-600;
+    opacity: 0;
+    transform: scaleX(0.35);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  &.active-link::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .nav-btn {
@@ -94,6 +125,12 @@ $red-600: #dc2626;
 
 .notif-btn {
   color: $slate-700 !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .notif-dropdown {
@@ -107,7 +144,7 @@ $red-600: #dc2626;
   width: 320px;
   max-height: 380px;
   overflow-y: auto;
-  z-index: 200;
+  z-index: 20010;
 }
 
 .notif-header {
@@ -174,6 +211,12 @@ $red-600: #dc2626;
 
 .avatar-btn {
   margin-left: 4px;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .avatar {
@@ -187,6 +230,20 @@ $red-600: #dc2626;
   justify-content: center;
   font-size: 13px;
   font-weight: 700;
+}
+
+::ng-deep .notif-btn .mat-mdc-button-touch-target,
+::ng-deep .avatar-btn .mat-mdc-button-touch-target {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+::ng-deep .notif-btn .mat-mdc-button-persistent-ripple,
+::ng-deep .notif-btn .mat-ripple,
+::ng-deep .avatar-btn .mat-mdc-button-persistent-ripple,
+::ng-deep .avatar-btn .mat-ripple {
+  inset: 0 !important;
+  border-radius: 50% !important;
 }
 
 .logout-item {
@@ -206,7 +263,7 @@ $red-600: #dc2626;
   inset: 0;
   background-color: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(4px);
-  z-index: 1100;
+  z-index: 20100;
 }
 
 .drawer {
@@ -216,7 +273,7 @@ $red-600: #dc2626;
   bottom: 0;
   width: 280px;
   background-color: #ffffff;
-  z-index: 1200;
+  z-index: 20200;
   box-shadow: 10px 0 15px -3px rgba(15, 23, 42, 0.05);
   display: flex;
   flex-direction: column;

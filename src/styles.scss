@@ -1,21 +1,13 @@
-/* ══════════════════════════════════════════════════════════════
-1. Fontes
-══════════════════════════════════════════════════════════════ */
+@import 'material-icons/iconfont/material-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* ══════════════════════════════════════════════════════════════
-2. Tailwind
-══════════════════════════════════════════════════════════════ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ══════════════════════════════════════════════════════════════
-3. Angular Material Theme
-══════════════════════════════════════════════════════════════ */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* Remove estilos invasivos padrão */
 input.mat-mdc-input-element,
 textarea.mat-mdc-input-element,
 .mat-mdc-select {
@@ -25,7 +17,6 @@ textarea.mat-mdc-input-element,
   background: transparent !important;
 }
 
-/* Esconde placeholder quando label ainda não flutuou */
 .mat-mdc-form-field:not(.mat-form-field-should-float) input::placeholder,
 .mat-mdc-form-field:not(.mat-form-field-should-float) textarea::placeholder {
   opacity: 0 !important;
@@ -232,4 +223,80 @@ textarea.mat-mdc-input-element::placeholder {
 .mat-button-toggle-checked {
   background: #4CAF50 !important;
   color: #fff !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline {
+  --mat-form-field-container-height: 52px;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-text-field-wrapper {
+  min-height: 52px !important;
+  padding: 0 14px !important;
+  overflow: visible !important;
+  background: #fff !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-flex {
+  min-height: 52px !important;
+  align-items: center !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-infix {
+  min-height: 52px !important;
+  padding: 16px 4px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline textarea.mat-mdc-input-element,
+html body .mat-mdc-form-field.mat-form-field-appearance-outline textarea.mat-input-element {
+  align-self: stretch !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline textarea.mat-mdc-input-element {
+  padding-top: 6px !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline {
+  pointer-events: none !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading,
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__notch,
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing {
+  border: 0 !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-floating-label {
+  background: #fff !important;
+  padding: 0 4px !important;
+  margin-left: -4px !important;
+  max-width: calc(100% - 16px) !important;
+  line-height: 1.2 !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline.mat-focused .mat-mdc-text-field-wrapper {
+  border-color: #0F172A !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+}
+
+html body .mat-mdc-form-field.mat-form-field-appearance-outline.mat-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #EF4444 !important;
+  box-shadow: none !important;
+}
+
+html body input.mat-mdc-input-element,
+html body textarea.mat-mdc-input-element {
+  line-height: 1.4 !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  caret-color: #1E3A5F !important;
+}
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  z-index: 30000 !important;
 }

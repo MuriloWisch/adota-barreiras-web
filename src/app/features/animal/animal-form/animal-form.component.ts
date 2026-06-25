@@ -29,6 +29,8 @@ interface ImagePreview {
   existingUrl?: string;
 }
 
+type AgeUnit = 'YEARS' | 'MONTHS';
+
 const BARREIRAS_LAT = -12.1539;
 const BARREIRAS_LNG = -44.9986;
 
@@ -109,7 +111,8 @@ export class AnimalFormComponent implements OnInit {
       species:     ['', Validators.required],
       sex:         ['', Validators.required],
       size:        ['', Validators.required],
-      age:         [null, [Validators.min(0), Validators.max(30)]],
+      ageValue:    [null, [Validators.min(0), Validators.max(360)]],
+      ageUnit:     ['YEARS' as AgeUnit],
       description: ['', Validators.maxLength(500)],
       address:     [''],
       latitude:    [null, Validators.required],
@@ -136,12 +139,15 @@ export class AnimalFormComponent implements OnInit {
   }
 
   private populateForm(animal: Animal): void {
+    const ageParts = this.toAgeParts(animal.age);
+
     this.form.patchValue({
       name:        animal.name,
       species:     animal.species,
       sex:         animal.sex,
       size:        animal.size,
-      age:         animal.age,
+      ageValue:    ageParts.value,
+      ageUnit:     ageParts.unit,
       description: animal.description,
       address:     animal.address,
       latitude:    animal.latitude,
@@ -260,7 +266,7 @@ export class AnimalFormComponent implements OnInit {
     this.saving = true;
 
     if (this.isEditMode) {
-      this.animalService.update(this.editAnimalId!, this.form.value).subscribe({
+      this.animalService.update(this.editAnimalId!, this.buildPayload()).subscribe({
         next: animal => {
           this.snackBar.open('Animal atualizado com sucesso!', 'Fechar', { duration: 3000 });
           this.router.navigate(['/animals', animal.id]);
@@ -286,23 +292,86 @@ export class AnimalFormComponent implements OnInit {
   }
 
   private buildFormData(files: File[]): FormData {
-    const fd = new FormData();
-    const v  = this.form.value;
+  const fd = new FormData();
+  const v = this.buildPayload();
 
-    fd.append('name',    v.name);
-    fd.append('species', v.species);
-    fd.append('sex',     v.sex);
-    fd.append('size',    v.size);
-    fd.append('latitude',  String(v.latitude));
-    fd.append('longitude', String(v.longitude));
+  // obrigatórios (com validação defensiva)
+  if (!v.name || !v.species || !v.sex || !v.size) {
+    throw new Error('Campos obrigatórios não preenchidos');
+  }
 
-    if (v.age         != null) fd.append('age',         String(v.age));
-    if (v.description)         fd.append('description', v.description);
-    if (v.address)             fd.append('address',     v.address);
+  fd.append('name', v.name);
+  fd.append('species', v.species);
+  fd.append('sex', v.sex);
+  fd.append('size', v.size);
 
-    files.forEach(f => fd.append('images', f, f.name));
+  // números obrigatórios convertidos com segurança
+  if (v.latitude == null || v.longitude == null) {
+    throw new Error('Coordenadas inválidas');
+  }
 
-    return fd;
+  fd.append('latitude', String(v.latitude));
+  fd.append('longitude', String(v.longitude));
+
+  // opcionais
+  if (v.age != null) {
+    fd.append('age', String(v.age));
+  }
+
+  if (v.description?.trim()) {
+    fd.append('description', v.description);
+  }
+
+  if (v.address?.trim()) {
+    fd.append('address', v.address);
+  }
+
+  // arquivos (validação leve)
+  if (!files?.length) {
+    throw new Error('Nenhuma imagem enviada');
+  }
+
+  files.forEach(file => {
+    fd.append('images', file, file.name);
+  });
+
+  return fd;
+}
+
+  private buildPayload(): Partial<Animal> {
+    const v = this.form.value;
+    const age = this.toStoredAge(v.ageValue, v.ageUnit);
+
+    return {
+      name: v.name,
+      species: v.species,
+      sex: v.sex,
+      size: v.size,
+      latitude: v.latitude,
+      longitude: v.longitude,
+      ...(age != null ? { age } : {}),
+      ...(v.description ? { description: v.description } : {}),
+      ...(v.address ? { address: v.address } : {}),
+    };
+  }
+
+  private toStoredAge(value: number | string | null, unit: AgeUnit): number | null {
+    if (value === null || value === '') return null;
+
+    const numeric = Number(value);
+    if (Number.isNaN(numeric)) return null;
+
+    if (unit === 'MONTHS') {
+      return Number((numeric / 12).toFixed(2));
+    }
+
+    return numeric;
+  }
+
+  private toAgeParts(age: number | null | undefined): { value: number | null; unit: AgeUnit } {
+    if (age == null) return { value: null, unit: 'YEARS' };
+    if (age > 0 && age < 1) return { value: Math.max(1, Math.round(age * 12)), unit: 'MONTHS' };
+    return { value: age, unit: 'YEARS' };
   }
 
   cancel(): void {

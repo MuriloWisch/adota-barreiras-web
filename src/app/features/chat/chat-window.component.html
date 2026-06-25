@@ -14,11 +14,11 @@
   <div class="avatar">{{ otherUser?.name?.charAt(0)?.toUpperCase() }}</div>
   <div class="header-info">
     <span class="other-name">{{ otherUser?.name }}</span>
-    <span class="animal-sub">🐾 {{ chat?.animal?.name }}</span>
+    <span class="animal-sub">🐾 {{ chat.animal.name }}</span>
   </div>
   <a mat-stroked-button class="see-animal-btn"
-     *ngIf="chat?.animal?.id"
-     [routerLink]="['/animals', chat?.animal?.id]">
+     *ngIf="chat.animal.id"
+     [routerLink]="['/animals', chat.animal.id]">
     <mat-icon>visibility</mat-icon> Ver Animal
   </a>
 </div>
@@ -39,8 +39,8 @@
       <div class="date-separator">
         <span>{{ group.dateLabel }}</span>
       </div>
-      <div class="msg-row" *ngFor="let msg of group.messages" [class.mine]="msg.sender?.id === currentUserId">
-  <div class="bubble" [class.bubble-mine]="msg.sender?.id === currentUserId">
+      <div class="msg-row" *ngFor="let msg of group.messages" [class.mine]="msg.sender.id === currentUserId">
+  <div class="bubble" [class.bubble-mine]="msg.sender.id === currentUserId">
     <p>{{ msg.content }}</p>
     <span class="msg-time">{{ msg.timestamp | date:'HH:mm' }}</span>
   </div>

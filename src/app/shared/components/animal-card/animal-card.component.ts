@@ -44,7 +44,8 @@ export class AnimalCardComponent {
   }
   get imageUrl()     { return this.animal.images?.[0]?.imageUrl || PLACEHOLDER; }
 
-  onImageError(event: Event): void {
-    (event.target as HTMLImageElement).src = PLACEHOLDER;
+   onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'assets/placeholder-animal.jpg';
   }
 }

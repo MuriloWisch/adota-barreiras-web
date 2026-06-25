@@ -308,56 +308,49 @@ $error-color: #ef4444;    // Red 500
 .skel-field { height: 48px; }
 .skel-field.short { width: 40%; }
 
-/* ==========================================================================
-   RESET COMPLETO DO ANGULAR MATERIAL PARA INPUTS LINDOS E MODERNOS
+/* ========================================================================== 
+   RESET DOS INPUTS DO ANGULAR MATERIAL
    ========================================================================== */
 ::ng-deep {
-  .mat-mdc-form-field {
-    width: 100% !important;
-    display: block !important;
-  }
+  .mat-mdc-form-field { width: 100% !important; display: block !important; }
 
-  // Remove o background esquisito e as linhas extras inferiores
   .mat-mdc-text-field-wrapper {
     width: 100% !important;
-    background-color: transparent !important;
+    min-height: 52px !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    padding: 0 14px !important;
+    overflow: visible !important;
   }
 
-  // Define os contornos de forma uniforme
-  .mdc-notched-outline {
-    background-color: transparent !important;
-  }
+  .mat-mdc-form-field-flex { min-height: 52px !important; align-items: center !important; }
+  .mat-mdc-form-field-infix { min-height: 52px !important; padding: 16px 4px 8px !important; display: flex !important; align-items: center !important; }
+  textarea.mat-mdc-input-element { align-self: stretch !important; padding-top: 6px !important; line-height: 1.5 !important; }
 
+  .mdc-notched-outline,
   .mdc-notched-outline__leading,
   .mdc-notched-outline__notch,
-  .mdc-notched-outline__trailing {
-    border-color: #cbd5e1 !important; // Borda neutra suave (Slate 300)
-    border-width: 1px !important;
-    transition: border-color 0.15s ease !important;
-  }
+  .mdc-notched-outline__trailing { border: 0 !important; }
 
-  // Estilo ao focar no Input (Foco elegante)
-  .mat-mdc-form-field.mat-focused {
-    .mdc-notched-outline__leading,
-    .mdc-notched-outline__notch,
-    .mdc-notched-outline__trailing {
-      border-color: #0f172a !important; // Borda preta/escura ao focar
-      border-width: 1.5px !important;
-    }
-    
-    .mat-mdc-floating-label {
-      color: #0f172a !important;
-    }
-  }
-
-  // Ajusta a cor da label flutuante padrão
+  .mdc-floating-label,
   .mat-mdc-floating-label {
+    background: #ffffff !important;
     color: #64748b !important;
+    padding: 0 4px !important;
+    margin-left: -4px !important;
+    line-height: 1.2 !important;
   }
-}
 
+  .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+    border-color: #0f172a !important;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+  }
+
+  .mat-mdc-form-field.mat-focused .mat-mdc-floating-label { color: #0f172a !important; }
+  .mat-mdc-form-field.mat-form-field-invalid .mat-mdc-text-field-wrapper { border-color: #ef4444 !important; }
+}
 @media (max-width: 600px) {
   .form-section { padding: 32px 16px; }
   .form-action-footer { padding: 20px 16px; }

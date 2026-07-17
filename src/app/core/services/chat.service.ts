@@ -26,34 +26,36 @@ export class ChatService {
 
   listMyChats(): Observable<Chat[]> {
     return this.api.get<Chat[]>('/chat/my');
-  }
+  }   
 
   connectWebSocket(chatId: number, onMessage: (msg: Message) => void): void {
-    this.disconnect();
-    this.pendingChatId = chatId;
+  this.disconnect();
+  this.pendingChatId = chatId;
 
-    this.stompClient = new Client({
-      webSocketFactory: () => new SockJS(environment.wsUrl),
-      reconnectDelay: 5000,
-      onConnect: () => {
-        console.log('[Chat] STOMP conectado. Subscrevendo /topic/chat/' + chatId);
+  const token = localStorage.getItem('adota_token');
 
-        this.stompClient?.subscribe(`/topic/chat/${chatId}`, (frame: IMessage) => {
-          console.log('[Chat] Mensagem recebida via WS:', frame.body);
-          const message: Message = JSON.parse(frame.body);
-          onMessage(message);
-        });
-      },
-      onStompError: (frame) => {
-        console.error('[Chat] Erro STOMP:', frame.headers, frame.body);
-      },
-      onWebSocketError: (event) => {
-        console.error('[Chat] Erro WebSocket:', event);
-      },
-      onDisconnect: () => {
-        console.log('[Chat] STOMP desconectado.');
-      },
-    });
+  this.stompClient = new Client({
+    webSocketFactory: () => new SockJS(environment.wsUrl),
+    connectHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+    reconnectDelay: 5000,
+    onConnect: () => {
+      this.stompClient?.subscribe(`/topic/chat/${chatId}`, (frame: IMessage) => {
+        const message: Message = JSON.parse(frame.body);
+        onMessage(message);
+      });
+    },
+    onStompError: (frame) => {
+      console.error('[Chat] Erro STOMP:', frame.headers, frame.body);
+    },
+    onWebSocketError: (event) => {
+      console.error('[Chat] Erro WebSocket:', event);
+    },
+    onDisconnect: () => {
+      console.log('[Chat] STOMP desconectado.');
+    },
+  });
 
     this.stompClient.activate();
   }

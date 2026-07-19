@@ -1,125 +1,175 @@
-<div class="page-wrap">
+<div class="max-w-[1080px] mx-auto px-4 sm:px-6 pt-8 pb-24">
 
-  <div class="header-row">
-    <app-page-header
-      title="Meus Animais"
-      subtitle="Gerencie os animais que você cadastrou">
-    </app-page-header>
-    <button mat-flat-button class="btn-primary" routerLink="/animals/new">
-      <mat-icon>add</mat-icon> Cadastrar Animal
+  <header class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-8 p-6 sm:p-7 rounded-2xl border border-[var(--border-color)] bg-gradient-to-br from-emerald-500/10 to-[#1e3a5f]/5">
+    <div>
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 mb-3 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] text-[11px] font-semibold uppercase tracking-wide text-[var(--muted-color)]">
+        <mat-icon class="!text-sm !w-3.5 !h-3.5 text-emerald-500">pets</mat-icon>
+        Painel do doador
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-[var(--text-color)] tracking-tight mb-2">Meus Animais</h1>
+      <p class="text-sm text-[var(--muted-color)] max-w-md leading-relaxed">Cadastre, acompanhe solicitações de adoção e gerencie o status dos seus pets.</p>
+    </div>
+    <button mat-flat-button class="btn-register shrink-0 self-start sm:self-center" routerLink="/animals/new">
+      <mat-icon>add</mat-icon>
+      Cadastrar animal
     </button>
-  </div>
+  </header>
 
   <app-loading-spinner *ngIf="pageLoading()"></app-loading-spinner>
 
-  <div class="empty-state" *ngIf="!pageLoading() && !cards().length">
-    <div class="empty-icon-wrap">
-      <mat-icon>pets</mat-icon>
-    </div>
-    <h3>Nenhum animal cadastrado</h3>
-    <p>Você ainda não possui registros de animais para adoção neste painel.</p>
-    <button mat-flat-button class="btn-primary" routerLink="/animals/new">
-      <mat-icon>add</mat-icon> Cadastrar meu primeiro animal
-    </button>
-  </div>
+  <ng-container *ngIf="!pageLoading()">
 
-  <div class="grid" [@stagger]="cards().length" *ngIf="!pageLoading() && cards().length">
-
-    <div class="animal-card" *ngFor="let card of cards(); let i = index">
-
-      <div class="card-img-wrap">
-        <img
-        #img
-          [src]="card.animal.images[0]?.imageUrl || 'assets/placeholder-animal.svg'"
-          [alt]="card.animal.name"
-          (error)="img.src = 'assets/placeholder-animal.svg'">
-          
-        
-        <div class="status-badge" [style.background]="statusCfg(card.animal).bg" [style.color]="statusCfg(card.animal).color">
-          <mat-icon class="badge-icon">{{ statusCfg(card.animal).icon }}</mat-icon>
-          {{ statusCfg(card.animal).label }}
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 mb-7" *ngIf="cards().length">
+      <article class="stat-card" *ngFor="let s of [
+        { icon: 'pets', cls: 'total', val: stats().total, label: 'Cadastrados' },
+        { icon: 'check_circle', cls: 'available', val: stats().available, label: 'Disponíveis' },
+        { icon: 'sync', cls: 'process', val: stats().inProcess, label: 'Em processo' },
+        { icon: 'notifications', cls: 'pending', val: stats().pendingRequests, label: 'Solicitações pendentes' }
+      ]">
+        <div class="stat-icon" [ngClass]="s.cls"><mat-icon>{{ s.icon }}</mat-icon></div>
+        <div>
+          <div class="text-xl sm:text-2xl font-bold text-[var(--text-color)] leading-none">{{ s.val }}</div>
+          <div class="text-xs text-[var(--muted-color)] mt-0.5">{{ s.label }}</div>
         </div>
-        
-        <div class="pending-badge" *ngIf="pendingCount(card) > 0">
-          {{ pendingCount(card) }}
-        </div>
+      </article>
+    </section>
+
+    <section class="flex flex-col items-center text-center py-16 px-6 rounded-2xl border border-dashed border-[var(--border-color)] bg-[var(--panel-bg)]" *ngIf="!cards().length">
+      <div class="w-[72px] h-[72px] mb-5 rounded-full bg-emerald-50 border border-emerald-500/20 flex items-center justify-center text-3xl">🐾</div>
+      <h2 class="text-lg font-semibold text-[var(--text-color)] mb-2">Nenhum animal cadastrado</h2>
+      <p class="text-sm text-[var(--muted-color)] max-w-sm mb-6">Comece cadastrando um animal para disponibilizá-lo para adoção na plataforma.</p>
+      <button mat-flat-button class="btn-register" routerLink="/animals/new">
+        <mat-icon>add</mat-icon>
+        Cadastrar meu primeiro animal
+      </button>
+    </section>
+
+    <ng-container *ngIf="cards().length">
+      <nav class="flex flex-wrap gap-2 mb-5" aria-label="Filtrar por status">
+        <button
+          *ngFor="let f of filters"
+          type="button"
+          class="filter-chip"
+          [class.filter-chip--active]="activeFilter() === f.value"
+          (click)="setFilter(f.value)">
+          {{ f.label }}
+          <span class="filter-count" *ngIf="filterCount(f.value)">{{ filterCount(f.value) }}</span>
+        </button>
+      </nav>
+
+      <div class="flex flex-col items-center gap-2 py-12 text-[var(--muted-color)] text-sm" *ngIf="!filteredCards().length">
+        <mat-icon class="!text-3xl opacity-50">filter_list_off</mat-icon>
+        <p>Nenhum animal com este status.</p>
+        <button type="button" class="text-emerald-600 font-semibold underline underline-offset-2 bg-transparent border-0 cursor-pointer" (click)="setFilter('ALL')">Ver todos</button>
       </div>
 
-      <div class="card-body">
-        <h3>{{ card.animal.name }}</h3>
-        <div class="card-tags">
-          <span class="tag">{{ card.animal.species }}</span>
-          <span class="tag">{{ card.animal.size }}</span>
-          <span class="tag">{{ card.animal.sex }}</span>
-        </div>
-      </div>
+      <ul class="flex flex-col gap-3 list-none m-0 p-0" [@listIn]="filteredCards().length" *ngIf="filteredCards().length">
+        <li class="animal-row" *ngFor="let card of filteredCards()">
 
-      <div class="card-footer">
-        <button mat-stroked-button class="btn-secondary" [routerLink]="['/animals', card.animal.id, 'edit']">
-          <mat-icon>edit</mat-icon> Editar
-        </button>
+          <div class="row-thumb">
+            <img
+              [src]="card.animal.images[0]?.imageUrl || 'assets/placeholder-animal.svg'"
+              [alt]="card.animal.name"
+              (error)="onImageError($event)">
+            <span class="pending-dot" *ngIf="pendingCount(card) > 0"></span>
+          </div>
 
-        <button mat-stroked-button class="btn-secondary btn-flex" (click)="toggleRequests(card, i)">
-          <mat-icon>list_alt</mat-icon>
-          <span>Solicitações</span>
-          <span class="req-count" *ngIf="card.requests.length">{{ card.requests.length }}</span>
-        </button>
-
-        <button mat-stroked-button class="btn-danger-icon" [disabled]="card.loadingDelete" (click)="deleteAnimal(card, i)">
-          <mat-spinner diameter="14" *ngIf="card.loadingDelete"></mat-spinner>
-          <mat-icon *ngIf="!card.loadingDelete">delete</mat-icon>
-        </button>
-      </div>
-
-      <div class="requests-panel" *ngIf="card.showRequests" @expand>
-
-        <div class="requests-loading" *ngIf="card.loadingRequests">
-          <mat-spinner diameter="20"></mat-spinner>
-        </div>
-
-        <div class="no-requests" *ngIf="!card.loadingRequests && !card.requests.length">
-          Nenhuma solicitação pendente para este animal.
-        </div>
-
-        <div class="request-item" *ngFor="let req of card.requests">
-          <div class="req-info">
-            <div class="req-avatar">{{ req.requester.name.charAt(0).toUpperCase() }}</div>
-            <div class="req-text">
-              <span class="req-name">{{ req.requester.name }}</span>
-              <span class="req-date">{{ req.createdAt | date:'dd/MM/yyyy' }}</span>
+          <div class="flex-1 min-w-0 flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <h3 class="m-0 text-base font-semibold text-[var(--text-color)]">{{ card.animal.name }}</h3>
+              <span>{{ speciesIcon(card.animal.species) }}</span>
             </div>
-            <span class="req-status" [style.color]="adoptionStatusCfg(req).color">
+            <div class="flex flex-wrap items-center gap-1.5 text-xs text-[var(--muted-color)]">
+              <span>{{ speciesLabel(card.animal.species) }}</span><span>·</span>
+              <span>{{ sizeLabel(card.animal.size) }}</span><span>·</span>
+              <span>{{ sexLabel(card.animal.sex) }}</span><span>·</span>
+              <span>{{ card.animal.age }} ano{{ card.animal.age !== 1 ? 's' : '' }}</span>
+            </div>
+            <div class="status-pill" [style.color]="statusCfg(card.animal).color" [style.background]="statusCfg(card.animal).bg">
+              <mat-icon>{{ statusCfg(card.animal).icon }}</mat-icon>
+              {{ statusCfg(card.animal).label }}
+            </div>
+          </div>
+
+          <div class="row-actions">
+            <button type="button" class="action-btn action-btn--primary" (click)="openPanel(cardIndex(card))">
+              <mat-icon>inbox</mat-icon>
+              <span>Solicitações</span>
+              <span class="action-badge" *ngIf="card.requests.length">{{ card.requests.length }}</span>
+            </button>
+            <button type="button" class="action-btn" [routerLink]="['/animals', card.animal.id]">
+              <mat-icon>visibility</mat-icon><span>Ver</span>
+            </button>
+            <button type="button" class="action-btn" [routerLink]="['/animals', card.animal.id, 'edit']">
+              <mat-icon>edit</mat-icon><span>Editar</span>
+            </button>
+            <button type="button" class="action-btn action-btn--danger" [disabled]="card.loadingDelete" (click)="deleteAnimal(card, cardIndex(card))">
+              <mat-spinner diameter="14" *ngIf="card.loadingDelete"></mat-spinner>
+              <mat-icon *ngIf="!card.loadingDelete">delete_outline</mat-icon>
+            </button>
+          </div>
+
+        </li>
+      </ul>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="activePanel() as panel">
+    <div class="drawer-backdrop" @backdropIn (click)="closePanel()"></div>
+    <aside class="requests-drawer" @drawerIn role="dialog" aria-labelledby="drawer-title">
+      <header class="drawer-header">
+        <div>
+          <h2 id="drawer-title" class="m-0 mb-1 text-lg font-bold text-[var(--text-color)]">Solicitações</h2>
+          <p class="m-0 text-sm text-[var(--muted-color)]">{{ panel.animal.name }}</p>
+        </div>
+        <div class="flex gap-1">
+          <button type="button" class="icon-btn" (click)="refreshPanelRequests()" title="Atualizar"><mat-icon>refresh</mat-icon></button>
+          <button type="button" class="icon-btn" (click)="closePanel()" title="Fechar"><mat-icon>close</mat-icon></button>
+        </div>
+      </header>
+
+      <div class="drawer-body">
+        <div class="drawer-state" *ngIf="panel.loadingRequests">
+          <mat-spinner diameter="28"></mat-spinner>
+          <span>Carregando solicitações...</span>
+        </div>
+        <div class="drawer-state" *ngIf="!panel.loadingRequests && !panel.requests.length">
+          <mat-icon>inbox</mat-icon>
+          <p class="m-0">Nenhuma solicitação para este animal ainda.</p>
+        </div>
+
+        <div class="request-card" *ngFor="let req of panel.requests">
+          <div class="flex items-center gap-3">
+            <div class="request-avatar">{{ req.requester.name.charAt(0).toUpperCase() }}</div>
+            <div class="flex-1 min-w-0">
+              <strong class="block text-sm text-[var(--text-color)]">{{ req.requester.name }}</strong>
+              <span class="text-[11px] text-[var(--muted-color)]">{{ req.createdAt | date:'dd/MM/yyyy \'às\' HH:mm' }}</span>
+            </div>
+            <span class="request-status" [style.color]="adoptionStatusCfg(req).color" [style.background]="adoptionStatusCfg(req).bg">
               {{ adoptionStatusCfg(req).label }}
             </span>
           </div>
 
-          <div class="req-actions" *ngIf="req.status === 'PENDING'">
-            <button mat-flat-button class="btn-action-success"
-              [disabled]="card.actionLoading[req.id]"
-              (click)="acceptRequest(card, req)">
-              <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'accept'"></mat-spinner>
-              <span *ngIf="card.actionLoading[req.id] !== 'accept'">Aceitar</span>
+          <div class="flex gap-2" *ngIf="req.status === 'PENDING'">
+            <button type="button" class="req-btn req-btn--accept" [disabled]="!!panel.actionLoading[req.id]" (click)="acceptRequest(panel, req)">
+              <mat-spinner diameter="14" *ngIf="panel.actionLoading[req.id] === 'accept'"></mat-spinner>
+              <span *ngIf="panel.actionLoading[req.id] !== 'accept'">Aceitar</span>
             </button>
-            <button mat-stroked-button class="btn-action-danger"
-              [disabled]="!!card.actionLoading[req.id]"
-              (click)="rejectRequest(card, req)">
-              <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'reject'"></mat-spinner>
-              <span *ngIf="card.actionLoading[req.id] !== 'reject'">Recusar</span>
+            <button type="button" class="req-btn req-btn--reject" [disabled]="!!panel.actionLoading[req.id]" (click)="rejectRequest(panel, req)">
+              <mat-spinner diameter="14" *ngIf="panel.actionLoading[req.id] === 'reject'"></mat-spinner>
+              <span *ngIf="panel.actionLoading[req.id] !== 'reject'">Recusar</span>
             </button>
           </div>
 
-          <div class="req-actions" *ngIf="req.status === 'ACCEPTED'">
-            <button mat-flat-button class="btn-action-primary"
-              [disabled]="card.actionLoading[req.id] === 'confirm'"
-              (click)="confirmAdoption(card, req)">
-              <mat-spinner diameter="14" *ngIf="card.actionLoading[req.id] === 'confirm'"></mat-spinner>
-              <span *ngIf="card.actionLoading[req.id] !== 'confirm'">Confirmar Adoção</span>
+          <div class="flex gap-2" *ngIf="req.status === 'ACCEPTED'">
+            <button type="button" class="req-btn req-btn--confirm w-full" [disabled]="panel.actionLoading[req.id] === 'confirm'" (click)="confirmAdoption(panel, req)">
+              <mat-spinner diameter="14" *ngIf="panel.actionLoading[req.id] === 'confirm'"></mat-spinner>
+              <span *ngIf="panel.actionLoading[req.id] !== 'confirm'">Confirmar adoção</span>
             </button>
           </div>
-
         </div>
       </div>
+    </aside>
+  </ng-container>
 
-    </div>
-  </div>
 </div>

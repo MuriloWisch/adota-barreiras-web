@@ -9,7 +9,7 @@ $slate-50:  #f8fafc;
 .chat-page {
   height: calc(100vh - 64px);
   overflow: hidden;
-  background-color: #ffffff;
+  background: var(--app-bg);
 }
 
 .desktop-layout {
@@ -21,7 +21,7 @@ $slate-50:  #f8fafc;
   width: 32%;
   max-width: 400px;
   min-width: 320px;
-  border-right: 1px solid $slate-200;
+  border-right: 1px solid var(--border-color);
   overflow: hidden;
 }
 
@@ -30,7 +30,7 @@ $slate-50:  #f8fafc;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: $slate-50;
+  background-color: var(--app-bg);
 }
 
 .mobile-layout {
@@ -49,7 +49,7 @@ $slate-50:  #f8fafc;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: $slate-50;
+  background-color: var(--app-bg);
 }
 
 .mobile-back-bar {
@@ -57,15 +57,15 @@ $slate-50:  #f8fafc;
   align-items: center;
   gap: 4px;
   padding: 10px 16px;
-  border-bottom: 1px solid $slate-200;
+  border-bottom: 1px solid var(--border-color);
   font-size: 13.5px;
   font-weight: 500;
-  color: $slate-900;
-  background-color: #ffffff;
+  color: var(--text-color);
+  background: var(--card-bg) !important;
   flex-shrink: 0;
 
   .btn-back {
-    color: $slate-700;
+    color: var(--muted-color);
     transform: scale(0.9);
     margin-left: -8px;
   }

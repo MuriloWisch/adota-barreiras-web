@@ -22,7 +22,7 @@ $amber-500: #f59e0b;
 
 .profile-page-wrapper {
   min-height: calc(100vh - 64px);
-  background-color: $slate-50;
+  background-color: var(--app-bg);
   display: flex;
   justify-content: center;
   padding: 40px 16px 80px;
@@ -30,10 +30,10 @@ $amber-500: #f59e0b;
 }
 
 .profile-card {
-  background-color: #ffffff;
+  background: var(--card-bg) !important;
   border-radius: 20px;
-  border: 1px solid $slate-200;
-  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px -5px rgba(2,8,12,0.6) !important;
   width: 100%;
   max-width: 580px;
   overflow: hidden;
@@ -46,16 +46,16 @@ $amber-500: #f59e0b;
   flex-direction: column;
   align-items: center;
   padding: 48px 32px 32px;
-  background-color: #ffffff;
-  border-bottom: 1px solid $slate-100;
+  background: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .user-avatar-initials {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background-color: $slate-900;
-  color: #ffffff;
+  background-color: var(--text-color);
+  color: var(--card-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,14 +68,14 @@ $amber-500: #f59e0b;
 .user-display-name {
   font-size: 24px;
   font-weight: 700;
-  color: $slate-900;
+  color: var(--text-color);
   margin: 0;
   letter-spacing: -0.02em;
 }
 
 .user-display-email {
   font-size: 14px;
-  color: $slate-500;
+  color: var(--muted-color);
   margin: 6px 0 0 0;
 }
 
@@ -88,8 +88,8 @@ $amber-500: #f59e0b;
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 100px;
-  background-color: $emerald-50;
-  color: $emerald-600;
+  background-color: rgba(16, 185, 129, 0.08);
+  color: #059669;
   border: 1px solid rgba(16, 185, 129, 0.15);
 
   mat-icon {
@@ -99,8 +99,8 @@ $amber-500: #f59e0b;
   }
 
   &.badge-admin {
-    background-color: $indigo-50;
-    color: $indigo-600;
+    background-color: rgba(79, 70, 229, 0.08);
+    color: #4f46e5;
     border-color: rgba(79, 70, 229, 0.15);
   }
 }
@@ -109,8 +109,8 @@ $amber-500: #f59e0b;
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-bottom: 1px solid $slate-200;
-  background-color: $slate-50;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--card-bg);
 }
 
 .metric-block {
@@ -119,7 +119,7 @@ $amber-500: #f59e0b;
   align-items: center;
   padding: 20px 12px;
   text-align: center;
-  border-right: 1px solid $slate-200;
+  border-right: 1px solid var(--border-color);
 
   &:last-child {
     border-right: none;
@@ -130,24 +130,24 @@ $amber-500: #f59e0b;
   font-size: 20px;
   width: 20px;
   height: 20px;
-  color: $slate-500;
+  color: var(--muted-color);
   margin-bottom: 4px;
 
-  &--emerald { color: $emerald-500; }
-  &--slate { color: $slate-900; }
+  &--emerald { color: #10b981; }
+  &--slate { color: var(--text-color); }
 }
 
 .metric-value {
   font-size: 22px;
   font-weight: 700;
-  color: $slate-900;
+  color: var(--text-color);
   line-height: 1.2;
 }
 
 .metric-label {
   font-size: 11px;
   font-weight: 600;
-  color: $slate-400;
+  color: var(--muted-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 2px;
@@ -164,12 +164,12 @@ $amber-500: #f59e0b;
   gap: 10px;
   font-size: 16px;
   font-weight: 600;
-  color: $slate-900;
+  color: var(--text-color);
   margin: 0 0 24px 0;
   letter-spacing: -0.01em;
 
   mat-icon {
-    color: $slate-700;
+    color: var(--muted-color);
     font-size: 22px;
     width: 22px;
     height: 22px;
@@ -320,8 +320,8 @@ $amber-500: #f59e0b;
 
   .mat-mdc-text-field-wrapper {
     min-height: 52px !important;
-    background: #ffffff !important;
-    border: 1px solid $slate-300 !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: 8px !important;
     padding: 0 14px !important;
     overflow: visible !important;
@@ -349,7 +349,7 @@ $amber-500: #f59e0b;
 
   .mdc-floating-label,
   .mat-mdc-floating-label {
-    background: #ffffff !important;
+    background: var(--panel-bg) !important;
     color: $slate-500 !important;
     padding: 0 4px !important;
     margin-left: -4px !important;

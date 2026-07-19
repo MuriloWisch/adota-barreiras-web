@@ -27,30 +27,30 @@ $radius-premium: 12px;
       font-size: 18px;
       width: 18px;
       height: 18px;
-      color: $text-muted;
+      color: var(--muted-color);
       pointer-events: none;
     }
 
     input {
       width: 100%;
       height: 40px;
-      background: #ffffff;
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 0 16px 0 42px;
       font-size: 14px;
-      color: $text-dark;
+      color: var(--text-color);
       outline: none;
       transition: all 0.15s ease;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 
       &::placeholder {
-        color: #94a3b8;
+        color: var(--muted-color);
       }
 
       &:focus {
         border-color: rgba(37, 99, 235, 0.4);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08), 0 1px 2px rgba(15, 23, 42, 0.02);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08), 0 1px 2px rgba(15, 23, 42, 0.08);
       }
     }
   }
@@ -60,9 +60,9 @@ $radius-premium: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  
+   
   .skel {
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite linear;
     border-radius: 6px;
@@ -77,41 +77,50 @@ $radius-premium: 12px;
 }
 
 .table-surface {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: $radius-premium;
-  border: 1px solid $border-flat;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
   overflow: hidden;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background: transparent;
+}
+
+tr.mat-header-row,
+tr.mat-row,
+.mat-header-row,
+.mat-row {
+  background: transparent !important;
 }
 
 th.mat-header-cell {
   font-size: 11px;
   font-weight: 600;
-  color: $text-muted;
+  color: var(--muted-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 14px 20px !important;
-  background: #fafafa;
-  border-bottom: 1px solid $border-flat;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
 }
 
 td.mat-cell {
   padding: 14px 20px !important;
-  border-bottom: 1px solid $border-flat !important;
+  border-bottom: 1px solid var(--border-color) !important;
   font-size: 14px;
-  color: $text-slate;
+  color: var(--text-color);
+  background: transparent !important;
 }
 
 .is-blocked-row {
   td.mat-cell {
-    color: #94a3b8 !important;
+    color: var(--muted-color) !important;
     
-    .user-name { color: #94a3b8 !important; }
+    .user-name { color: var(--muted-color) !important; }
     .avatar-premium { opacity: 0.5; filter: grayscale(1); }
   }
 }
@@ -126,9 +135,9 @@ td.mat-cell {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  color: $text-dark;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.12) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-color);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -141,34 +150,34 @@ td.mat-cell {
   display: flex;
   flex-direction: column;
   line-height: 1.3;
-
+ 
   .user-name {
     font-size: 14px;
     font-weight: 500;
-    color: $text-dark;
+    color: var(--text-color);
   }
   .user-phone {
     font-size: 11px;
-    color: $text-muted;
+    color: var(--muted-color);
   }
 }
 
-.cell-text-main { color: $text-dark; font-size: 14px; }
-.cell-text-muted { color: $text-muted; font-size: 13px; }
+.cell-text-main { color: var(--text-color); font-size: 14px; }
+.cell-text-muted { color: var(--muted-color); font-size: 13px; }
 
 .premium-badge-role {
   font-size: 11px;
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 6px;
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid rgba(15, 23, 42, 0.04);
+  background: var(--panel-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 
   &.admin-badge {
-    background: rgba(37, 99, 235, 0.06);
-    color: $primary-blue;
-    border-color: rgba(37, 99, 235, 0.1);
+    background: rgba(37, 99, 235, 0.12);
+    color: #93c5fd;
+    border-color: rgba(37, 99, 235, 0.18);
   }
 }
 
@@ -208,10 +217,10 @@ td.mat-cell {
   justify-content: flex-end;
 }
 
-.btn-action-premium { 
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  color: $text-slate;
+.btn-action-premium {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
   font-size: 12px;
   font-weight: 500;
   height: 30px;
@@ -222,26 +231,26 @@ td.mat-cell {
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 
   &:hover:not([disabled]) {
-    background: #fafafa;
-    border-color: rgba(15, 23, 42, 0.15);
-    color: $text-dark;
+    background: var(--panel-bg);
+    border-color: rgba(15, 23, 42, 0.12);
+    color: var(--text-color);
   }
 
   &.block-trigger:hover:not([disabled]) {
-    background: #fef2f2;
-    border-color: rgba(239, 68, 68, 0.2);
-    color: #dc2626;
+    background: rgba(254, 242, 242, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
   }
-
+ 
   &.unblock-trigger:hover:not([disabled]) {
-    background: #f0fdf4;
-    border-color: rgba(22, 163, 74, 0.2);
-    color: #16a34a;
+    background: rgba(220, 252, 231, 0.12);
+    border-color: rgba(22, 163, 74, 0.3);
+    color: #4ade80;
   }
-  
+   
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -254,7 +263,7 @@ td.mat-cell {
   align-items: center;
   text-align: center;
   padding: 60px 20px;
-  color: $text-muted;
+  color: var(--muted-color);
 
   mat-icon {
     font-size: 32px;
@@ -266,7 +275,7 @@ td.mat-cell {
   h4 {
     font-size: 14px;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--text-color);
     margin: 0 0 4px 0;
   }
   p {
@@ -277,11 +286,20 @@ td.mat-cell {
 }
 
 .table-paginator-container {
-  border-top: 1px solid $border-flat;
-  background: #ffffff;
-  
-  ::ng-deep .mat-mdc-paginator {
+  border-top: 1px solid var(--border-color);
+  background: var(--card-bg);
+
+  ::ng-deep .mat-mdc-paginator,
+  ::ng-deep .mat-paginator {
     background: transparent;
+    color: var(--text-color);
+  }
+
+  ::ng-deep .mat-mdc-paginator .mat-mdc-paginator-range-label,
+  ::ng-deep .mat-paginator .mat-paginator-range-label,
+  ::ng-deep .mat-mdc-paginator .mat-button,
+  ::ng-deep .mat-paginator .mat-button {
+    color: var(--text-color) !important;
   }
 }
 

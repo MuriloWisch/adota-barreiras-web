@@ -19,11 +19,14 @@ $slate-50:  #f8fafc;
       display: block;
     }
 
-    // Remoção completa dos fundos e linhas nativas do wrapper do MDC
+    // Reset do wrapper do MDC para manter o tema do site
     .mat-mdc-text-field-wrapper {
       width: 100% !important;
-      background-color: transparent !important;
+      background: var(--card-bg) !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 8px !important;
       padding: 0 !important;
+      box-shadow: none !important;
     }
 
     // Customização das bordas padrão do Outline do Input
@@ -51,10 +54,10 @@ $slate-50:  #f8fafc;
 
     // Alinhamento do ícone/botão nativo do Material prefix/suffix
     .mat-mdc-form-field-icon-suffix {
-      color: $slate-400 !important;
+      color: var(--muted-color) !important;
       
       .btn-toggle-visibility {
-        color: $slate-500 !important;
+        color: var(--muted-color) !important;
         transform: scale(0.85);
       }
     }
@@ -67,15 +70,15 @@ $slate-50:  #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $slate-50;
+  background-color: var(--app-bg);
   padding: 24px;
 }
 
 .auth-card {
-  background: #ffffff;
-  border: 1px solid $slate-200;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color);
   border-radius: 12px; // Cantos suavizados padrão Figma/Tailwind UI
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 10px 40px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 6px 24px rgba(2,8,12,0.6) !important;
   padding: 40px;
   width: 100%;
   max-width: 400px;
@@ -86,8 +89,8 @@ $slate-50:  #f8fafc;
   margin-bottom: 32px;
 
   .logo-icon-wrap {
-    color: $slate-900;
-    background: $slate-100;
+    color: var(--text-color);
+    background: var(--panel-bg);
     width: 48px;
     height: 48px;
     border-radius: 8px;
@@ -104,7 +107,7 @@ $slate-50:  #f8fafc;
   }
 
   h1 {
-    color: $slate-900;
+    color: var(--text-color);
     font-size: 22px;
     font-weight: 600;
     margin: 0 0 6px 0;
@@ -112,7 +115,7 @@ $slate-50:  #f8fafc;
   }
 
   p {
-    color: $slate-500;
+    color: var(--muted-color);
     font-size: 13.5px;
     margin: 0;
     line-height: 1.5;
@@ -126,8 +129,8 @@ $slate-50:  #f8fafc;
 
 // Mensagens de Alerta Limpas
 .error-msg {
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.24);
   color: #ef4444;
   border-radius: 6px;
   padding: 10px 12px;
@@ -147,24 +150,24 @@ $slate-50:  #f8fafc;
 // Botão de Envio Corporativo
 .btn-submit {
   width: 100%;
-  background-color: $slate-900 !important;
-  color: #ffffff !important;
+  background: var(--text-color) !important;
+  color: var(--card-bg) !important;
   border-radius: 6px !important;
   height: 42px !important;
   font-size: 13.5px !important;
   font-weight: 500 !important;
-  transition: background-color 0.2s ease-in-out !important;
+  transition: filter 0.2s ease-in-out !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
   &:hover:not([disabled]) {
-    background-color: $slate-700 !important;
+    filter: brightness(0.95) !important;
   }
 
   &[disabled] {
-    background-color: $slate-200 !important;
-    color: $slate-400 !important;
+    background-color: var(--border-color) !important;
+    color: var(--muted-color) !important;
   }
 }
 
@@ -176,33 +179,34 @@ $slate-50:  #f8fafc;
   gap: 14px;
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid $slate-100;
+  border-top: 1px solid var(--border-color);
 
   a {
     font-size: 13px;
     text-decoration: none;
+    color: var(--muted-color);
     transition: color 0.2s ease-in-out;
   }
 
   .link-secondary {
-    color: $slate-500;
+    color: var(--muted-color);
     font-weight: 400;
 
     &:hover {
-      color: $slate-900;
+      color: var(--text-color);
     }
   }
 
   .link-primary {
-    color: $slate-700;
+    color: var(--text-color);
 
     span {
-      color: $slate-900;
+      color: var(--text-color);
       font-weight: 600;
     }
 
     &:hover span {
-      color: $slate-700;
+      color: var(--muted-color);
     }
   }
 }

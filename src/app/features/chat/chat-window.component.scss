@@ -12,7 +12,7 @@ $slate-50:  #f8fafc;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--app-bg);
 }
 
 .empty-state {
@@ -20,7 +20,7 @@ $slate-50:  #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $slate-50;
+  background-color: var(--app-bg);
 }
 
 .empty-inner {
@@ -30,8 +30,8 @@ $slate-50:  #f8fafc;
   align-items: center;
 
   .empty-icon-wrap {
-    color: $slate-400;
-    background-color: $slate-100;
+      color: var(--muted-color);
+      background-color: var(--panel-bg);
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -74,8 +74,8 @@ $slate-50:  #f8fafc;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: #ffffff;
-  border-bottom: 1px solid $slate-200;
+  background: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
@@ -83,8 +83,8 @@ $slate-50:  #f8fafc;
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background-color: $slate-900;
-  color: #ffffff;
+  background-color: var(--text-color);
+  color: var(--card-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +103,7 @@ $slate-50:  #f8fafc;
 .other-name {
   font-size: 14.5px;
   font-weight: 500;
-  color: $slate-900;
+  color: var(--text-color);
 }
 
 .animal-sub {
@@ -111,19 +111,20 @@ $slate-50:  #f8fafc;
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: $slate-500;
+  color: var(--muted-color);
 
   mat-icon {
     font-size: 13px;
     width: 13px;
     height: 13px;
-    color: $slate-400;
+    color: var(--border-color);
   }
 }
 
 .see-animal-btn {
-  border-color: $slate-200 !important;
-  color: $slate-700 !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+  background: var(--panel-bg) !important;
   border-radius: 6px !important;
   font-size: 13px !important;
   height: 34px !important;
@@ -134,8 +135,8 @@ $slate-50:  #f8fafc;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out !important;
 
   &:hover {
-    background-color: $slate-50 !important;
-    border-color: $slate-300 !important;
+    background-color: var(--card-bg) !important;
+    border-color: var(--text-color) !important;
   }
 }
 
@@ -146,7 +147,7 @@ $slate-50:  #f8fafc;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-color: $slate-50;
+  background-color: var(--app-bg);
 }
 
 .load-prev {
@@ -159,7 +160,7 @@ $slate-50:  #f8fafc;
   height: 38px;
   border-radius: 8px;
   margin: 2px 0;
-  background: linear-gradient(90deg, $slate-100 25%, $slate-200 50%, $slate-100 75%);
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.25) 25%, rgba(203, 213, 225, 0.35) 50%, rgba(148, 163, 184, 0.25) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
   width: 45%;
@@ -181,18 +182,18 @@ $slate-50:  #f8fafc;
     left: 0;
     right: 0;
     height: 1px;
-    background-color: $slate-200;
+    background-color: var(--border-color);
     z-index: 1;
   }
 
   span {
-    background: $slate-50;
+    background: var(--card-bg);
     padding: 2px 12px;
     border-radius: 12px;
     white-space: nowrap;
     font-size: 11px;
     font-weight: 500;
-    color: $slate-400;
+    color: var(--muted-color);
     position: relative;
     z-index: 2;
   }
@@ -210,15 +211,15 @@ $slate-50:  #f8fafc;
   max-width: 60%;
   padding: 10px 14px;
   border-radius: 8px 8px 8px 2px;
-  background-color: #ffffff;
-  border: 1px solid $slate-200;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 4px;
 
   p {
     font-size: 13.5px;
-    color: $slate-900;
+    color: var(--text-color);
     line-height: 1.5;
     margin: 0;
     word-break: break-word;
@@ -226,22 +227,22 @@ $slate-50:  #f8fafc;
 
   .msg-time {
     font-size: 10px;
-    color: $slate-400;
+    color: var(--muted-color);
     align-self: flex-end;
   }
 }
 
 .bubble-mine {
-  background-color: $slate-900;
-  border-color: $slate-900;
+  background-color: var(--text-color);
+  border-color: var(--text-color);
   border-radius: 8px 8px 2px 8px;
 
   p {
-    color: #ffffff;
+    color: var(--card-bg);
   }
 
   .msg-time {
-    color: $slate-300;
+    color: var(--card-bg);
   }
 }
 
@@ -250,31 +251,31 @@ $slate-50:  #f8fafc;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: #ffffff;
-  border-top: 1px solid $slate-200;
+  background: var(--card-bg) !important;
+  border-top: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
 .msg-input {
   flex: 1;
   height: 38px;
-  border: 1px solid $slate-200;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0 14px;
   font-size: 13.5px;
   outline: none;
-  background-color: $slate-50;
-  color: $slate-900;
+  background-color: var(--panel-bg);
+  color: var(--text-color);
   transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
   &:focus {
-    border-color: $slate-900;
-    background-color: #ffffff;
+    border-color: var(--text-color);
+    background-color: var(--card-bg) !important;
   }
 
   &:disabled {
-    background-color: $slate-100;
-    color: $slate-400;
+    background-color: var(--panel-bg);
+    color: var(--muted-color);
     cursor: not-allowed;
   }
 }
@@ -283,23 +284,23 @@ $slate-50:  #f8fafc;
   width: 38px;
   height: 38px;
   border-radius: 6px;
-  background-color: $slate-900;
-  color: #ffffff;
+  background-color: var(--text-color);
+  color: var(--card-bg);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.15s ease-in-out;
+  transition: filter 0.15s ease-in-out;
 
   &:hover:not([disabled]) {
-    background-color: $slate-700;
+    filter: brightness(0.95);
   }
 
   &[disabled] {
-    background-color: $slate-200;
-    color: $slate-400;
+    background-color: var(--border-color);
+    color: var(--muted-color);
     cursor: not-allowed;
   }
 

@@ -13,7 +13,7 @@ $error-color: #ef4444;    // Red 500
 }
 
 .form-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 16px;
   border: 1px solid $border-color;
   overflow: hidden;
@@ -27,17 +27,17 @@ $error-color: #ef4444;    // Red 500
 .section-title {
   font-size: 15px;
   font-weight: 600;
-  color: $brand-dark;
+  color: var(--text-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0 0 28px 0;
   padding-bottom: 12px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
-
+ 
 .section-divider {
   margin: 0 !important;
-  border-top: 1px solid #f1f5f9 !important;
+  border-top: 1px solid var(--border-color) !important;
 }
 
 // Grid estrutural limpo
@@ -77,21 +77,21 @@ $error-color: #ef4444;    // Red 500
 }
 
 ::ng-deep .modern-toggle-group {
-  border: 1px solid $border-color !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 8px !important;
-  background: $bg-light;
+  background: var(--panel-bg);
   overflow: hidden;
   height: 42px;
   display: flex !important;
   width: 100%;
-
+ 
   .mat-button-toggle {
     flex: 1;
     background: transparent;
-    color: $brand-slate !important;
+    color: var(--text-color) !important;
     font-size: 13px !important;
     font-weight: 500 !important;
-    border-left: 1px solid $border-color !important;
+    border-left: 1px solid var(--border-color) !important;
     border-top: none !important;
     border-bottom: none !important;
     border-right: none !important;
@@ -105,8 +105,8 @@ $error-color: #ef4444;    // Red 500
   }
 
   .mat-button-toggle-checked {
-    background: $brand-dark !important;
-    color: #ffffff !important;
+    background: var(--text-color) !important;
+    color: var(--card-bg) !important;
   }
 }
 
@@ -114,23 +114,23 @@ $error-color: #ef4444;    // Red 500
 
 // Área de Drop-Zone Limpa
 .modern-drop-zone {
-  border: 2px dashed $border-color;
+  border: 2px dashed var(--border-color);
   border-radius: 12px;
   padding: 42px 24px;
   text-align: center;
   cursor: pointer;
-  background: #fafafa;
+  background: var(--panel-bg);
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: $brand-dark;
-    background: $bg-light;
-    .upload-icon { color: $brand-dark; }
+    border-color: var(--text-color);
+    background: var(--card-bg);
+    .upload-icon { color: var(--text-color); }
   }
 
   &.has-error {
     border-color: $error-color;
-    background: #fef2f2;
+    background: rgba(254, 242, 242, 0.85);
     .upload-icon { color: $error-color; }
   }
 }
@@ -139,12 +139,12 @@ $error-color: #ef4444;    // Red 500
   font-size: 36px !important;
   width: 36px !important;
   height: 36px !important;
-  color: $brand-muted;
+  color: var(--muted-color);
   transition: color 0.2s ease;
 }
 
-.upload-title { font-size: 14px; font-weight: 500; color: $brand-dark; margin: 10px 0 2px; }
-.upload-sub { font-size: 12px; color: $brand-muted; margin: 0; }
+.upload-title { font-size: 14px; font-weight: 500; color: var(--text-color); margin: 10px 0 2px; }
+.upload-sub { font-size: 12px; color: var(--muted-color); margin: 0; }
 .image-error { font-size: 13px; color: $error-color; margin-top: 8px; }
 
 // Previews de Fotos
@@ -160,7 +160,7 @@ $error-color: #ef4444;    // Red 500
   border-radius: 8px;
   overflow: hidden;
   aspect-ratio: 1;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-color);
 }
 
 .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -190,7 +190,7 @@ $error-color: #ef4444;    // Red 500
   position: absolute;
   bottom: 4px;
   left: 4px;
-  background: #ffffff;
+  background: var(--card-bg);
   color: $brand-dark;
   font-size: 10px;
   font-weight: 600;
@@ -204,15 +204,15 @@ $error-color: #ef4444;    // Red 500
   display: flex;
   align-items: center;
   gap: 10px;
-  background: $bg-light;
-  color: $brand-slate;
+  background: var(--panel-bg);
+  color: var(--text-color);
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 13px;
   margin-bottom: 24px;
-  border: 1px solid $border-color;
-
-  mat-icon { font-size: 18px; width: 18px; height: 18px; color: $brand-slate; }
+  border: 1px solid var(--border-color);
+ 
+  mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--muted-color); }
 }
 
 .modern-map-wrapper {
@@ -262,13 +262,13 @@ $error-color: #ef4444;    // Red 500
   &.btn-outline {
     border-color: $border-color;
     color: $brand-dark;
-    background: #ffffff;
-    &:hover { background: $bg-light; border-color: $brand-muted; }
+    background: var(--card-bg);
+    &:hover { background: var(--panel-bg); border-color: $brand-muted; }
   }
 
   &.btn-text {
     color: $brand-slate;
-    &:hover { background: #f1f5f9; color: $brand-dark; }
+    &:hover { background: var(--panel-bg); color: $brand-dark; }
   }
 
   &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -279,8 +279,8 @@ $error-color: #ef4444;    // Red 500
   justify-content: flex-end;
   gap: 12px;
   padding: 24px 40px;
-  background: #fafafa;
-  border-top: 1px solid #f1f5f9;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
 }
 
 .form-error {
@@ -296,11 +296,11 @@ $error-color: #ef4444;    // Red 500
 
 // Estilos de Esqueleto (Loading)
 .skeleton-card {
-  background: #ffffff; border-radius: 16px; padding: 40px;
+  background: var(--card-bg); border-radius: 16px; padding: 40px;
   display: flex; flex-direction: column; gap: 20px; border: 1px solid $border-color;
 }
 .skel {
-  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 75%);
   background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 6px;
 }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -313,12 +313,12 @@ $error-color: #ef4444;    // Red 500
    ========================================================================== */
 ::ng-deep {
   .mat-mdc-form-field { width: 100% !important; display: block !important; }
-
+ 
   .mat-mdc-text-field-wrapper {
     width: 100% !important;
     min-height: 52px !important;
-    background: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: 8px !important;
     box-shadow: none !important;
     padding: 0 14px !important;
@@ -336,19 +336,19 @@ $error-color: #ef4444;    // Red 500
 
   .mdc-floating-label,
   .mat-mdc-floating-label {
-    background: #ffffff !important;
-    color: #64748b !important;
+    background: var(--panel-bg) !important;
+    color: var(--muted-color) !important;
     padding: 0 4px !important;
     margin-left: -4px !important;
     line-height: 1.2 !important;
   }
 
   .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
-    border-color: #0f172a !important;
+    border-color: var(--text-color) !important;
     box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
   }
-
-  .mat-mdc-form-field.mat-focused .mat-mdc-floating-label { color: #0f172a !important; }
+ 
+  .mat-mdc-form-field.mat-focused .mat-mdc-floating-label { color: var(--text-color) !important; }
   .mat-mdc-form-field.mat-form-field-invalid .mat-mdc-text-field-wrapper { border-color: #ef4444 !important; }
 }
 @media (max-width: 600px) {

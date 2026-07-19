@@ -49,7 +49,7 @@ $primary-blue: #2563eb;
 }
 
 .animal-card-premium {
-  background: #ffffff;
+  background: var(--card-bg) !important;
   border-radius: $radius-card;
   border: 1px solid $border-soft;
   overflow: hidden;
@@ -59,7 +59,7 @@ $primary-blue: #2563eb;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 12px 30px rgba(2,8,12,0.6) !important;
     border-color: rgba(15, 23, 42, 0.12);
 
     .card-img-wrap img {
@@ -80,7 +80,7 @@ $primary-blue: #2563eb;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #f1f5f9;
+  background: var(--panel-bg);
 
   img {
     width: 100%;
@@ -152,20 +152,20 @@ $primary-blue: #2563eb;
     }
 
     &.approve {
-      background: #ffffff;
+      background: var(--card-bg) !important;
       color: #10b981; 
-
+ 
       &:hover {
-        background: #e6fcf5;
+        background: rgba(16, 185, 129, 0.08);
       }
     }
-
+ 
     &.reject {
-      background: #ffffff;
+      background: var(--card-bg) !important;
       color: #ef4444;
-
+ 
       &:hover {
-        background: #fef2f2;
+        background: rgba(239, 68, 68, 0.08);
       }
     }
   }
@@ -247,7 +247,7 @@ $primary-blue: #2563eb;
 .empty-state-vessel {
   text-align: center;
   padding: 80px 24px;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: $radius-card;
   border: 1px solid $border-soft;
 
@@ -284,7 +284,7 @@ $primary-blue: #2563eb;
 }
 
 .paginator-wrapper {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: $radius-card;
   border: 1px solid $border-soft;
   overflow: hidden;

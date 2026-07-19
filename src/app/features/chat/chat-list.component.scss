@@ -1,13 +1,13 @@
 .list-wrap {
   display: flex; flex-direction: column;
   height: 100%; overflow: hidden;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid var(--border-color);
 }
 .list-header {
   padding: 20px 20px 8px;
   flex-shrink: 0;
 }
-h2 { font-size: 20px; font-weight: 700; color: #1E3A5F; }
+h2 { font-size: 20px; font-weight: 700; color: var(--text-color); }
 .search-wrap { padding: 0 12px 8px; flex-shrink: 0; }
 .search-field { width: 100%; }
 ::ng-deep .search-field .mat-mdc-form-field-infix { padding: 8px 0 !important; }
@@ -22,8 +22,8 @@ h2 { font-size: 20px; font-weight: 700; color: #1E3A5F; }
   border-left: 3px solid transparent;
   position: relative;
 }
-.chat-item:hover    { background: #f8fafc; }
-.chat-item.selected { background: #f0fdf4; border-left-color: #4CAF50; }
+.chat-item:hover    { background: var(--panel-bg); }
+.chat-item.selected { background: rgba(16, 185, 129, 0.12); border-left-color: #4CAF50; }
 
 .avatar {
   width: 46px; height: 46px; border-radius: 50%;
@@ -33,14 +33,14 @@ h2 { font-size: 20px; font-weight: 700; color: #1E3A5F; }
 }
 .item-body { flex: 1; min-width: 0; }
 .item-top  { display: flex; justify-content: space-between; align-items: center; }
-.other-name { font-size: 14px; font-weight: 600; color: #1E3A5F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item-time  { font-size: 11px; color: #aaa; flex-shrink: 0; margin-left: 8px; }
+.other-name { font-size: 14px; font-weight: 600; color: var(--text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-time  { font-size: 11px; color: var(--muted-color); flex-shrink: 0; margin-left: 8px; }
 .item-bottom { margin-top: 3px; }
-.animal-name { font-size: 12px; color: #888; }
+.animal-name { font-size: 12px; color: var(--muted-color); }
 
 .empty-list {
   display: flex; flex-direction: column; align-items: center;
-  padding: 40px 16px; color: #bbb; gap: 8px;
+  padding: 40px 16px; color: var(--muted-color); gap: 8px;
   text-align: center;
 }
 .empty-list mat-icon { font-size: 36px; width: 36px; height: 36px; }

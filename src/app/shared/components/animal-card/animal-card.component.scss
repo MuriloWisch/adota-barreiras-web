@@ -17,9 +17,9 @@ $shadow-hover: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15,
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 .animal-card {
-  background-color: #ffffff;
+  background: var(--card-bg) !important;
   border-radius: $radius-card;
-  border: 1px solid $slate-200;
+  border: 1px solid var(--border-color);
   box-shadow: $shadow-sm;
   overflow: hidden;
   cursor: pointer;
@@ -53,22 +53,26 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   &--selected {
     border-color: $emerald-500;
     box-shadow: 0 0 0 3px rgba($emerald-500, 0.15), $shadow-md;
-    background-color: $slate-50;
+    background-color: var(--panel-bg);
   }
 }
 
 /* Container da Imagem */
 .card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  /* Use a slightly wider aspect ratio and cap max-height so media doesn't dominate the card */
+  aspect-ratio: 16 / 10;
+  max-height: 360px;
   overflow: hidden;
-  background: linear-gradient(135deg, $emerald-50 0%, $slate-50 100%);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
 .card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+  display: block;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -102,14 +106,14 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: rgba(255, 255, 255, 0.94);
-  color: $slate-700;
+  background-color: var(--panel-bg);
+  color: var(--text-color);
   font-size: 11px;
   font-weight: 700;
   padding: 4px 8px;
   border-radius: $radius-badge;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border-color);
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
 
   .icon-pin {
@@ -135,7 +139,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .animal-name {
   font-size: 16.5px;
   font-weight: 700;
-  color: $slate-900;
+  color: var(--text-color);
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.01em;
@@ -155,12 +159,13 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-tag {
-  background-color: $slate-100;
-  color: $slate-700;
+  background-color: var(--panel-bg);
+  color: var(--text-color);
   font-size: 11.5px;
   font-weight: 600;
   padding: 3px 10px;
   border-radius: $radius-badge;
+  border: 1px solid var(--border-color);
   transition: $transition-smooth;
 }
 

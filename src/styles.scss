@@ -8,6 +8,25 @@
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+/* CSS variables for theme toggling */
+:root {
+  --app-bg: #fafafa;
+  --card-bg: #ffffff;
+  --panel-bg: #ffffff;
+  --text-color: #1E3A5F;
+  --muted-color: #64748B;
+  --border-color: #E8ECF0;
+}
+
+html.dark {
+  --app-bg: #07101a;
+  --card-bg: #071925;
+  --panel-bg: #07101a;
+  --text-color: #E6EEF6;
+  --muted-color: #9FB3C8;
+  --border-color: #12313f;
+}
+
 input.mat-mdc-input-element,
 textarea.mat-mdc-input-element,
 .mat-mdc-select {
@@ -110,7 +129,7 @@ a {
 
 /* Wrapper */
 .mat-mdc-text-field-wrapper {
-  background-color: #fff !important;
+  background-color: var(--card-bg) !important;
   border-radius: 12px !important;
   transition: box-shadow 0.2s ease !important;
 }
@@ -229,16 +248,18 @@ html body .mat-mdc-form-field.mat-form-field-appearance-outline {
   --mat-form-field-container-height: 52px;
 }
 
+html body .mat-mdc-form-field .mat-mdc-text-field-wrapper,
 html body .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-text-field-wrapper {
   min-height: 52px !important;
   padding: 0 14px !important;
   overflow: visible !important;
-  background: #fff !important;
-  border: 1px solid #CBD5E1 !important;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 8px !important;
   box-shadow: none !important;
 }
 
+html body .mat-mdc-form-field .mat-mdc-form-field-flex,
 html body .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-flex {
   min-height: 52px !important;
   align-items: center !important;
@@ -271,7 +292,7 @@ html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-out
 }
 
 html body .mat-mdc-form-field.mat-form-field-appearance-outline .mdc-floating-label {
-  background: #fff !important;
+  background: var(--panel-bg) !important;
   padding: 0 4px !important;
   margin-left: -4px !important;
   max-width: calc(100% - 16px) !important;
@@ -299,4 +320,452 @@ html body textarea.mat-mdc-input-element {
 .cdk-overlay-container,
 .cdk-global-overlay-wrapper {
   z-index: 30000 !important;
+}
+
+/* Dark mode styles (applied when .dark class is present on <html>) */
+html.dark body {
+  background: #07101a !important;
+  color: #E6EEF6 !important;
+}
+
+/* Navbar & header */
+html.dark .navbar {
+  background: #041119 !important;
+  color: #E6EEF6 !important;
+}
+
+html.dark .logo-text,
+html.dark .avatar,
+html.dark .notif-btn mat-icon,
+html.dark .nav-links a,
+html.dark .nav-links .nav-btn,
+html.dark .nav-links .btn-register {
+  color: #E6EEF6 !important;
+}
+
+/* Generic panels & cards */
+html.dark .home-wrapper,
+html.dark .desktop-layout,
+html.dark .mobile-layout,
+html.dark .side-panel,
+html.dark .map-panel,
+html.dark .list-container,
+html.dark .map-glass-wrapper,
+html.dark .mobile-content-area,
+html.dark .filters-wrapper,
+html.dark .results-header,
+html.dark .card,
+html.dark .panel,
+html.dark .mat-card,
+html.dark .mat-card-content,
+html.dark .mat-card-title,
+html.dark .mat-card-actions,
+html.dark .hero-section,
+html.dark .drawer,
+html.dark .drawer-header {
+  background: transparent !important;
+  color: #E6EEF6 !important;
+}
+
+/* Force white-card backgrounds to dark */
+html.dark .card,
+html.dark .panel,
+html.dark .mat-card,
+html.dark .profile-card,
+html.dark .list-card,
+html.dark .results-card,
+html.dark .home-card {
+  background: #071925 !important;
+  border-color: #12313f !important;
+  color: #E6EEF6 !important;
+  box-shadow: 0 6px 18px rgba(2,8,12,0.6) !important;
+}
+
+/* Inputs / form fields */
+html.dark .mat-mdc-text-field-wrapper,
+html.dark .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+html.dark .mat-mdc-form-field.mat-mdc-form-field-appearance-outline .mat-mdc-text-field-wrapper,
+html.dark .mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-text-field-wrapper {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+  box-shadow: none !important;
+}
+
+html.dark .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  border-color: var(--text-color) !important;
+}
+
+html.dark input.mat-mdc-input-element,
+html.dark textarea.mat-mdc-input-element,
+html.dark input.mat-input-element,
+html.dark textarea.mat-input-element,
+html.dark .mat-mdc-select .mdc-select__selected-text {
+  color: #E6EEF6 !important;
+  caret-color: #E6EEF6 !important;
+}
+
+html.dark .mdc-floating-label {
+  color: #9FB3C8 !important;
+}
+
+html.dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+html.dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+html.dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #4CAF50 !important;
+}
+
+html.dark .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__leading,
+html.dark .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__notch,
+html.dark .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__trailing {
+  border-color: #F87171 !important;
+}
+
+/* Buttons */
+html.dark .mat-button,
+html.dark .mat-raised-button,
+html.dark button.mat-button,
+html.dark button.mat-raised-button,
+html.dark .btn-register {
+  color: #E6EEF6 !important;
+}
+
+html.dark .mat-raised-button.mat-primary,
+html.dark .mat-button.mat-primary {
+  background: #123a2a !important;
+  color: #E6EEF6 !important;
+}
+
+/* Lists, menus and drawers */
+html.dark .mat-nav-list,
+html.dark .mat-list-item,
+html.dark .mat-menu-panel,
+html.dark .drawer {
+  background: #07101a !important;
+  color: #E6EEF6 !important;
+}
+
+/* Modals / overlays (dialogs, menus, select panels, snackbars) - expanded */
+/* Target both MDC and legacy Material class names + overlay panes */
+html.dark,
+html.dark body,
+html.dark .cdk-overlay-container,
+html.dark .cdk-overlay-pane,
+html.dark .cdk-overlay-container .cdk-overlay-pane,
+html.dark .cdk-global-overlay-wrapper {
+  color: var(--text-color) !important;
+}
+
+html.dark .cdk-overlay-container .mat-dialog-container,
+html.dark .cdk-overlay-container .mat-mdc-dialog-container,
+html.dark .mat-dialog-container,
+html.dark .mat-mdc-dialog-container,
+html.dark .mat-menu-panel,
+html.dark .mat-mdc-menu-panel,
+html.dark .mat-select-panel,
+html.dark .mat-mdc-select-panel,
+html.dark .mat-autocomplete-panel,
+html.dark .mat-mdc-popover,
+html.dark .mat-popover,
+html.dark .mat-mdc-tooltip,
+html.dark .mat-tooltip,
+html.dark .mat-mdc-snack-bar-container,
+html.dark .mat-snack-bar-container,
+html.dark .cdk-overlay-container .mat-mdc-menu-panel,
+html.dark .cdk-overlay-container .mat-mdc-select-panel {
+  background: var(--panel-bg) !important;
+  color: var(--text-color) !important;
+  box-shadow: 0 8px 30px rgba(2,6,10,0.6) !important;
+}
+
+/* Ensure text inside overlays (titles, content, actions, menu items, options) is visible */
+html.dark .cdk-overlay-container .mat-dialog-container *,
+html.dark .cdk-overlay-container .mat-mdc-dialog-container *,
+html.dark .mat-menu-panel *,
+html.dark .mat-mdc-menu-panel *,
+html.dark .mat-select-panel *,
+html.dark .mat-mdc-select-panel *,
+html.dark .mat-autocomplete-panel *,
+html.dark .mat-mdc-popover *,
+html.dark .mat-mdc-snack-bar-container *,
+html.dark .mat-snack-bar-container * {
+  color: var(--text-color) !important;
+}
+
+/* Specific interactive elements inside overlays */
+html.dark .mat-menu-item,
+html.dark .mat-list-item,
+html.dark .mat-option,
+html.dark .mat-mdc-option,
+html.dark .mat-select-placeholder,
+html.dark .mat-select-value,
+html.dark .mat-mdc-select .mdc-select__selected-text,
+html.dark .mat-autocomplete-panel .mat-option {
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+
+/* Dialog title/content/actions */
+html.dark .cdk-overlay-container .mat-dialog-title,
+html.dark .cdk-overlay-container .mat-dialog-content,
+html.dark .cdk-overlay-container .mat-dialog-actions,
+html.dark .cdk-overlay-container .mat-mdc-dialog__title,
+html.dark .cdk-overlay-container .mat-mdc-dialog__content,
+html.dark .cdk-overlay-container .mat-mdc-dialog__actions {
+  color: var(--text-color) !important;
+}
+
+/* Tooltips/snackbars */
+html.dark .mat-mdc-tooltip,
+html.dark .mat-tooltip,
+html.dark .mdc-snackbar__surface {
+  background: var(--panel-bg) !important;
+  color: var(--text-color) !important;
+}
+
+/* Force icon color in overlays */
+html.dark .cdk-overlay-container mat-icon,
+html.dark .cdk-overlay-container .mat-icon {
+  color: var(--text-color) !important;
+}
+
+/* Backdrops should remain dark/translucent */
+html.dark .cdk-overlay-backdrop {
+  background: rgba(2,6,10,0.6) !important;
+}
+
+/* Fallback: ensure common component classes inherit readable text color */
+html.dark .mat-card,
+html.dark .mat-card-title,
+html.dark .mat-card-content,
+html.dark .mat-list-item,
+html.dark .mat-button,
+html.dark .mat-raised-button,
+html.dark .mat-icon-button,
+html.dark .mat-form-field-label,
+html.dark label,
+html.dark p,
+html.dark span,
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark a,
+html.dark button {
+  color: var(--text-color) !important;
+}
+
+/* Ensure inputs/selects inside overlays are themed */
+html.dark .cdk-overlay-container input,
+html.dark .cdk-overlay-container textarea,
+html.dark .cdk-overlay-container .mat-mdc-text-field-wrapper,
+html.dark .cdk-overlay-container .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background: var(--panel-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Scrollbars in dark */
+html.dark ::-webkit-scrollbar-track { background: #041217 !important; }
+html.dark ::-webkit-scrollbar-thumb { background: #234a3f !important; }
+
+/* Dark mode toggle button minor styling */
+.dark-toggle {
+  margin-left: 6px;
+}
+
+/* Ensure overlays (dialogs, menus) text color */
+html.dark .cdk-overlay-container,
+html.dark .cdk-global-overlay-wrapper {
+  color: #E6EEF6 !important;
+}
+
+/* Ensure high specificity fallback for elements that may still show white backgrounds */
+html.dark * {
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* Map floating badge dark tweaks */
+html.dark .floating-map-badge {
+  background: rgba(7,16,26,0.6) !important;
+  border: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+html.dark .floating-map-badge mat-icon { color: var(--text-color) !important; }
+html.dark .floating-map-badge span { color: var(--text-color) !important; }
+
+/* Target commonly used card/panel classes INSIDE overlays to ensure modals use dark cards */
+html.dark .cdk-overlay-container .filters-card,
+html.dark .cdk-overlay-container .card,
+html.dark .cdk-overlay-container .panel,
+html.dark .cdk-overlay-container .home-card,
+html.dark .cdk-overlay-container .profile-card,
+html.dark .cdk-overlay-container .list-card,
+html.dark .cdk-overlay-container .results-card,
+html.dark .cdk-overlay-container .filters-wrapper,
+html.dark .cdk-overlay-container .filters-card * {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Specific: ensure the 'filters-card' used by the home filters modal is themed (user provided DOM) */
+html.dark .filters-card {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 8px 30px rgba(2,6,10,0.5) !important;
+}
+
+/* Fallback for any element with inline white backgrounds inside overlay panes */
+html.dark .cdk-overlay-container .cdk-overlay-pane [style*="background:"] {
+  background: var(--panel-bg) !important;
+}
+
+/* Ensure form controls and sliders inside overlays are themed */
+html.dark .cdk-overlay-container .mat-mdc-slider .mdc-slider__thumb-knob,
+html.dark .cdk-overlay-container .mat-mdc-slider .mdc-slider__track--active_fill {
+  background: var(--text-color) !important;
+  border-color: var(--text-color) !important;
+}
+
+/* Small extra safety: admin area panels commonly named .admin-panel or .admin-card */
+html.dark .admin-panel,
+html.dark .admin-card,
+html.dark .admin-wrapper,
+html.dark .admin-header,
+html.dark .admin-content {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Dark-mode table overrides for Material admin tables */
+html.dark .mat-table,
+html.dark .mat-header-row,
+html.dark .mat-row,
+html.dark .mat-header-cell,
+html.dark .mat-cell,
+html.dark .mat-paginator,
+html.dark .mat-mdc-paginator {
+  background: transparent !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .mat-header-cell {
+  background: var(--panel-bg) !important;
+}
+
+html.dark .mat-paginator .mat-button,
+html.dark .mat-mdc-paginator .mat-button,
+html.dark .mat-paginator .mat-paginator-range-label,
+html.dark .mat-mdc-paginator .mat-mdc-paginator-range-label {
+  color: var(--text-color) !important;
+}
+
+/* Dark mode fallbacks for auth, admin, profile, chat and dialog layouts */
+html.dark .auth-bg,
+html.dark .profile-page-wrapper,
+html.dark .admin-wrap,
+html.dark .admin-content,
+html.dark .mobile-topbar,
+html.dark .app-dialog-container {
+  background: var(--app-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .auth-card,
+html.dark .profile-card,
+html.dark .profile-hero,
+html.dark .metrics-grid,
+html.dark .settings-section,
+html.dark .error-msg,
+html.dark .success-box,
+html.dark .alert-banner,
+html.dark .sidebar,
+html.dark .drawer,
+html.dark .drawer-header,
+html.dark .nav-item,
+html.dark .win-header,
+html.dark .win-footer,
+html.dark .bubble,
+html.dark .bubble-mine,
+html.dark .notif-dropdown,
+html.dark .notif-item,
+html.dark .dialog-wrap,
+html.dark .mat-dialog-container .dialog-wrap,
+html.dark .mat-mdc-dialog-container .dialog-wrap,
+html.dark .dialog-actions button {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .nav-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .auth-logo .logo-icon-wrap {
+  color: var(--text-color) !important;
+  background: var(--panel-bg) !important;
+}
+
+html.dark .auth-links,
+html.dark .auth-links a,
+html.dark .auth-links .link-secondary,
+html.dark .auth-links .link-primary span,
+html.dark .dialog-title,
+html.dark .dialog-message,
+html.dark strong,
+html.dark .notif-header strong {
+  color: var(--text-color) !important;
+}
+
+html.dark .auth-links {
+  border-top-color: var(--border-color) !important;
+}
+
+html.dark .error-msg,
+html.dark .success-box,
+html.dark .alert-banner {
+  background: var(--panel-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .dialog-actions button.btn-cancel {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .dialog-actions button.btn-confirm {
+  color: #ffffff !important;
+}
+
+html.dark .btn-submit,
+html.dark .send-btn,
+html.dark .btn-submit-primary {
+  background: var(--text-color) !important;
+  color: var(--card-bg) !important;
+  border-color: var(--text-color) !important;
+}
+
+html.dark .user-display-name,
+html.dark .user-display-email,
+html.dark .metric-value,
+html.dark .metric-label,
+html.dark .section-heading,
+html.dark .toggle-password-btn {
+  color: var(--text-color) !important;
+}
+
+html.dark .metric-icon {
+  color: var(--muted-color) !important;
+}
+
+/* Keep smooth transitions */
+html.dark * {
+  transition: background-color 150ms ease, color 150ms ease;
 }

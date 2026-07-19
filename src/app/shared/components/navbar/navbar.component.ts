@@ -50,32 +50,40 @@ export class NavbarComponent implements OnInit {
     notifOpen = false;
     notifications: Notification[] = [];
 
+    // dark mode state
+    darkMode = false;
+
     constructor(
         public auth: AuthService,
         private notifService: NotificationService,
     ) { }
 
     ngOnInit(): void {
+        // load notifications
         this.notifService.notifications$.subscribe(n => (this.notifications = n));
 
+        // websocket when user present
         this.auth.currentUser$.subscribe(user => {
-        if (user?.id) {
-      this.notifService.connectWebSocket(user.id);}});
+            if (user?.id) {
+                this.notifService.connectWebSocket(user.id);
+            }
+        });
+
+        // Initialize dark mode from localStorage or system preference
+        try {
+            const stored = localStorage.getItem('darkMode');
+            if (stored !== null) {
+                this.darkMode = stored === 'true';
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                this.darkMode = true;
+            }
+        } catch (e) {
+            this.darkMode = false;
+        }
+        this.applyDarkClass(this.darkMode);
     }
 
-    get isLoggedIn() { return this.auth.isLoggedIn(); }
-    get isAdmin() { return this.auth.isAdmin(); }
-    get unreadCount() { return this.notifications.filter(n => !n.read).length; }
-    get userInitial() {
-        const name = this.auth.currentUser$.getValue()?.name ?? 'U';
-        return name.charAt(0).toUpperCase();
-    }
-
-    @HostListener('window:scroll')
-    onScroll(): void {
-        this.scrolled = window.scrollY > 10;
-    }
-
+    // Toggle notifications dropdown
     toggleNotif(): void {
         this.notifOpen = !this.notifOpen;
     }
@@ -91,10 +99,37 @@ export class NavbarComponent implements OnInit {
         if (!target.closest('.notif-wrap')) this.notifOpen = false;
     }
 
+    // Toggle dark mode and persist preference
+    toggleDarkMode(): void {
+        this.darkMode = !this.darkMode;
+        try { localStorage.setItem('darkMode', String(this.darkMode)); } catch (e) { /* ignore */ }
+        this.applyDarkClass(this.darkMode);
+    }
+
+    private applyDarkClass(enabled: boolean): void {
+        const root = document.documentElement || document.getElementsByTagName('html')[0];
+        if (enabled) root.classList.add('dark'); else root.classList.remove('dark');
+    }
+
    logout(): void {
   this.drawerOpen   = false;
   this.notifOpen    = false;
   this.notifService.disconnect();
   this.auth.logout();
-}
+ }
+
+
+    get isLoggedIn() { return this.auth.isLoggedIn(); }
+    get isAdmin() { return this.auth.isAdmin(); }
+    get unreadCount() { return this.notifications.filter(n => !n.read).length; }
+    get userInitial() {
+        const name = this.auth.currentUser$.getValue()?.name ?? 'U';
+        return name.charAt(0).toUpperCase();
+    }
+
+    @HostListener('window:scroll')
+    onScroll(): void {
+        this.scrolled = window.scrollY > 10;
+    }
+
 }

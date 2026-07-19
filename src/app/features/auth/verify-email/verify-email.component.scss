@@ -16,7 +16,7 @@ $slate-50:  #f8fafc;
 }
 
 .auth-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border: 1px solid $slate-200;
   border-radius: 12px; 
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 10px 40px rgba(15, 23, 42, 0.04);

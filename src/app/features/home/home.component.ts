@@ -96,8 +96,31 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadMore(): void { this.fetchAnimals(false); }
 
+  totalAnimals(): number {
+    return this.animals().length;
+  }
+
+  adoptedCount(): number {
+    return this.animals().filter(animal => animal.status === 'ADOPTED').length;
+  }
+
+  waitingCount(): number {
+    return this.animals().filter(animal => animal.status !== 'ADOPTED').length;
+  }
+
+  alertCount(): number {
+    return this.animals().filter(animal => animal.status === 'EM_ANALISE').length;
+  }
+
+  scrollToSection(id: string): void {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   onAnimalSelect(animal: Animal): void {
     this.selectedId.set(animal.id);
     this.router.navigate(['/animals', animal.id]);
   }
-} 
+}

@@ -57,6 +57,10 @@
       </ng-container>
     </div>
 
+    <button mat-icon-button class="dark-toggle" (click)="toggleDarkMode()" [attr.aria-pressed]="darkMode" title="Alternar modo claro/escuro">
+      <mat-icon>{{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+
     <button mat-icon-button class="hamburger mobile-only" (click)="drawerOpen = true">
       <mat-icon>menu</mat-icon>
     </button>

@@ -5,9 +5,9 @@
 .thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
 .thumb.active { border-color: #4CAF50; }
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.info-row { font-size: 13px; color: #555; }
+.info-row { font-size: 13px; color: var(--text-color); }
 .info-row.full { grid-column: 1/-1; }
-.info-row strong { color: #1E3A5F; }
+.info-row strong { color: var(--text-color); }
 .btn-approve { background: #4CAF50 !important; color: #fff !important; border-radius: 8px !important; }
 .btn-remove  { border-color: #ef4444 !important; color: #ef4444 !important; border-radius: 8px !important; }
 mat-dialog-actions { gap: 8px; }

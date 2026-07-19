@@ -101,13 +101,13 @@ $radius-premium: 16px;
 .chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .chip {
-  background: #f1f5f9;
-  color: $text-slate;
+  background: var(--panel-bg);
+  color: var(--text-color);
   font-size: 13px;
   font-weight: 500;
   padding: 5px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--border-color);
 }
 
 .section { display: flex; flex-direction: column; gap: 12px; }
@@ -125,13 +125,13 @@ $radius-premium: 16px;
 
 .description {
   font-size: 15px;
-  color: $text-slate;
+  color: var(--text-color);
   line-height: 1.65;
   margin: 0;
 }
 
 .donor-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 12px;
   border: 1px solid $border-thin;
   padding: 14px 16px;
@@ -143,9 +143,9 @@ $radius-premium: 16px;
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  color: $text-dark;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,14 +197,14 @@ $radius-premium: 16px;
   }
 
   &.secondary-outline {
-    background: #ffffff;
-    border-color: rgba(15, 23, 42, 0.12);
-    color: $text-slate;
-    
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+     
     &:hover:not([disabled]) {
-      background: #fafafa;
-      border-color: rgba(15, 23, 42, 0.2);
-      color: $text-dark;
+      background: var(--panel-bg);
+      border-color: var(--border-color);
+      color: var(--text-color);
     }
     
     &.modifier-edit:hover {
@@ -216,7 +216,7 @@ $radius-premium: 16px;
 
   &.danger-text {
     color: #dc2626;
-    &:hover { background: #fef2f2; }
+    &:hover { background: rgba(254, 242, 242, 0.8); }
   }
 
   &:disabled {
@@ -231,18 +231,18 @@ $radius-premium: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f8fafc;
+  background: var(--panel-bg);
   border-radius: 10px;
   padding: 10px 14px;
-  color: $text-slate;
+  color: var(--text-color);
   font-size: 13px;
-  border: 1px solid $border-thin;
+  border: 1px solid var(--border-color);
   
   mat-icon { font-size: 16px; width: 16px; height: 16px; color: $text-muted; }
 }
 
 .map-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: $radius-premium;
   border: 1px solid $border-thin;
   padding: 16px;

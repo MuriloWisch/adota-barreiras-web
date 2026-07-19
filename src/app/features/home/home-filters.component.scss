@@ -13,12 +13,12 @@ $red-500: #ef4444;
 $red-50:  #fef2f2;
 
 .filters-card {
-  background-color: #ffffff;
+  background: var(--card-bg) !important;
   border-radius: 16px;
-  border: 1px solid $slate-200;
+  border: 1px solid var(--border-color) !important;
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 6px 18px rgba(2,8,12,0.6) !important;
 }
 
 .filters-header {
@@ -27,7 +27,7 @@ $red-50:  #fef2f2;
   justify-content: space-between;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid $slate-100;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .filters-title {
@@ -36,10 +36,10 @@ $red-50:  #fef2f2;
   gap: 8px;
   font-size: 15px;
   font-weight: 600;
-  color: $slate-900;
+  color: var(--text-color);
 
   .icon-tune {
-    color: $emerald-500;
+    color: #10b981;
     font-size: 20px;
     width: 20px;
     height: 20px;
@@ -58,7 +58,7 @@ $red-50:  #fef2f2;
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: $slate-500;
+  color: var(--muted-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
@@ -83,9 +83,9 @@ $red-50:  #fef2f2;
   align-items: center;
   padding: 8px 16px;
   border-radius: 100px;
-  border: 1px solid $slate-200;
-  background-color: #ffffff;
-  color: $slate-700;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg) !important;
+  color: var(--text-color);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -93,18 +93,18 @@ $red-50:  #fef2f2;
   white-space: nowrap;
 
   &:hover {
-    background-color: $slate-50;
-    border-color: $slate-300;
+    background-color: var(--panel-bg) !important;
+    border-color: var(--border-color) !important;
   }
 
   &.active {
-    background-color: $slate-900;
-    border-color: $slate-900;
-    color: #ffffff;
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+    background-color: var(--text-color) !important;
+    border-color: var(--text-color) !important;
+    color: var(--card-bg) !important;
+    box-shadow: 0 6px 18px rgba(2,8,12,0.6) !important;
 
     &:hover {
-      background-color: $slate-800;
+      filter: brightness(0.95);
     }
   }
 }
@@ -127,8 +127,8 @@ $red-50:  #fef2f2;
 .radius-value {
   font-size: 14px;
   font-weight: 600;
-  color: $slate-900;
-  background-color: $slate-100;
+  color: var(--text-color);
+  background-color: var(--panel-bg);
   padding: 4px 10px;
   border-radius: 8px;
 }
@@ -141,14 +141,15 @@ $red-50:  #fef2f2;
 ::ng-deep {
   .mat-mdc-slider {
     .mdc-slider__track--active_fill {
-      border-color: $slate-900 !important;
+      border-color: var(--text-color) !important;
+      background: var(--text-color) !important;
     }
     .mdc-slider__thumb-knob {
-      background-color: $slate-900 !important;
-      border-color: $slate-900 !important;
+      background-color: var(--text-color) !important;
+      border-color: var(--text-color) !important;
     }
     .mdc-slider__track--inactive {
-      background-color: $slate-200 !important;
+      background-color: var(--border-color) !important;
     }
   }
 }
@@ -161,7 +162,7 @@ $red-50:  #fef2f2;
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: $slate-400;
+  color: var(--muted-color);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -175,8 +176,8 @@ $red-50:  #fef2f2;
   }
 
   &:hover {
-    color: $red-500;
-    background-color: $red-50;
+    color: #ef4444;
+    background-color: rgba(239,68,68,0.06);
   }
 
   mat-icon {

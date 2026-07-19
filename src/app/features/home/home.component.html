@@ -1,36 +1,75 @@
-<div class="home-wrapper">
+﻿<div class="home-wrapper">
+  <section class="hero-panel" @heroAnim>
+    <div class="hero-badge">
+      <mat-icon>favorite</mat-icon>
+      <span>Saúde, proteção e adoção</span>
+    </div>
 
-
-  <div class="desktop-layout">
-
-    <aside class="side-panel">
-      <header class="hero-section" @heroAnim>
-        <div class="location-badge">
-          <mat-icon>location_on</mat-icon>
-          <span>Barreiras, BA</span>
-        </div>
-        <h1 class="main-title">
-          Encontre seu novo
-          <span class="text-gradient">melhor amigo</span>
+    <div class="hero-content">
+      <div>
+        <p class="hero-tag">Mais de 1 final feliz</p>
+        <h1 class="hero-title">
+          Um novo amigo
+          <span>espera por você</span>
         </h1>
-        <p class="subtitle" *ngIf="animals().length > 0">
-          <strong>{{ animals().length }}+</strong> animais disponíveis perto de você
+        <p class="hero-description">
+          Adote um animal resgatado, ajude a encontrar pets perdidos e faça parte da maior comunidade de proteção animal do Brasil.
         </p>
-        <p class="subtitle empty-subtitle" *ngIf="!animals().length && !loading()">
-          Explore pets disponíveis para adoção na sua região
-        </p>
-      </header>
+      </div>
 
-      <div class="filters-wrapper">
+      <div class="hero-actions">
+        <button mat-flat-button class="btn-primary" type="button" (click)="scrollToSection('list')">
+          <mat-icon>pets</mat-icon>
+          Quero Adotar
+        </button>
+        <button mat-stroked-button class="btn-secondary" type="button" (click)="scrollToSection('map')">
+          <mat-icon>map</mat-icon>
+          Animais Perdidos
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-row">
+    <article class="stat-card">
+      <span class="stat-value">{{ totalAnimals() }}</span>
+      <span class="stat-label">Animais cadastrados</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-value">{{ adoptedCount() }}</span>
+      <span class="stat-label">Adotados</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-value">{{ waitingCount() }}</span>
+      <span class="stat-label">Aguardando lar</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-value">{{ alertCount() }}</span>
+      <span class="stat-label">Alertas no mapa</span>
+    </article>
+  </section>
+
+  <section class="content-grid">
+    <main class="main-column">
+      <div class="section-title-row">
+        <div>
+          <p class="section-subtitle">Eles precisam de um lar</p>
+          <h2>Conheça alguns dos nossos amigos</h2>
+          <p class="section-description">
+            Animais esperando por uma família amorosa, com perfil, distância e detalhes para facilitar sua escolha.
+          </p>
+        </div>
+        <button mat-button class="view-all-btn" type="button" (click)="scrollToSection('list')">
+          Ver todos
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+      <div class="filters-block">
         <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
       </div>
 
-      <div class="results-header" *ngIf="animals().length">
-        <span class="results-count">{{ animals().length }} resultado{{ animals().length !== 1 ? 's' : '' }}</span>
-        <span class="radius-indicator">Raio de {{ currentRadius() }} km</span>
-      </div>
-
-      <div class="list-container">
+      <div id="list" class="home-list-area">
         <app-home-list
           [animals]="animals()"
           [loading]="loading()"
@@ -39,82 +78,53 @@
           (loadNextPage)="loadMore()">
         </app-home-list>
       </div>
-    </aside>
-
-    <main class="map-panel">
-      <div class="map-glass-wrapper">
-        <div class="floating-map-badge">
-          <mat-icon>travel_explore</mat-icon>
-          <span>Mapa interativo</span>
-        </div>
-        <app-map
-          [animals]="animals()"
-          [centerLat]="userLat()"
-          [centerLng]="userLng()"
-          [radius]="currentRadius()"
-          (onAnimalSelect)="onAnimalSelect($event)">
-        </app-map>
-      </div>
     </main>
 
-  </div>
+    <aside class="map-card" id="map">
+      <div class="map-card-inner">
+        <div class="map-card-header">
+          <span class="map-card-label">Ajude a reencontrar quem se perdeu</span>
+          <p>
+            Nosso mapa comunitário conecta pessoas que perderam seus pets com aquelas que os encontraram. Cada alerta representa esperança a mais.
+          </p>
+        </div>
 
-  <div class="mobile-layout">
+        <ul class="feature-list">
+          <li>
+            <span class="feature-icon">
+              <mat-icon>search</mat-icon>
+            </span>
+            <div>
+              <strong>Busca ativa</strong>
+              <p>Visualize animais perdidos na sua região e ajude nas buscas.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-icon">
+              <mat-icon>report</mat-icon>
+            </span>
+            <div>
+              <strong>Reporte encontros</strong>
+              <p>Encontrou um animal? Crie um alerta rapidamente no mapa.</p>
+            </div>
+          </li>
+        </ul>
 
-    <header class="hero-section hero-mobile" @heroAnim>
-      <div class="location-badge">
-        <mat-icon>location_on</mat-icon>
-        <span>Barreiras, BA</span>
+        <div class="map-preview">
+          <app-map
+            [animals]="animals()"
+            [centerLat]="userLat()"
+            [centerLng]="userLng()"
+            [radius]="currentRadius()"
+            (onAnimalSelect)="onAnimalSelect($event)">
+          </app-map>
+        </div>
+
+        <button mat-flat-button class="btn-map" type="button" (click)="scrollToSection('map')">
+          Abrir mapa completo
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
       </div>
-      <h1 class="main-title">
-        Encontre seu
-        <span class="text-gradient">melhor amigo</span>
-      </h1>
-    </header>
-
-    <div class="filters-wrapper">
-      <app-home-filters (filtersChange)="onFiltersChange($event)"></app-home-filters>
-    </div>
-
-    <div class="segmented-control">
-      <button
-        type="button"
-        class="segment-btn"
-        [class.active]="mobileTab() === 'list'"
-        (click)="mobileTab.set('list')">
-        <mat-icon>view_agenda</mat-icon>
-        <span>Lista</span>
-        <span class="segment-badge" *ngIf="animals().length">{{ animals().length }}</span>
-      </button>
-      <button
-        type="button"
-        class="segment-btn"
-        [class.active]="mobileTab() === 'map'"
-        (click)="mobileTab.set('map')">
-        <mat-icon>map</mat-icon>
-        <span>Mapa</span>
-      </button>
-    </div>
-
-    <div class="mobile-content-area" *ngIf="mobileTab() === 'list'">
-      <app-home-list
-        [animals]="animals()"
-        [loading]="loading()"
-        [selectedId]="selectedId()"
-        (onSelect)="onAnimalSelect($event)"
-        (loadNextPage)="loadMore()">
-      </app-home-list>
-    </div>
-
-    <div class="mobile-content-area map-mobile-area" *ngIf="mobileTab() === 'map'">
-      <app-map
-        [animals]="animals()"
-        [centerLat]="userLat()"
-        [centerLng]="userLng()"
-        [radius]="currentRadius()"
-        (onAnimalSelect)="onAnimalSelect($event)">
-      </app-map>
-    </div>
-
-  </div>
+    </aside>
+  </section>
 </div>

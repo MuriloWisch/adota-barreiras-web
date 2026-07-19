@@ -18,7 +18,7 @@ $slate-900: #0f172a;
     inset: 0;
     z-index: 10000; 
     
-    background-color: rgba(255, 255, 255, 0.7); 
+    background-color: var(--panel-bg); 
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     

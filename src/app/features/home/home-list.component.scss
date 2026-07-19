@@ -32,7 +32,7 @@ $slate-50:  #f8fafc;
 }
 
 .skeleton-card {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid $slate-200;
@@ -91,13 +91,13 @@ $slate-50:  #f8fafc;
   justify-content: center;
   padding: 64px 24px;
   text-align: center;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 16px;
   border: 1px dashed $slate-200;
 
   .empty-icon-wrap {
-    color: $slate-400;
-    background-color: $slate-50;
+    color: var(--muted-color);
+    background-color: var(--panel-bg);
     width: 64px;
     height: 64px;
     border-radius: 50%;

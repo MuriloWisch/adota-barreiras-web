@@ -17,7 +17,7 @@ $red-600: #dc2626;
   left: 0;
   right: 0;
   z-index: 20000;
-  background-color: #ffffff;
+  background-color: var(--panel-bg);
   border-bottom: 1px solid transparent;
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
   isolation: isolate;
@@ -53,7 +53,7 @@ $red-600: #dc2626;
 .logo-text {
   font-size: 18px;
   font-weight: 700;
-  color: $slate-900;
+  color: var(--text-color);
   letter-spacing: -0.01em;
 }
 
@@ -93,7 +93,7 @@ $red-600: #dc2626;
 }
 
 .nav-btn {
-  color: $slate-700 !important;
+  color: var(--muted-color) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
 }
@@ -124,7 +124,7 @@ $red-600: #dc2626;
 }
 
 .notif-btn {
-  color: $slate-700 !important;
+  color: var(--muted-color) !important;
   width: 40px !important;
   height: 40px !important;
   padding: 0 !important;
@@ -137,9 +137,9 @@ $red-600: #dc2626;
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
-  background-color: #ffffff;
+  background-color: var(--panel-bg);
   border-radius: 12px;
-  border: 1px solid $slate-200;
+  border: 1px solid var(--border-color);
   box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08);
   width: 320px;
   max-height: 380px;
@@ -152,19 +152,20 @@ $red-600: #dc2626;
   justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
-  border-bottom: 1px solid $slate-200;
+  border-bottom: 1px solid var(--border-color);
 
   strong {
     font-size: 14px;
-    color: $slate-900;
+    color: var(--text-color);
   }
 }
 
 .notif-count {
   font-size: 12px;
-  color: $emerald-600;
+  color: var(--text-color);
   font-weight: 600;
-  background-color: $emerald-50;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
   padding: 2px 8px;
   border-radius: 20px;
 }
@@ -174,20 +175,20 @@ $red-600: #dc2626;
   align-items: flex-start;
   gap: 10px;
   padding: 14px 16px;
-  border-bottom: 1px solid $slate-100;
+  border-bottom: 1px solid var(--border-color);
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: $slate-50;
+    background-color: var(--panel-bg);
   }
 
   &.unread {
-    background-color: rgba($emerald-50, 0.5);
+    background-color: rgba(16, 185, 129, 0.12);
   }
 
   p {
     font-size: 13px;
-    color: $slate-700;
+    color: var(--text-color);
     line-height: 1.4;
     margin: 0;
   }
@@ -206,7 +207,7 @@ $red-600: #dc2626;
   padding: 32px 16px;
   text-align: center;
   font-size: 13px;
-  color: $slate-400;
+  color: var(--muted-color);
 }
 
 .avatar-btn {
@@ -255,7 +256,7 @@ $red-600: #dc2626;
 }
 
 .hamburger {
-  color: $slate-900 !important;
+  color: var(--text-color) !important;
 }
 
 .drawer-overlay {
@@ -272,7 +273,7 @@ $red-600: #dc2626;
   left: 0;
   bottom: 0;
   width: 280px;
-  background-color: #ffffff;
+  background-color: var(--panel-bg);
   z-index: 20200;
   box-shadow: 10px 0 15px -3px rgba(15, 23, 42, 0.05);
   display: flex;
@@ -290,7 +291,7 @@ $red-600: #dc2626;
 
 .drawer-close {
   margin-left: auto;
-  color: $slate-700 !important;
+  color: var(--muted-color) !important;
 }
 
 .desktop-only {
